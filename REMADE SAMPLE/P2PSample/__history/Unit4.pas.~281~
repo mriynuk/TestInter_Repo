@@ -99,7 +99,6 @@ type
     ClearBtn: TButton;
     CallBtn: TButton;
     AnswBtn: TButton;
-    ChecMicMuteBox: TCheckBox;
     CheckDND: TCheckBox;
     CheckAA: TCheckBox;
     HungUpBtn: TButton;
@@ -120,7 +119,6 @@ type
     SpLine6: TSpeedButton;
     SpLine7: TSpeedButton;
     SpLine8: TSpeedButton;
-    SpMute: TSpeedButton;
     ImageSpeaker: TImage;
     ImageMic: TImage;
     procedure IniBtnClick(Sender: TObject);
@@ -150,6 +148,7 @@ type
     procedure SpLine8Click(Sender: TObject);
     procedure ConSpBtnClick(Sender: TObject);
     procedure ImageMicClick(Sender: TObject);
+    procedure ImageSpeakerClick(Sender: TObject);
 
 
 
@@ -839,21 +838,6 @@ begin
   end;
 end;
 
-procedure TForm4.SpMuteClick(Sender: TObject);
-begin
-if (Initialized = False) then
-  begin
-    Exit;
-  end;
-  if (SpMute.Down = True) then
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, true);
-  end
-  else
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, false);
-  end;
-end;
 
 procedure TForm4.DNDSpBtnClick(Sender: TObject);
 begin
@@ -1112,21 +1096,6 @@ begin
   ListBoxLog.Lines.Add(Text);
 end;
 
-procedure TForm4.ChecMicMuteBoxClick(Sender: TObject);
-begin
-if (Initialized = False) then
-  begin
-    Exit;
-  end;
-  if (ChecMicMuteBox.Checked = True) then
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, true);
-  end
-  else
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, false);
-  end;
-end;
 
 procedure TForm4.ClearBtnClick(Sender: TObject);
 begin
@@ -2101,17 +2070,39 @@ if (Initialized = False) then
   begin
     Exit;
   end;
-
-  if (SpMute.Down = True) then
+  if MicMute = False then
   begin
     PortSIP_muteMicrophone(PortSIPHandle, true);
+    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
+    MicMute:=True;
   end
   else
   begin
     PortSIP_muteMicrophone(PortSIPHandle, false);
+    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
+    MicMute:=False;
+  end;
+end;
+
+procedure TForm4.ImageSpeakerClick(Sender: TObject);
+begin
+  if (Initialized = False) then
+  begin
+    Exit;
   end;
 
-  ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
+  if SpeakerMute = False then
+  begin
+    PortSIP_muteSpeaker(PortSIPHandle, true);
+    ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speakermute.jpg');
+    SpeakerMute:=True;
+  end
+  else
+  begin
+    PortSIP_muteSpeaker(PortSIPHandle, false);
+    ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speaker.png');
+    SpeakerMute:=False;
+  end;
 end;
 
 procedure TForm4.IniBtnClick(Sender: TObject);

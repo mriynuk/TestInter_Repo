@@ -129,7 +129,6 @@ type
     procedure AnswBtnClick(Sender: TObject);
     procedure TrackBarSpeakerChange(Sender: TObject);
     procedure TrackBarMicrophoneChange(Sender: TObject);
-    procedure ChecMicMuteBoxClick(Sender: TObject);
     procedure HungUpBtnClick(Sender: TObject);
     procedure ComboBoxLinesChange(Sender: TObject);
     procedure HoldBtnClick(Sender: TObject);
@@ -137,7 +136,6 @@ type
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure ListBox1Click(Sender: TObject);
     procedure DNDSpBtnClick(Sender: TObject);
-    procedure SpMuteClick(Sender: TObject);
     procedure SpLine1Click(Sender: TObject);
     procedure SpLine2Click(Sender: TObject);
     procedure SpLine3Click(Sender: TObject);
