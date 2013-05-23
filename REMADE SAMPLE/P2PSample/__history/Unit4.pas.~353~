@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, PortSIPConsts, PortSIPCore,  StdCtrls, ExtCtrls, ComCtrls,
    winsock, unit2, unit3, filectrl, shellapi, IniFiles, Vcl.Buttons,
-  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, MMSystem;
+  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, MMSystem, Vcl.Menus;
 
 const
   WM_MSG_BASE                 = WM_APP + 1;
@@ -121,6 +121,8 @@ type
     SpLine8: TSpeedButton;
     ImageSpeaker: TImage;
     ImageMic: TImage;
+    PopupMenuMic: TPopupMenu;
+    PopupMenuSpeak: TPopupMenu;
     procedure IniBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure UnIniBtnClick(Sender: TObject);
@@ -189,6 +191,7 @@ var
   CallString:string;
   Sessions : Array[0..8] of TSession;
   UserFile: TiniFile;
+  MenuItem:TMenuItem;
   procedure LoadDevice();
   proceDure InitSettings();
   procedure createCallbackHandler();
@@ -1257,6 +1260,7 @@ const SIPPORT_MIN : integer = 8000;
     UserDomain : String;
     DisplayName : String;
     AuthName : String;
+    SmallStr: string;
     LocalSIPPort : integer;
 
     SIPServerPort : integer;
@@ -1406,10 +1410,24 @@ begin
   ComboBoxSpeaker.Width:=-1;
   ComboBoxMicrophone.Width:=-1;
 
-  for counterForLoop:=0  to ComboBoxSpeaker.Items.Count do
-  begin
-    ImageSpeaker.PopupMenu.Items.Add(string(ComboBoxSpeaker.Items[counterForLoop]));
-  end;
+
+ for counterForLoop := 0 to ComboBoxMicrophone.Items.Count do
+ begin
+   MenuItem:=TmenuItem.Create(PopupMenuMic);
+   MenuItem.Caption:=ComboBoxMicrophone.Items[counterForLoop];
+   PopupMenuMic.Items.Add(MenuItem);
+ end;
+    MenuItem.Free;
+
+   for counterForLoop := 0 to ComboBoxSpeaker.Items.Count do
+ begin
+   MenuItem:=TmenuItem.Create(PopupMenuSpeak);
+   MenuItem.Caption:=ComboBoxSpeaker.Items[counterForLoop];
+   PopupMenuSpeak.Items.Add(MenuItem);
+ end;
+
+//   for I := 1 to ComboBoxMicrophone.Items.Count+1 do
+//     PopupMenuMic.Create.Items[I].Caption:=ComboBoxMicrophone.Items[counterForLoop];
 end;
 
 procedure TForm4.TrackBarMicrophoneChange(Sender: TObject);
@@ -2136,9 +2154,10 @@ begin
     ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
     MicMute:=False;
   end;
-end else
-  ImageMic.PopupMenu.Items.Add();
+end else begin
   ComboBoxMicrophone.Width:=150;
+  ImageMic.PopupMenu.Popup(X,Y);
+end;
 
 
 end;
@@ -2167,6 +2186,7 @@ begin
     SpeakerMute:=False;
   end;
  end else
+    ImageSpeaker.PopupMenu.Popup(X,Y);
     ComboBoxSpeaker.Width:=150;
 end;
 

@@ -123,7 +123,6 @@ type
     ImageMic: TImage;
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
-    dss1: TMenuItem;
     procedure IniBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure UnIniBtnClick(Sender: TObject);
@@ -154,6 +153,10 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
+    procedure ComboBoxSpeakerChange(Sender: TObject);
+    procedure ComboBoxMicrophoneChange(Sender: TObject);
+    procedure PopupMenuMicChange(Sender: TObject; Source: TMenuItem;
+      Rebuild: Boolean);
 
 
 
@@ -192,6 +195,7 @@ var
   CallString:string;
   Sessions : Array[0..8] of TSession;
   UserFile: TiniFile;
+  MenuItem:TMenuItem;
   procedure LoadDevice();
   proceDure InitSettings();
   procedure createCallbackHandler();
@@ -603,6 +607,15 @@ begin
    callbackMessage.Free;
 end;
 
+
+procedure TForm4.PopupMenuMicChange(Sender: TObject; Source: TMenuItem;
+  Rebuild: Boolean);
+var
+index:integer;
+begin
+    index:=PopupMenuMic.Items.IndexOf(Source);
+    ComboBoxMicrophone.ItemIndex:=index;
+end;
 
 procedure TForm4.SpLine1Click(Sender: TObject);
 var
@@ -1149,6 +1162,22 @@ begin
   end;
 end;
 
+procedure TForm4.ComboBoxMicrophoneChange(Sender: TObject);
+begin
+if Initialized = True then
+   begin
+     PortSIP_setAudioDeviceId(PortSIPHandle, comboBoxMicrophone.ItemIndex, comboBoxSpeaker.ItemIndex);
+   end;
+end;
+
+procedure TForm4.ComboBoxSpeakerChange(Sender: TObject);
+begin
+if Initialized = True then
+   begin
+     PortSIP_setAudioDeviceId(PortSIPHandle, comboBoxMicrophone.ItemIndex, comboBoxSpeaker.ItemIndex);
+   end;
+end;
+
 procedure TForm4.ConSpBtnClick(Sender: TObject);
 var
   i : Integer;
@@ -1410,8 +1439,27 @@ begin
   ComboBoxSpeaker.Width:=-1;
   ComboBoxMicrophone.Width:=-1;
 
+
  for counterForLoop := 0 to ComboBoxMicrophone.Items.Count do
-   PopupMenuMic.Items.Caption:=ComboBoxMicrophone.Items[counterForLoop];
+ begin
+   MenuItem:=TmenuItem.Create(PopupMenuMic);
+   MenuItem.Caption:=ComboBoxMicrophone.Items[counterForLoop];
+   PopupMenuMic.Items.Add(MenuItem);
+ end;
+    MenuItem.Free;
+
+   for counterForLoop := 0 to ComboBoxSpeaker.Items.Count do
+ begin
+   MenuItem:=TmenuItem.Create(PopupMenuSpeak);
+   MenuItem.Caption:=ComboBoxSpeaker.Items[counterForLoop];
+   PopupMenuSpeak.Items.Add(MenuItem);
+ end;
+ MenuItem.Free;
+
+ ComboBoxMicrophone.ItemIndex:=1;
+
+//   for I := 1 to ComboBoxMicrophone.Items.Count+1 do
+//     PopupMenuMic.Create.Items[I].Caption:=ComboBoxMicrophone.Items[counterForLoop];
 end;
 
 procedure TForm4.TrackBarMicrophoneChange(Sender: TObject);
@@ -2140,7 +2188,7 @@ begin
   end;
 end else begin
   ComboBoxMicrophone.Width:=150;
-  ImageMic.PopupMenu.Popup(0,0);
+  ImageMic.PopupMenu.Popup(X,Y);
 end;
 
 
@@ -2171,6 +2219,8 @@ begin
   end;
  end else
     ComboBoxSpeaker.Width:=150;
+    ImageSpeaker.PopupMenu.Popup(X,Y);
+
 end;
 
 procedure TForm4.IniBtnClick(Sender: TObject);
