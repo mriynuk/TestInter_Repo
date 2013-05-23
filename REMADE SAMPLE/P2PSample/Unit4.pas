@@ -96,8 +96,6 @@ type
     ComboBoxLines: TComboBox;
     Label3: TLabel;
     Label4: TLabel;
-    EditLocalPort: TEdit;
-    Label5: TLabel;
     ClearBtn: TButton;
     CallBtn: TButton;
     AnswBtn: TButton;
@@ -1324,15 +1322,17 @@ begin
   LocalIP := GetLocalIP();
   Label4.Caption:='Your IP: '+GetLocalIP();
 
-  if (length(EditLocalPort.Text) > 0) then
-  begin
-    LocalSIPPort := StrToInt(EditLocalPort.Text);
-  end
-  else
-  begin
-     ShowMessage('Please enter local SIP port');
-    Exit;
-  end;
+  LocalSIPPort := 6012;
+
+//  if (length(EditLocalPort.Text) > 0) then
+//  begin
+//    LocalSIPPort := StrToInt(EditLocalPort.Text);
+//  end
+//  else
+//  begin
+//     ShowMessage('Please enter local SIP port');
+//    Exit;
+//  end;
 
   UserName := 'Michael';
   Password := 'aaa';
@@ -2130,15 +2130,15 @@ begin
   LocalIP := GetLocalIP();
   Label4.Caption:='Your IP: '+GetLocalIP();
 
-  if (length(EditLocalPort.Text) > 0) then
-  begin
-    LocalSIPPort := StrToInt(EditLocalPort.Text);
-  end
-  else
-  begin
-     ShowMessage('Please enter local SIP port');
-    Exit;
-  end;
+//  if (length(EditLocalPort.Text) > 0) then
+//  begin
+//    LocalSIPPort := StrToInt(EditLocalPort.Text);
+//  end
+//  else
+//  begin
+//     ShowMessage('Please enter local SIP port');
+//    Exit;
+//  end;
 
   UserName := 'Michael';
   Password := 'aaa';
