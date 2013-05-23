@@ -238,6 +238,13 @@ object Form4: TForm4
     PopupMenu = PopupMenuMic
     OnMouseDown = ImageMicMouseDown
   end
+  object Label111: TLabel
+    Left = 554
+    Top = 217
+    Width = 43
+    Height = 13
+    Caption = 'Label111'
+  end
   object ListBoxLog: TMemo
     Left = 474
     Top = 263
@@ -266,11 +273,12 @@ object Form4: TForm4
   end
   object ComboBoxSpeaker: TComboBox
     Left = 554
-    Top = 12
+    Top = 8
     Width = 150
     Height = 21
     Style = csDropDownList
     TabOrder = 3
+    Visible = False
     OnChange = ComboBoxSpeakerChange
   end
   object ComboBoxMicrophone: TComboBox

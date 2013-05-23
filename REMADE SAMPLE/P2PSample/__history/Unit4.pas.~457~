@@ -156,7 +156,10 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure ComboBoxSpeakerChange(Sender: TObject);
     procedure ComboBoxMicrophoneChange(Sender: TObject);
-    procedure TMenuTestForm.PopupItemClick(Sender: TObject) ;
+    procedure PopupMicItemClick(Sender: TObject) ;
+    procedure PopupSpeakerItemClick(Sender: TObject) ;
+    procedure PopUpMenusInitialization();
+    procedure InitialiseSDK();
 
   private
   function GetLocalIP : string;
@@ -979,7 +982,6 @@ begin
     begin
       PortSIP_terminateCall(PortSIPHandle, Sessions[i].GetSessionID());
     end;
-
     Sessions[i].Reset();
   end;
   SIPEV_shutdownSIPCallbackHandle(EventHandle);
@@ -1011,8 +1013,6 @@ begin
     Text := Text + IntToStr(Currentline);
     Text := Text + ' : hold';
     ListBoxLog.Lines.Add(Text);
-
-
 end;
 
 procedure TForm4.HungUpBtnClick(Sender: TObject);
@@ -1279,13 +1279,8 @@ const SIPPORT_MIN : integer = 8000;
     transport : integer;
     SRTPPolicy : integer;
     ErrorCode : integer;
-
-    counterForLoop:integer;
 begin
     Randomize;
-    Text :=  'This sample was built base on evaluation PortSIP VoIP SDK, which allows only three minutes conversation. The conversation will be cut off ';
-    Text := Text + 'automatically after three minutes, then you can not hearing anything. Feel free contact us at: sales@portsip.com to purchase the official version.';
-    ShowMessage(Text);
     ComboBoxSpeaker.ItemIndex := 0;
     ComboBoxMicrophone.ItemIndex := 0;
   for i:=0 to (8) do
@@ -1301,10 +1296,41 @@ begin
   ComboBoxLines.ItemIndex := 0;
   PortSIPHandle := 0;
   EventHandle := 0;
-
+  InitialiseSDK();
+  MicMute:=False;
+  PortSIP_muteMicrophone(PortSIPHandle, false);
+  SpeakerMute := False;
+  PortSIP_muteSpeaker(PortSIPHandle, false);
+  ComboBoxSpeaker.Width:=-1;
+  ComboBoxMicrophone.Width:=-1;
+  PopUpMenusInitialization()
+end;
+procedure TForm4.InitialiseSDK();
+const SIPPORT_MIN : integer = 8000;
+var LocalIP : String;
+    UserName : String;
+    Password : String;
+    SIPServer : String;
+    Agent : String;
+    STUNServer : String;
+    OutboundServer : String;
+    UserDomain : String;
+    DisplayName : String;
+    AuthName : String;
+    LocalSIPPort : integer;
+    j:integer;
+    SIPServerPort : integer;
+    OutboundServerPort : integer;
+    STUNServerPort : integer;
+    FilePath,PartLine: string;
+    LicenseKey : String;
+    transport : integer;
+    SRTPPolicy : integer;
+    ErrorCode : integer;
+begin
   FilePath := ExtractFilePath(Application.ExeName) + 'Users.ini';
   UserFile := TiniFile.Create(FilePath);
-   j := 1;
+  j := 1;
   Repeat
     PartLine := UserFile.ReadString('User' + IntToStr(j), 'UserName', '');
     ListBox1.Items.Add(PartLine);
@@ -1316,26 +1342,9 @@ begin
     ShowMessage('alreay logged in');
     Exit;
   end;
-
-  // For P2P call(without SIP proxy server), we pass the SIP proxy server,
-  // outbound proxy server, stun server as empty.
-
-
   LocalIP := GetLocalIP();
   Label4.Caption:='Your IP: '+GetLocalIP();
-
   LocalSIPPort := 6012;
-
-//  if (length(EditLocalPort.Text) > 0) then
-//  begin
-//    LocalSIPPort := StrToInt(EditLocalPort.Text);
-//  end
-//  else
-//  begin
-//     ShowMessage('Please enter local SIP port');
-//    Exit;
-//  end;
-
   UserName := 'Michael';
   Password := 'aaa';
   SIPServer := '';
@@ -1350,7 +1359,6 @@ begin
   STUNServerPort := 0;
   transport := TRANSPORT_UDP;
  createCallbackHandler();
-
 
   PortSIPHandle := PortSIP_initialize(EventHandle,
                         transport,
@@ -1376,7 +1384,6 @@ begin
   InitSettings();
   ListBoxLog.Lines.Add('Initialized the SDK.');
 
-
   ErrorCode := PortSIP_setUserInfo(PortSIPHandle,
                                   pansichar(ansistring(UserName)),
                                   pansichar(ansistring(DisplayName)),
@@ -1389,7 +1396,6 @@ begin
                                   SIPServerPort,
                                   pansichar(ansistring(OutboundServer)),
                                   OutboundServerPort);
-
 
   if (ErrorCode <> 0) then
   begin
@@ -1409,65 +1415,49 @@ begin
 	initSettings();
   ListBoxLog.Lines.Add('Ready.');
   SpLine1.Down:=True;
-
-  MicMute:=False;
-  PortSIP_muteMicrophone(PortSIPHandle, false);
-  SpeakerMute:=False;
-  PortSIP_muteSpeaker(PortSIPHandle, false);
-
-  ComboBoxSpeaker.Width:=-1;
-  ComboBoxMicrophone.Width:=-1;
-
-
- for counterForLoop := 0 to ComboBoxMicrophone.Items.Count do
+end;
+procedure TForm4.PopUpMenusInitialization();
+var
+  CounterForLoop:integer;
+begin
+ for counterForLoop := 0 to ComboBoxMicrophone.Items.Count - 1 do
  begin
-   MenuItemMic:=TmenuItem.Create(PopupMenuMic);
-   MenuItemMic.Caption:=ComboBoxMicrophone.Items[counterForLoop];
-   MenuItemMic.Tag:=counterForLoop;
-   MenuItemMic.OnClick:=PopupItemClick;
+   MenuItemMic := TmenuItem.Create(PopupMenuMic);
+   MenuItemMic.Caption := ComboBoxMicrophone.Items[counterForLoop];
+   MenuItemMic.Tag := counterForLoop;
+   MenuItemMic.OnClick := PopupMicItemClick;
    PopupMenuMic.Items.Add(MenuItemMic);
  end;
-   MenuItemMic.Free;
-
-   for counterForLoop := 0 to ComboBoxSpeaker.Items.Count do
+ for CounterForLoop := 0 to ComboBoxSpeaker.Items.Count - 1 do
  begin
-   MenuItemSpeaker:=TmenuItem.Create(PopupMenuSpeak);
-   MenuItemSpeaker.Caption:=ComboBoxSpeaker.Items[counterForLoop];
-   MenuItemSpeaker.Tag:=counterForLoop;
+   MenuItemSpeaker := TmenuItem.Create(PopupMenuSpeak);
+   MenuItemSpeaker.Caption := ComboBoxSpeaker.Items[counterForLoop];
+   MenuItemSpeaker.Tag := counterForLoop;
+   MenuItemSpeaker.OnClick := PopupSpeakerItemClick;
    PopupMenuSpeak.Items.Add(MenuItemSpeaker);
  end;
-   MenuItemSpeaker.Free;
-
-
-  // PopupMenuSpeak.Items.OnClick:=PopupClickSpeaker(PopupMenuSpeak.Items[0]);
-
-//  for I := 1 to ComboBoxMicrophone.Items.Count+1 do
-//     PopupMenuMic.Create.Items[I].Caption:=ComboBoxMicrophone.Items[counterForLoop];
 end;
-
- procedure TMenuTestForm.PopupItemClick(Sender: TObject) ;
- var
-    menuItem : TMenuItem;
- begin
-    if NOT (Sender is TMenuItem) then
-    begin
-      ShowMessage('Hm, if this was not called by Menu Click, who called this?!') ;
-      ShowMessage(Sender.ClassName) ;
-      exit;
-    end;
-
-    menuItem := PopupMenuMic;
-    ShowMessage(Format('Clicked on "%s", TAG value: %d',[menuItem.Name, menuItem.Tag])) ;
-
- end;
+procedure TForm4.PopupSpeakerItemClick(Sender: TObject) ;
+var
+  menuItem : TMenuItem;
+begin
+  menuItem := TMenuItem(sender) ;
+  ComboBoxSpeaker.ItemIndex := menuItem.Tag;
+end;
+procedure TForm4.PopupMicItemClick(Sender: TObject);
+var
+  menuItem : TMenuItem;
+begin
+  menuItem := TMenuItem(sender) ;
+  ComboBoxMicrophone.ItemIndex:=menuItem.Tag;
+end;
 procedure TForm4.TrackBarMicrophoneChange(Sender: TObject);
 begin
-  if (Initialized = False) then
-  begin
-    Exit;
-  end;
-
-  PortSIP_setMicVolume(PortSIPHandle, TrackBarMicrophone.Position);
+ if (Initialized = False) then
+ begin
+   Exit;
+ end;
+ PortSIP_setMicVolume(PortSIPHandle, TrackBarMicrophone.Position);
 end;
 
 procedure TForm4.TrackBarSpeakerChange(Sender: TObject);
@@ -1487,9 +1477,7 @@ begin
   callbackMessage := TCallbackMessage.Create;
   callbackMessage.statusCode := statusCode;
   callbackMessage.statusText := string(statusText);
-
   PostMessage(Form4.Handle, WM_REGISTER_SUCCESS, NativeUInt(callbackMessage), 0);  // NativeUInt is for the new x64-compilers. All compilers before use integer
-
   result := 0;
 end;
 
@@ -1522,34 +1510,28 @@ begin
   begin
     Exit;
   end;
-
-   nums := PortSIP_getNumOfPlayoutDevices(PortSIPHandle);
-   for i := 0 to nums-1 do
-   begin
-     if PortSIP_getPlayoutDeviceName(PortSIPHandle, i, @deviceName, 255) = 0 then
-     begin
-       Form4.ComboBoxSpeaker.Items.Add(deviceName);
-     end;
-   end;
-
+  nums := PortSIP_getNumOfPlayoutDevices(PortSIPHandle);
+  for i := 0 to nums-1 do
+  begin
+    if PortSIP_getPlayoutDeviceName(PortSIPHandle, i, @deviceName, 255) = 0 then
+    begin
+      Form4.ComboBoxSpeaker.Items.Add(deviceName);
+    end;
+  end;
    Form4.ComboBoxSpeaker.ItemIndex := 0;
-
    nums := PortSIP_getNumOfRecordingDevices(PortSIPHandle);
-   for i := 0 to nums-1 do
-     begin
-        if PortSIP_getRecordingDeviceName(PortSIPHandle, i, @deviceName, 255) = 0 then
-        begin
-          Form4.ComboBoxMicrophone.Items.Add(deviceName);
-        end;
-     end;
-
-     Form4.ComboBoxMicrophone.ItemIndex := 0;
-
-     volume := PortSIP_getSpeakerVolume(PortSIPHandle);
-     Form4.TrackBarSpeaker.Position := volume;
-
-     volume := PortSIP_getMicVolume(PortSIPHandle);
-     Form4.TrackBarMicrophone.Position := volume;
+  for i := 0 to nums-1 do
+  begin
+    if PortSIP_getRecordingDeviceName(PortSIPHandle, i, @deviceName, 255) = 0 then
+    begin
+      Form4.ComboBoxMicrophone.Items.Add(deviceName);
+    end;
+  end;
+  Form4.ComboBoxMicrophone.ItemIndex := 0;
+  volume := PortSIP_getSpeakerVolume(PortSIPHandle);
+  Form4.TrackBarSpeaker.Position := volume;
+  volume := PortSIP_getMicVolume(PortSIPHandle);
+  Form4.TrackBarMicrophone.Position := volume;
 end;
 
 function RegisterFailure(callbackObject: Pointer; statusCode:integer; statusText:PAnsiChar): integer; stdcall;
@@ -1559,10 +1541,7 @@ begin
   callbackMessage := TCallbackMessage.Create;
   callbackMessage.statusCode := statusCode;
   callbackMessage.statusText := string(statusText);
-
   PostMessage(Form4.Handle, WM_REGISTER_FAILURE, NativeUInt(callbackMessage), 0);  // NativeUInt is for the new x64-compilers. All compilers before use integer
-
-
   result := 0;
 end;
 
@@ -1588,7 +1567,6 @@ begin
   callbackMessage.audioCodecName := string(audioCodecName);
   callbackMessage.videoCodecName := string(videoCodecName);
   callbackMessage.hasVideo := hasVideo;
-
   PostMessage(Form4.Handle, WM_INVITE_INCOMING, NativeUInt(callbackMessage), 0);  // NativeUInt is for the new x64-compilers. All compilers before use integer
   result := 0;
 end;
@@ -1601,9 +1579,7 @@ begin
   callbackMessage.sessionId := sessionId;
   callbackMessage.caller := string(caller);
   callbackMessage.callee := string(callee);
-
   PostMessage(Form4.Handle, WM_INVITE_TRYING, NativeUInt(callbackMessage), 0);  // NativeUInt is for the new x64-compilers. All compilers before use integer
-
   result := 0;
 end;
 
@@ -2142,26 +2118,6 @@ begin
       end;
 end;
 
-//procedure TForm4.ImageMicClick(Sender: TObject);
-//begin
-//if (Initialized = False) then
-//  begin
-//    Exit;
-//  end;
-//  if MicMute = False then
-//  begin
-//    PortSIP_muteMicrophone(PortSIPHandle, true);
-//    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
-//    MicMute:=True;
-//  end
-//  else
-//  begin
-//    PortSIP_muteMicrophone(PortSIPHandle, false);
-//    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
-//    MicMute:=False;
-//  end;
-//end;
-
 procedure TForm4.ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -2184,7 +2140,6 @@ begin
     MicMute:=False;
   end;
 end else begin
-  ComboBoxMicrophone.Width:=150;
   ImageMic.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
 end;
 
@@ -2215,7 +2170,6 @@ begin
     SpeakerMute:=False;
   end
  end else begin
-    ComboBoxSpeaker.Width:=150;
     ImageSpeaker.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
  end;
 end;
