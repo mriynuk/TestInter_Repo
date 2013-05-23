@@ -150,6 +150,7 @@ type
     procedure SpLine8Click(Sender: TObject);
     procedure ConSpBtnClick(Sender: TObject);
     procedure ImageMicClick(Sender: TObject);
+    procedure ImageSpeakerClick(Sender: TObject);
 
 
 
@@ -2101,7 +2102,6 @@ if (Initialized = False) then
   begin
     Exit;
   end;
-
   if MicMute = False then
   begin
     PortSIP_muteMicrophone(PortSIPHandle, true);
@@ -2111,8 +2111,29 @@ if (Initialized = False) then
   else
   begin
     PortSIP_muteMicrophone(PortSIPHandle, false);
-    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.jpg');
+    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
     MicMute:=False;
+  end;
+end;
+
+procedure TForm4.ImageSpeakerClick(Sender: TObject);
+begin
+  if (Initialized = False) then
+  begin
+    Exit;
+  end;
+
+  if SpeakerMute = False then
+  begin
+    PortSIP_muteSpeaker(PortSIPHandle, true);
+    ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speakermute.jpg');
+    SpeakerMute:=True;
+  end
+  else
+  begin
+    PortSIP_muteSpeaker(PortSIPHandle, false);
+    ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speaker.png');
+    SpeakerMute:=False;
   end;
 end;
 
