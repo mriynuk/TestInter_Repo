@@ -87,7 +87,6 @@ type
 
   TForm4 = class(TForm)
     ListBoxLog: TMemo;
-    UnIniBtn: TButton;
     ComboBoxSpeaker: TComboBox;
     ComboBoxMicrophone: TComboBox;
     TrackBarSpeaker: TTrackBar;
@@ -123,9 +122,7 @@ type
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
     Label111: TLabel;
-    procedure IniBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure UnIniBtnClick(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
     procedure AnswBtnClick(Sender: TObject);
@@ -147,8 +144,6 @@ type
     procedure SpLine7Click(Sender: TObject);
     procedure SpLine8Click(Sender: TObject);
     procedure ConSpBtnClick(Sender: TObject);
-//    procedure ImageMicClick(Sender: TObject);
-//    procedure ImageSpeakerClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ImageSpeakerMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
@@ -162,7 +157,6 @@ type
 
   private
   function GetLocalIP : string;
-//  procedure createCallbackHandler();
     { Private declarations }
   protected
    procedure onInviteIncoming(var Message: TMessage); message WM_INVITE_INCOMING;
@@ -224,7 +218,6 @@ var
 PartLine, FilePath:string;
 j, index:integer;
 begin
-
   FilePath := ExtractFilePath(Application.ExeName) + 'Users.ini';
   UserFile := TiniFile.Create(FilePath);
   index:=ListBox1.ItemIndex+1;
@@ -239,8 +232,6 @@ begin
   PartLine := UserFile.ReadString('User' + IntToStr(index), 'UserPort', '');
   CallString:=CallString+PartLine;
   CallLabel.Caption:=CallString;
-
-
 end;
 
 procedure TForm4.onInviteRinging(var Message: TMessage);
@@ -296,16 +287,6 @@ begin
   begin
     Exit;
   end;
-
-   if callbackMessage.hasVideo = true then
-   begin
-     // this is the video call
-   end
-   else
-   begin
-     // no video exists in this call
-   end;
-
    Sessions[i].SetSessionState(true);
    ListBoxLog.Lines.Add(Format('Line %d : call is established.', [i]));
    JoinConference(i);
@@ -960,35 +941,6 @@ begin
     ListBoxLog.Lines.Add(Text);
 end;
 
-procedure TForm4.UnIniBtnClick(Sender: TObject);
-var
-  i : integer;
-  Text : String;
-begin
-  if (Initialized = False)  then
-  begin
-    Exit;
-  end;
-
-  for i := LINE_BASE to MAXLINE do
-  begin
-    if (Sessions[i].GetRecvCallState() = True) then
-    begin
-      Text := 'Busy Here';
-      PortSIP_rejectCall(PortSIPHandle, Sessions[i].GetSessionID(), 486, pansichar(ansistring(Text)));
-    end
-    else if (Sessions[i].GetSessionState() = True) then
-    begin
-      PortSIP_terminateCall(PortSIPHandle, Sessions[i].GetSessionID());
-    end;
-    Sessions[i].Reset();
-  end;
-  SIPEV_shutdownSIPCallbackHandle(EventHandle);
-  PortSIP_unInitialize(PortSIPHandle);
-  SIPEV_releaseSIPCallbackHandle(EventHandle);
-  Initialized := False;
-  ListboxLog.Clear();
-end;
 
 procedure TForm4.HoldBtnClick(Sender: TObject);
 var
@@ -1063,7 +1015,6 @@ begin
      ShowMessage('Current line is busy, please switch a line');
     Exit;
   end;
-    CallTo :='sip:Roman@192.168.40.100:6012';
     UpdateAudioCodecs();
   if (PortSIP_isAudioCodecEmpty(PortSIPHandle) = true) then
   begin
@@ -1089,6 +1040,7 @@ begin
   Text := Text + IntToStr(Currentline);
   Text := Text + ' : calling...';
   ListBoxLog.Lines.Add(Text);
+  ListBoxLog.Lines.Add(CallTo);
 end;
 
 
@@ -1102,9 +1054,7 @@ begin
 //   Path := ExtractFilePath(Application.ExeName) + 'OldPhone.wav';
 
    Path23 :='m:\OldPhone.wav';
-  SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
-
-
+   SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
 
 //    sndPlaySound(PWideChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'),
 //    SND_NODEFAULT Or SND_ASYNC Or SND_LOOP);
@@ -1246,8 +1196,8 @@ begin
   UserFile.Free;
   AudioVideoSettingsFile.Free;
 
-   PortSIP_muteSpeaker(PortSIPHandle, false);
-   PortSIP_muteMicrophone(PortSIPHandle, false);
+  PortSIP_muteSpeaker(PortSIPHandle, false);
+  PortSIP_muteMicrophone(PortSIPHandle, false);
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);

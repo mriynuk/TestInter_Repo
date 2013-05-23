@@ -87,8 +87,6 @@ type
 
   TForm4 = class(TForm)
     ListBoxLog: TMemo;
-    IniBtn: TButton;
-    UnIniBtn: TButton;
     ComboBoxSpeaker: TComboBox;
     ComboBoxMicrophone: TComboBox;
     TrackBarSpeaker: TTrackBar;
@@ -124,9 +122,7 @@ type
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
     Label111: TLabel;
-    procedure IniBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
-    procedure UnIniBtnClick(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
     procedure AnswBtnClick(Sender: TObject);
@@ -148,8 +144,6 @@ type
     procedure SpLine7Click(Sender: TObject);
     procedure SpLine8Click(Sender: TObject);
     procedure ConSpBtnClick(Sender: TObject);
-//    procedure ImageMicClick(Sender: TObject);
-//    procedure ImageSpeakerClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ImageSpeakerMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
@@ -163,7 +157,6 @@ type
 
   private
   function GetLocalIP : string;
-//  procedure createCallbackHandler();
     { Private declarations }
   protected
    procedure onInviteIncoming(var Message: TMessage); message WM_INVITE_INCOMING;
@@ -225,7 +218,6 @@ var
 PartLine, FilePath:string;
 j, index:integer;
 begin
-
   FilePath := ExtractFilePath(Application.ExeName) + 'Users.ini';
   UserFile := TiniFile.Create(FilePath);
   index:=ListBox1.ItemIndex+1;
@@ -240,8 +232,6 @@ begin
   PartLine := UserFile.ReadString('User' + IntToStr(index), 'UserPort', '');
   CallString:=CallString+PartLine;
   CallLabel.Caption:=CallString;
-
-
 end;
 
 procedure TForm4.onInviteRinging(var Message: TMessage);
@@ -961,35 +951,6 @@ begin
     ListBoxLog.Lines.Add(Text);
 end;
 
-procedure TForm4.UnIniBtnClick(Sender: TObject);
-var
-  i : integer;
-  Text : String;
-begin
-  if (Initialized = False)  then
-  begin
-    Exit;
-  end;
-
-  for i := LINE_BASE to MAXLINE do
-  begin
-    if (Sessions[i].GetRecvCallState() = True) then
-    begin
-      Text := 'Busy Here';
-      PortSIP_rejectCall(PortSIPHandle, Sessions[i].GetSessionID(), 486, pansichar(ansistring(Text)));
-    end
-    else if (Sessions[i].GetSessionState() = True) then
-    begin
-      PortSIP_terminateCall(PortSIPHandle, Sessions[i].GetSessionID());
-    end;
-    Sessions[i].Reset();
-  end;
-  SIPEV_shutdownSIPCallbackHandle(EventHandle);
-  PortSIP_unInitialize(PortSIPHandle);
-  SIPEV_releaseSIPCallbackHandle(EventHandle);
-  Initialized := False;
-  ListboxLog.Clear();
-end;
 
 procedure TForm4.HoldBtnClick(Sender: TObject);
 var
@@ -1064,7 +1025,6 @@ begin
      ShowMessage('Current line is busy, please switch a line');
     Exit;
   end;
-    CallTo :='sip:Roman@192.168.40.100:6012';
     UpdateAudioCodecs();
   if (PortSIP_isAudioCodecEmpty(PortSIPHandle) = true) then
   begin
@@ -1090,6 +1050,7 @@ begin
   Text := Text + IntToStr(Currentline);
   Text := Text + ' : calling...';
   ListBoxLog.Lines.Add(Text);
+  ListBoxLog.Lines.Add(CallTo);
 end;
 
 
@@ -1103,9 +1064,7 @@ begin
 //   Path := ExtractFilePath(Application.ExeName) + 'OldPhone.wav';
 
    Path23 :='m:\OldPhone.wav';
-  SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
-
-
+   SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
 
 //    sndPlaySound(PWideChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'),
 //    SND_NODEFAULT Or SND_ASYNC Or SND_LOOP);
@@ -1247,8 +1206,8 @@ begin
   UserFile.Free;
   AudioVideoSettingsFile.Free;
 
-   PortSIP_muteSpeaker(PortSIPHandle, false);
-   PortSIP_muteMicrophone(PortSIPHandle, false);
+  PortSIP_muteSpeaker(PortSIPHandle, false);
+  PortSIP_muteMicrophone(PortSIPHandle, false);
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);
@@ -2051,193 +2010,54 @@ end;
 procedure TForm4.ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-if Button=mbLeft then
-begin
-  if (Initialized = False) then
+  if Button=mbLeft then
   begin
-    Exit;
-  end;
-  if MicMute = False then
+    if (Initialized = False) then
+    begin
+      Exit;
+    end;
+    if MicMute = False then
+    begin
+      PortSIP_muteMicrophone(PortSIPHandle, true);
+      ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
+      MicMute:=True;
+    end
+    else
+    begin
+      PortSIP_muteMicrophone(PortSIPHandle, false);
+      ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
+      MicMute:=False;
+    end;
+  end else
   begin
-    PortSIP_muteMicrophone(PortSIPHandle, true);
-    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
-    MicMute:=True;
-  end
-  else
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, false);
-    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
-    MicMute:=False;
-  end;
-end else begin
   ImageMic.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
-end;
-
-
-
+  end;
 end;
 
 procedure TForm4.ImageSpeakerMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
- if (Initialized = False) then
+  if (Initialized = False) then
   begin
     Exit;
   end;
-
- if Button=mbLeft then
- begin
-  if SpeakerMute = False then
+  if Button=mbLeft then
   begin
-    PortSIP_muteSpeaker(PortSIPHandle, true);
-    ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speakermute.jpg');
-    SpeakerMute:=True;
-  end
-  else
-  begin
-    PortSIP_muteSpeaker(PortSIPHandle, false);
-    ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speaker.png');
-    SpeakerMute:=False;
-  end
- end else begin
+    if SpeakerMute = False then
+    begin
+      PortSIP_muteSpeaker(PortSIPHandle, true);
+      ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speakermute.jpg');
+      SpeakerMute:=True;
+    end
+    else
+    begin
+      PortSIP_muteSpeaker(PortSIPHandle, false);
+      ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speaker.png');
+      SpeakerMute:=False;
+    end
+  end else begin
     ImageSpeaker.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
- end;
-end;
-
-procedure TForm4.IniBtnClick(Sender: TObject);
-
-const SIPPORT_MIN : integer = 8000;
-var LocalIP : String;
-    UserName : String;
-    Password : String;
-    SIPServer : String;
-    Agent : String;
-    STUNServer : String;
-    OutboundServer : String;
-    UserDomain : String;
-    DisplayName : String;
-    AuthName : String;
-    LocalSIPPort : integer;
-
-    SIPServerPort : integer;
-    OutboundServerPort : integer;
-    STUNServerPort : integer;
-
-    LicenseKey : String;
-    transport : integer;
-    SRTPPolicy : integer;
-    ErrorCode : integer;
-
-begin
-  if (Initialized = True) then
-  begin
-    ShowMessage('alreay logged in');
-    Exit;
   end;
-
-  // For P2P call(without SIP proxy server), we pass the SIP proxy server,
-  // outbound proxy server, stun server as empty.
-
-
-  LocalIP := GetLocalIP();
-  Label4.Caption:='Your IP: '+GetLocalIP();
-
-//  if (length(EditLocalPort.Text) > 0) then
-//  begin
-//    LocalSIPPort := StrToInt(EditLocalPort.Text);
-//  end
-//  else
-//  begin
-//     ShowMessage('Please enter local SIP port');
-//    Exit;
-//  end;
-
-  UserName := 'Michael';
-  Password := 'aaa';
-  SIPServer := '';
-  Agent := 'PortSIP VoIP SDK 7.0';
-  UserDomain := '';
-  OutboundServer := ''; // Default we are don't use outbound server
-  OutboundServerPort := 0;
-  STUNServer := '';
-  DisplayName := '';
-  AuthName := '';
-  SIPServerPort := 0;
-  STUNServerPort := 0;
-  transport := TRANSPORT_UDP;
- createCallbackHandler();
-
-
-  PortSIPHandle := PortSIP_initialize(EventHandle,
-                        transport,
-                        PORTSIP_LOG_NONE,
-                        nil,
-                        8,
-                        pansichar(ansistring(Agent)),
-                        pansichar(ansistring(STUNServer)),
-                        STUNServerPort,
-                        false,
-                        false,
-                        ErrorCode);
-  if (ErrorCode <> 0 )then
-  begin
-    Initialized := False;
-    ShowMessage('Initialize PortSIPCoreLib failed');
-    Exit;
-  end;
-  Initialized := True;
-  LicenseKey := 'PORTSIP_TEST_LICENSE';
-  PortSIP_setLicenseKey(PortSIPHandle, pansichar(ansistring(LicenseKey)));
-
-  InitSettings();
-  ListBoxLog.Lines.Add('Initialized the SDK.');
-
-
-  ErrorCode := PortSIP_setUserInfo(PortSIPHandle,
-                                  pansichar(ansistring(UserName)),
-                                  pansichar(ansistring(DisplayName)),
-                                  pansichar(ansistring(AuthName)),
-                                  pansichar(ansistring(Password)),
-                                  pansichar(ansistring(LocalIP)),
-                                  LocalSIPPort,
-                                  pansichar(ansistring(UserDomain)),
-                                  pansichar(ansistring(SIPServer)),
-                                  SIPServerPort,
-                                  pansichar(ansistring(OutboundServer)),
-                                  OutboundServerPort);
-
-//  ErrorCode := PortSIP_setUserInfo(PortSIPHandle,
-//                                  pansichar(ansistring('Michael')),
-//                                  pansichar(ansistring('Michael')),
-//                                  pansichar(ansistring('')),
-//                                  pansichar(ansistring('aaa')),
-//                                  pansichar(ansistring('192.168.40.100')),
-//                                  6012,
-//                                  pansichar(ansistring('')),
-//                                  pansichar(ansistring('')),
-//                                  0,
-//                                  pansichar(ansistring('')),
-//                                  0);
-
-//  Label4.Caption:=('Error Code: '+IntToStr(ErrorCode));
-  if (ErrorCode <> 0) then
-  begin
-    PortSIP_unInitialize(PortSIPHandle);
-    PortSIPHandle := 0;
-    SIPEV_shutdownSIPCallbackHandle(EventHandle);
-    SIPEV_releaseSIPCallbackHandle(EventHandle);
-    EventHandle := 0;
-    ListboxLog.Clear();
-    ShowMessage('SetUserInfo failed.');
-    Exit;
-  end;
-
-  ListBoxLog.Lines.Add('Set user information succeeded.');
-  LoadDevice();
-	InitDefaultAudioCodecs();
-	initSettings();
-  ListBoxLog.Lines.Add('Ready.');
-
 end;
 
 end.

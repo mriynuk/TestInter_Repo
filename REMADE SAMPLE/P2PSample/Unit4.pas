@@ -144,8 +144,6 @@ type
     procedure SpLine7Click(Sender: TObject);
     procedure SpLine8Click(Sender: TObject);
     procedure ConSpBtnClick(Sender: TObject);
-//    procedure ImageMicClick(Sender: TObject);
-//    procedure ImageSpeakerClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure ImageSpeakerMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
@@ -159,7 +157,6 @@ type
 
   private
   function GetLocalIP : string;
-//  procedure createCallbackHandler();
     { Private declarations }
   protected
    procedure onInviteIncoming(var Message: TMessage); message WM_INVITE_INCOMING;
@@ -290,16 +287,6 @@ begin
   begin
     Exit;
   end;
-
-   if callbackMessage.hasVideo = true then
-   begin
-     // this is the video call
-   end
-   else
-   begin
-     // no video exists in this call
-   end;
-
    Sessions[i].SetSessionState(true);
    ListBoxLog.Lines.Add(Format('Line %d : call is established.', [i]));
    JoinConference(i);
@@ -328,11 +315,8 @@ begin
   begin
     Exit;
   end;
-
   Sessions[i].Reset;
-
   ListBoxLog.Lines.Add(Format('Line %d : call failed.', [i]));
-
   callbackMessage.Free;
 end;
 
@@ -406,9 +390,7 @@ begin
   Result:= '';
   GetHostName(Buffer, SizeOf(Buffer));
   phe:=GetHostByName(buffer);
-
   if phe = nil then Exit;
-
   pptr:= PaPInAddr(Phe^.h_addr_list);
   I:= 0;
 
@@ -432,26 +414,14 @@ var
   s1 : boolean;
   s2 : boolean;
 begin
-   callbackMessage := TCallbackMessage(Message.WParam);
-
-   if callbackMessage.hasVideo = True then
-   begin
-     // this is the incoming video call
-   end
-   else
-   begin
-    // this is the incoming audio call
-   end;
-
+  callbackMessage := TCallbackMessage(Message.WParam);
   state := false;
-
   for i := LINE_BASE to MAXLINE do
   begin
     s1 :=  Sessions[i].GetSessionState();
     s2 := Sessions[i].GetRecvCallState();
      if ((Sessions[i].GetSessionState()= False) and (Sessions[i].GetRecvCallState()= False)) then
      begin
-
        state := True;
        Sessions[i].SetRecvCallState(True);
        break;
@@ -473,9 +443,7 @@ begin
     ListboxLog.Lines.Add(Format('Rejected the call by DND on line : %d', [i]));
     Exit;
   end;
-
   Sessions[i].SetSessionID(callbackMessage.sessionId);
-
   needIgnoreAutoAnswer := false;
   j := 0;
   for j := LINE_BASE to MAXLINE do
