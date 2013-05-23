@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, PortSIPConsts, PortSIPCore,  StdCtrls, ExtCtrls, ComCtrls,
-   winsock, unit2, unit3, filectrl, shellapi, IniFiles, Vcl.Buttons;
+   winsock, unit2, unit3, filectrl, shellapi, IniFiles, Vcl.Buttons,
+  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage;
 
 const
   WM_MSG_BASE                 = WM_APP + 1;
@@ -92,8 +93,6 @@ type
     ComboBoxMicrophone: TComboBox;
     TrackBarSpeaker: TTrackBar;
     TrackBarMicrophone: TTrackBar;
-    Label1: TLabel;
-    Label2: TLabel;
     ComboBoxLines: TComboBox;
     Label3: TLabel;
     Label4: TLabel;
@@ -124,6 +123,8 @@ type
     SpLine7: TSpeedButton;
     SpLine8: TSpeedButton;
     SpMute: TSpeedButton;
+    ImageSpeaker: TImage;
+    ImageMic: TImage;
     procedure IniBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure UnIniBtnClick(Sender: TObject);
@@ -1258,7 +1259,7 @@ procedure TForm4.FormCreate(Sender: TObject);
 const SIPPORT_MIN : integer = 8000;
  var
     Text : string;
-    i,j : integer;
+    i,j,k : integer;
     FilePath, FileLine, PartLine: string;
     LocalIP : String;
     UserName : String;

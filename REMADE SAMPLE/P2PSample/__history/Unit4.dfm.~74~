@@ -33,20 +33,20 @@ object Form4: TForm4
   end
   object Label3: TLabel
     Left = 481
-    Top = 100
+    Top = 83
     Width = 28
     Height = 13
     Caption = 'Lines:'
   end
   object Label4: TLabel
     Left = 481
-    Top = 181
+    Top = 160
     Width = 29
     Height = 13
   end
   object Label5: TLabel
     Left = 254
-    Top = 372
+    Top = 363
     Width = 44
     Height = 13
     Caption = 'LocalPort'
@@ -78,9 +78,9 @@ object Form4: TForm4
     ParentFont = False
   end
   object DNDSpBtn: TSpeedButton
-    Left = 357
-    Top = 307
-    Width = 101
+    Left = 374
+    Top = 294
+    Width = 94
     Height = 22
     Cursor = crHandPoint
     AllowAllUp = True
@@ -90,22 +90,23 @@ object Form4: TForm4
     OnClick = DNDSpBtnClick
   end
   object AASpBtn: TSpeedButton
-    Left = 357
-    Top = 335
-    Width = 101
+    Left = 374
+    Top = 322
+    Width = 94
     Height = 22
     AllowAllUp = True
     GroupIndex = 2
     Caption = 'Auto Answer'
   end
   object ConSpBtn: TSpeedButton
-    Left = 357
-    Top = 363
-    Width = 101
+    Left = 374
+    Top = 350
+    Width = 94
     Height = 22
     AllowAllUp = True
     GroupIndex = 3
     Caption = 'Conference'
+    OnClick = ConSpBtnClick
   end
   object SpLine1: TSpeedButton
     Left = 0
@@ -125,6 +126,7 @@ object Form4: TForm4
     AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 2'
+    OnClick = SpLine2Click
   end
   object SpLine3: TSpeedButton
     Left = 174
@@ -134,6 +136,7 @@ object Form4: TForm4
     AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 3'
+    OnClick = SpLine3Click
   end
   object SpLine4: TSpeedButton
     Left = 261
@@ -143,6 +146,7 @@ object Form4: TForm4
     AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 4'
+    OnClick = SpLine4Click
   end
   object SpLine5: TSpeedButton
     Left = 348
@@ -152,6 +156,7 @@ object Form4: TForm4
     AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 5'
+    OnClick = SpLine5Click
   end
   object SpLine6: TSpeedButton
     Left = 435
@@ -161,6 +166,7 @@ object Form4: TForm4
     AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 6'
+    OnClick = SpLine6Click
   end
   object SpLine7: TSpeedButton
     Left = 522
@@ -170,6 +176,7 @@ object Form4: TForm4
     AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 7'
+    OnClick = SpLine7Click
   end
   object SpLine8: TSpeedButton
     Left = 609
@@ -179,10 +186,11 @@ object Form4: TForm4
     AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 8'
+    OnClick = SpLine8Click
   end
   object SpMute: TSpeedButton
     Left = 464
-    Top = 72
+    Top = 55
     Width = 76
     Height = 22
     AllowAllUp = True
@@ -192,7 +200,7 @@ object Form4: TForm4
   end
   object ListBoxLog: TMemo
     Left = 481
-    Top = 200
+    Top = 191
     Width = 209
     Height = 212
     ReadOnly = True
@@ -200,7 +208,7 @@ object Form4: TForm4
   end
   object IniBtn: TButton
     Left = 481
-    Top = 146
+    Top = 129
     Width = 105
     Height = 25
     Caption = 'Initialize'
@@ -209,7 +217,7 @@ object Form4: TForm4
   end
   object UnIniBtn: TButton
     Left = 600
-    Top = 146
+    Top = 129
     Width = 90
     Height = 25
     Caption = 'Uninitialize'
@@ -254,8 +262,8 @@ object Form4: TForm4
   end
   object ComboBoxLines: TComboBox
     Left = 481
-    Top = 119
-    Width = 201
+    Top = 102
+    Width = 209
     Height = 21
     Style = csDropDownList
     TabOrder = 7
@@ -272,15 +280,15 @@ object Form4: TForm4
   end
   object EditLocalPort: TEdit
     Left = 254
-    Top = 391
-    Width = 204
+    Top = 382
+    Width = 214
     Height = 21
     TabOrder = 8
     Text = '5060'
   end
   object ClearBtn: TButton
     Left = 615
-    Top = 177
+    Top = 160
     Width = 75
     Height = 25
     Caption = 'Clear Log'
@@ -288,8 +296,8 @@ object Form4: TForm4
     OnClick = ClearBtnClick
   end
   object CallBtn: TButton
-    Left = 274
-    Top = 100
+    Left = 315
+    Top = 85
     Width = 153
     Height = 110
     Caption = 'Call'
@@ -297,8 +305,8 @@ object Form4: TForm4
     OnClick = CallBtnClick
   end
   object AnswBtn: TButton
-    Left = 274
-    Top = 216
+    Left = 315
+    Top = 201
     Width = 153
     Height = 25
     Caption = 'Answer'
@@ -316,7 +324,7 @@ object Form4: TForm4
   end
   object CheckDND: TCheckBox
     Left = 254
-    Top = 303
+    Top = 294
     Width = 97
     Height = 17
     Caption = 'Do not disturbe'
@@ -324,15 +332,15 @@ object Form4: TForm4
   end
   object CheckAA: TCheckBox
     Left = 254
-    Top = 326
+    Top = 317
     Width = 97
     Height = 17
     Caption = 'Auto Answer'
     TabOrder = 14
   end
   object HungUpBtn: TButton
-    Left = 274
-    Top = 247
+    Left = 315
+    Top = 232
     Width = 153
     Height = 25
     Caption = 'Hung up'
@@ -341,24 +349,24 @@ object Form4: TForm4
   end
   object ConferenceCheckbox: TCheckBox
     Left = 254
-    Top = 349
+    Top = 340
     Width = 97
     Height = 17
     Caption = 'Conference'
     TabOrder = 16
   end
   object HoldBtn: TButton
-    Left = 274
-    Top = 272
-    Width = 75
+    Left = 315
+    Top = 263
+    Width = 72
     Height = 25
     Caption = 'Hold'
     TabOrder = 17
     OnClick = HoldBtnClick
   end
   object UnHoldBtn: TButton
-    Left = 352
-    Top = 272
+    Left = 393
+    Top = 263
     Width = 75
     Height = 25
     Caption = 'UnHold'

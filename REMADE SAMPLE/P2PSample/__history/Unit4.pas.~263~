@@ -149,6 +149,7 @@ type
     procedure SpLine6Click(Sender: TObject);
     procedure SpLine7Click(Sender: TObject);
     procedure SpLine8Click(Sender: TObject);
+    procedure ConSpBtnClick(Sender: TObject);
 
 
 
@@ -870,6 +871,7 @@ begin
 //
 ////SpeedButton1.GroupIndex:=1;
   Label4.Caption:=BoolToStr(DNDSpBtn.Down);
+//  DNDSpBtn.Glyph.LoadFromFile(ExtractFilePath(Application.ExeName) + 'red50.bmp');
 end;
 
 procedure UpdateAudioCodecs();
@@ -1160,6 +1162,64 @@ begin
   end;
 end;
 
+procedure TForm4.ConSpBtnClick(Sender: TObject);
+var
+  i : Integer;
+  Text : string;
+begin
+
+  if (Initialized = False) then
+    begin
+      ConSpBtn.Down := False;
+      Exit;
+    end;
+
+    if ConSpBtn.Down = True then
+    begin
+//      if (PortSIP_createConference(PortSIPHandle, RemoteVideo.Handle, resolution, false) = 0)  then
+//        begin
+          ListBoxLog.Lines.Add('Make conference succeeded');
+          for i := LINE_BASE to MAXLINE do
+          begin
+            if Sessions[i].GetSessionState() = True  then
+            begin
+              JoinConference(i);
+            end;
+          end;
+//        end
+//      else
+//        begin
+//          ListBoxLog.Lines.Add('Make conference failed.');
+//          ConSpBtn.Down:= False;
+//        end;
+
+      Exit;
+    end
+    else
+    begin
+    // Stop conference
+    // Before stop the conference, MUST place all lines to hold state
+
+       for i := LINE_BASE to MAXLINE do
+      begin
+        if ((Sessions[i].GetSessionState()=True) and (Sessions[i].GetHoldState = False)) then
+        begin
+          PortSIP_hold(PortSIPHandle, Sessions[i].GetSessionID());
+          Sessions[i].SetHoldState(True);
+
+          Text := 'Line ';
+          Text := Text+IntToStr(i);
+          Text := Text+' : ';
+          Text := Text+'Hold';
+        end;
+      end;
+
+
+      PortSIP_destroyConference(PortSIPHandle);
+      ListBoxLog.Lines.Add('Taken off Conference');
+    end;
+end;
+
 procedure TForm4.FormClose(Sender: TObject; var Action: TCloseAction);
 var
   i : integer;
@@ -1198,7 +1258,7 @@ procedure TForm4.FormCreate(Sender: TObject);
 const SIPPORT_MIN : integer = 8000;
  var
     Text : string;
-    i,j : integer;
+    i,j,k : integer;
     FilePath, FileLine, PartLine: string;
     LocalIP : String;
     UserName : String;
@@ -1249,6 +1309,8 @@ begin
     ListBox1.Items.Add(PartLine);
     Inc(j);
   Until PartLine = '';
+
+  ListBox1.Count:=ListBox1.Count-1;
 
    if (Initialized = True) then
   begin
