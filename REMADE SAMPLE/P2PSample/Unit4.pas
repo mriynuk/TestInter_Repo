@@ -156,6 +156,9 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure ComboBoxSpeakerChange(Sender: TObject);
     procedure ComboBoxMicrophoneChange(Sender: TObject);
+    procedure PopupMicItemClick(Sender: TObject) ;
+    procedure PopupSpeakerItemClick(Sender: TObject) ;
+
 
   private
   function GetLocalIP : string;
@@ -171,7 +174,6 @@ type
    procedure onInviteUpdated(var Message: TMessage); message WM_INVITE_UPDATED;
    procedure onRemoteHold(var Message: TMessage); message WM_REMOTE_HOLD;
    procedure onRemoteUnhold(var Message: TMessage); message WM_REMOTE_UNHOLD;
-
    procedure JoinConference(const index: Integer);
   public
     { Public declarations }
@@ -190,7 +192,6 @@ var
   procedure LoadDevice();
   proceDure InitSettings();
   procedure createCallbackHandler();
-
 const
   LINE_BASE = 1;
   MAXLINE = 8;
@@ -199,6 +200,8 @@ implementation
 var
   AudioVideoSettingsFile:TIniFile;
 {$R *.dfm}
+
+
 
 procedure TForm4.JoinConference(const index: Integer);
 begin
@@ -832,7 +835,6 @@ begin
   end;
 end;
 
-
 procedure TForm4.DNDSpBtnClick(Sender: TObject);
 begin
 //if SpeedButton1.Down=False then
@@ -1419,31 +1421,39 @@ begin
   ComboBoxMicrophone.Width:=-1;
 
 
- for counterForLoop := 0 to ComboBoxMicrophone.Items.Count do
+ for counterForLoop := 0 to ComboBoxMicrophone.Items.Count - 1 do
  begin
-   MenuItemMic:=TmenuItem.Create(PopupMenuMic);
-   MenuItemMic.Caption:=ComboBoxMicrophone.Items[counterForLoop];
+   MenuItemMic := TmenuItem.Create(PopupMenuMic);
+   MenuItemMic.Caption := ComboBoxMicrophone.Items[counterForLoop];
+   MenuItemMic.Tag := counterForLoop;
+   MenuItemMic.OnClick := PopupMicItemClick;
    PopupMenuMic.Items.Add(MenuItemMic);
  end;
-   MenuItemMic.Free;
 
-   for counterForLoop := 0 to ComboBoxSpeaker.Items.Count do
+ for counterForLoop := 0 to ComboBoxSpeaker.Items.Count - 1 do
  begin
-   MenuItemSpeaker:=TmenuItem.Create(PopupMenuSpeak);
-   MenuItemSpeaker.Caption:=ComboBoxSpeaker.Items[counterForLoop];
+   MenuItemSpeaker := TmenuItem.Create(PopupMenuSpeak);
+   MenuItemSpeaker.Caption := ComboBoxSpeaker.Items[counterForLoop];
+   MenuItemSpeaker.Tag := counterForLoop;
+   MenuItemSpeaker.OnClick := PopupSpeakerItemClick;
    PopupMenuSpeak.Items.Add(MenuItemSpeaker);
  end;
-   MenuItemSpeaker.Free;
-
-  
-
-//   PopupMenuSpeak.Items.OnClick:=PopupClickSpeaker(PopupMenuSpeak.Items[0]);
-
-//   for I := 1 to ComboBoxMicrophone.Items.Count+1 do
-//     PopupMenuMic.Create.Items[I].Caption:=ComboBoxMicrophone.Items[counterForLoop];
 end;
 
+procedure TForm4.PopupSpeakerItemClick(Sender: TObject) ;
+var
+    menuItem : TMenuItem;
+begin
+    menuItem := TMenuItem(sender) ;
+    ShowMessage(Format('Clicked on "%s", TAG value: %d',[menuItem.Caption, menuItem.Tag])) ;
+end;
 
+procedure TForm4.PopupMicItemClick(Sender: TObject);
+var
+    menuItem : TMenuItem;
+begin
+    ShowMessage(Format('Clicked on "%s", TAG value: %d',[menuItem.Caption, menuItem.Tag])) ;
+end;
 procedure TForm4.TrackBarMicrophoneChange(Sender: TObject);
 begin
   if (Initialized = False) then
@@ -2126,26 +2136,6 @@ begin
       end;
 end;
 
-//procedure TForm4.ImageMicClick(Sender: TObject);
-//begin
-//if (Initialized = False) then
-//  begin
-//    Exit;
-//  end;
-//  if MicMute = False then
-//  begin
-//    PortSIP_muteMicrophone(PortSIPHandle, true);
-//    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
-//    MicMute:=True;
-//  end
-//  else
-//  begin
-//    PortSIP_muteMicrophone(PortSIPHandle, false);
-//    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
-//    MicMute:=False;
-//  end;
-//end;
-
 procedure TForm4.ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
@@ -2168,7 +2158,6 @@ begin
     MicMute:=False;
   end;
 end else begin
-  ComboBoxMicrophone.Width:=150;
   ImageMic.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
 end;
 
@@ -2199,7 +2188,6 @@ begin
     SpeakerMute:=False;
   end
  end else begin
-    ComboBoxSpeaker.Width:=150;
     ImageSpeaker.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
  end;
 end;

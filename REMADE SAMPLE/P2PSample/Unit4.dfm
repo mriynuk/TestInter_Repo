@@ -272,21 +272,23 @@ object Form4: TForm4
     OnClick = UnIniBtnClick
   end
   object ComboBoxSpeaker: TComboBox
-    Left = 554
+    Left = 698
     Top = 12
-    Width = 150
+    Width = 6
     Height = 21
     Style = csDropDownList
     TabOrder = 3
+    Visible = False
     OnChange = ComboBoxSpeakerChange
   end
   object ComboBoxMicrophone: TComboBox
-    Left = 554
+    Left = 698
     Top = 236
-    Width = 150
+    Width = 6
     Height = 21
     Style = csDropDownList
     TabOrder = 4
+    Visible = False
     OnChange = ComboBoxMicrophoneChange
   end
   object TrackBarSpeaker: TTrackBar

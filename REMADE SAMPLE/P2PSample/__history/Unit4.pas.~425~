@@ -156,22 +156,13 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure ComboBoxSpeakerChange(Sender: TObject);
     procedure ComboBoxMicrophoneChange(Sender: TObject);
- 
-
-
-
-
-
-
-
+    procedure PopupItemClick(Sender: TObject) ;
 
   private
   function GetLocalIP : string;
 //  procedure createCallbackHandler();
     { Private declarations }
   protected
-
-
    procedure onInviteIncoming(var Message: TMessage); message WM_INVITE_INCOMING;
    procedure onInviteTrying(var Message: TMessage); message WM_INVITE_TRYING;
    procedure onInviteRinging(var Message: TMessage); message WM_INVITE_RINGING;
@@ -179,11 +170,8 @@ type
    procedure onInviteFailure(var Message: TMessage); message WM_INVITE_FAILURE;
    procedure onInviteClosed(var Message: TMessage); message WM_INVITE_CLOSED;
    procedure onInviteUpdated(var Message: TMessage); message WM_INVITE_UPDATED;
-
-
    procedure onRemoteHold(var Message: TMessage); message WM_REMOTE_HOLD;
    procedure onRemoteUnhold(var Message: TMessage); message WM_REMOTE_UNHOLD;
-
    procedure JoinConference(const index: Integer);
   public
     { Public declarations }
@@ -202,7 +190,6 @@ var
   procedure LoadDevice();
   proceDure InitSettings();
   procedure createCallbackHandler();
-
 const
   LINE_BASE = 1;
   MAXLINE = 8;
@@ -211,6 +198,8 @@ implementation
 var
   AudioVideoSettingsFile:TIniFile;
 {$R *.dfm}
+
+
 
 procedure TForm4.JoinConference(const index: Integer);
 begin
@@ -844,7 +833,6 @@ begin
   end;
 end;
 
-
 procedure TForm4.DNDSpBtnClick(Sender: TObject);
 begin
 //if SpeedButton1.Down=False then
@@ -1431,31 +1419,31 @@ begin
   ComboBoxMicrophone.Width:=-1;
 
 
- for counterForLoop := 0 to ComboBoxMicrophone.Items.Count do
+ for counterForLoop := 0 to ComboBoxMicrophone.Items.Count - 1 do
  begin
-   MenuItemMic:=TmenuItem.Create(PopupMenuMic);
-   MenuItemMic.Caption:=ComboBoxMicrophone.Items[counterForLoop];
+   MenuItemMic := TmenuItem.Create(PopupMenuMic);
+   MenuItemMic.Caption := ComboBoxMicrophone.Items[counterForLoop];
+   MenuItemMic.Tag := counterForLoop;
+   MenuItemMic.OnClick := PopupItemClick;
    PopupMenuMic.Items.Add(MenuItemMic);
  end;
-   MenuItemMic.Free;
 
-   for counterForLoop := 0 to ComboBoxSpeaker.Items.Count do
+ for counterForLoop := 0 to ComboBoxSpeaker.Items.Count - 1 do
  begin
    MenuItemSpeaker:=TmenuItem.Create(PopupMenuSpeak);
    MenuItemSpeaker.Caption:=ComboBoxSpeaker.Items[counterForLoop];
+   MenuItemSpeaker.Tag:=counterForLoop;
    PopupMenuSpeak.Items.Add(MenuItemSpeaker);
  end;
-   MenuItemSpeaker.Free;
-
-  
-
-//   PopupMenuSpeak.Items.OnClick:=PopupClickSpeaker(PopupMenuSpeak.Items[0]);
-
-//   for I := 1 to ComboBoxMicrophone.Items.Count+1 do
-//     PopupMenuMic.Create.Items[I].Caption:=ComboBoxMicrophone.Items[counterForLoop];
 end;
 
+procedure TForm4.PopupItemClick(Sender: TObject);
+var
+    menuItem : TMenuItem;
+ begin
+    ShowMessage(Format('Clicked on "%s", TAG value: %d',[menuItem.Caption, menuItem.Tag])) ;
 
+ end;
 procedure TForm4.TrackBarMicrophoneChange(Sender: TObject);
 begin
   if (Initialized = False) then
@@ -2184,13 +2172,10 @@ end else begin
   ImageMic.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
 end;
 
-   ImageMic.PopupMenu.Items[0].OnClick:=Test1;
+
 
 end;
-procedure Test1(Sender: TObject);
-begin
 
-end;
 procedure TForm4.ImageSpeakerMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
