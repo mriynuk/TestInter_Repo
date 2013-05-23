@@ -123,6 +123,7 @@ type
     ImageMic: TImage;
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
+    Label111: TLabel;
     procedure IniBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure UnIniBtnClick(Sender: TObject);
@@ -155,20 +156,12 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure ComboBoxSpeakerChange(Sender: TObject);
     procedure ComboBoxMicrophoneChange(Sender: TObject);
-    procedure PopupMenuMicChange(Sender: TObject; Source: TMenuItem;
-      Rebuild: Boolean);
-
-
-
-
 
   private
   function GetLocalIP : string;
 //  procedure createCallbackHandler();
     { Private declarations }
   protected
-
-
    procedure onInviteIncoming(var Message: TMessage); message WM_INVITE_INCOMING;
    procedure onInviteTrying(var Message: TMessage); message WM_INVITE_TRYING;
    procedure onInviteRinging(var Message: TMessage); message WM_INVITE_RINGING;
@@ -176,8 +169,6 @@ type
    procedure onInviteFailure(var Message: TMessage); message WM_INVITE_FAILURE;
    procedure onInviteClosed(var Message: TMessage); message WM_INVITE_CLOSED;
    procedure onInviteUpdated(var Message: TMessage); message WM_INVITE_UPDATED;
-
-
    procedure onRemoteHold(var Message: TMessage); message WM_REMOTE_HOLD;
    procedure onRemoteUnhold(var Message: TMessage); message WM_REMOTE_UNHOLD;
 
@@ -195,7 +186,7 @@ var
   CallString:string;
   Sessions : Array[0..8] of TSession;
   UserFile: TiniFile;
-  MenuItem:TMenuItem;
+  MenuItemMic,MenuItemSpeaker:TMenuItem;
   procedure LoadDevice();
   proceDure InitSettings();
   procedure createCallbackHandler();
@@ -602,19 +593,7 @@ begin
   end;
 
   ListBoxLog.Lines.Add(Format('Line %d : take off hold by remote party.', [i]));
-
-
    callbackMessage.Free;
-end;
-
-
-procedure TForm4.PopupMenuMicChange(Sender: TObject; Source: TMenuItem;
-  Rebuild: Boolean);
-var
-index:integer;
-begin
-    index:=PopupMenuMic.Items.IndexOf(Source);
-    ComboBoxMicrophone.ItemIndex:=index;
 end;
 
 procedure TForm4.SpLine1Click(Sender: TObject);
@@ -1442,25 +1421,28 @@ begin
 
  for counterForLoop := 0 to ComboBoxMicrophone.Items.Count do
  begin
-   MenuItem:=TmenuItem.Create(PopupMenuMic);
-   MenuItem.Caption:=ComboBoxMicrophone.Items[counterForLoop];
-   PopupMenuMic.Items.Add(MenuItem);
+   MenuItemMic:=TmenuItem.Create(PopupMenuMic);
+   MenuItemMic.Caption:=ComboBoxMicrophone.Items[counterForLoop];
+   PopupMenuMic.Items.Add(MenuItemMic);
  end;
-    MenuItem.Free;
+   MenuItemMic.Free;
 
    for counterForLoop := 0 to ComboBoxSpeaker.Items.Count do
  begin
-   MenuItem:=TmenuItem.Create(PopupMenuSpeak);
-   MenuItem.Caption:=ComboBoxSpeaker.Items[counterForLoop];
-   PopupMenuSpeak.Items.Add(MenuItem);
+   MenuItemSpeaker:=TmenuItem.Create(PopupMenuSpeak);
+   MenuItemSpeaker.Caption:=ComboBoxSpeaker.Items[counterForLoop];
+   PopupMenuSpeak.Items.Add(MenuItemSpeaker);
  end;
- MenuItem.Free;
+   MenuItemSpeaker.Free;
 
- ComboBoxMicrophone.ItemIndex:=1;
+  
+
+//   PopupMenuSpeak.Items.OnClick:=PopupClickSpeaker(PopupMenuSpeak.Items[0]);
 
 //   for I := 1 to ComboBoxMicrophone.Items.Count+1 do
 //     PopupMenuMic.Create.Items[I].Caption:=ComboBoxMicrophone.Items[counterForLoop];
 end;
+
 
 procedure TForm4.TrackBarMicrophoneChange(Sender: TObject);
 begin
@@ -2167,7 +2149,6 @@ end;
 procedure TForm4.ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 begin
-
 if Button=mbLeft then
 begin
   if (Initialized = False) then
@@ -2188,8 +2169,9 @@ begin
   end;
 end else begin
   ComboBoxMicrophone.Width:=150;
-  ImageMic.PopupMenu.Popup(X,Y);
+  ImageMic.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
 end;
+
 
 
 end;
@@ -2204,7 +2186,6 @@ begin
 
  if Button=mbLeft then
  begin
-
   if SpeakerMute = False then
   begin
     PortSIP_muteSpeaker(PortSIPHandle, true);
@@ -2216,11 +2197,11 @@ begin
     PortSIP_muteSpeaker(PortSIPHandle, false);
     ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speaker.png');
     SpeakerMute:=False;
-  end;
- end else
+  end
+ end else begin
     ComboBoxSpeaker.Width:=150;
-    ImageSpeaker.PopupMenu.Popup(X,Y);
-
+    ImageSpeaker.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
+ end;
 end;
 
 procedure TForm4.IniBtnClick(Sender: TObject);

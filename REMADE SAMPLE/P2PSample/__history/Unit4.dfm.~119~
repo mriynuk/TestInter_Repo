@@ -198,6 +198,7 @@ object Form4: TForm4
       BB1629D3225358A150E0FEFE1EC562112A956A7908B18FEE133285496F9C9C9C
       20140ABDF12D7D33462211D86CB6B93EA209E9F659FB9977FC8F85FC066CB1AA
       C5DE5E62370000000049454E44AE426082}
+    PopupMenu = PopupMenuSpeak
     OnMouseDown = ImageSpeakerMouseDown
   end
   object ImageMic: TImage
@@ -237,6 +238,13 @@ object Form4: TForm4
     PopupMenu = PopupMenuMic
     OnMouseDown = ImageMicMouseDown
   end
+  object Label111: TLabel
+    Left = 554
+    Top = 217
+    Width = 43
+    Height = 13
+    Caption = 'Label111'
+  end
   object ListBoxLog: TMemo
     Left = 474
     Top = 263
@@ -268,14 +276,18 @@ object Form4: TForm4
     Top = 12
     Width = 150
     Height = 21
+    Style = csDropDownList
     TabOrder = 3
+    OnChange = ComboBoxSpeakerChange
   end
   object ComboBoxMicrophone: TComboBox
     Left = 554
     Top = 236
     Width = 150
     Height = 21
+    Style = csDropDownList
     TabOrder = 4
+    OnChange = ComboBoxMicrophoneChange
   end
   object TrackBarSpeaker: TTrackBar
     Left = 702
@@ -412,14 +424,18 @@ object Form4: TForm4
     OnClick = ListBox1Click
   end
   object PopupMenuMic: TPopupMenu
+    Alignment = paCenter
+    AutoPopup = False
     MenuAnimation = [maRightToLeft]
     Left = 464
     Top = 24
-    object dss1: TMenuItem
-    end
   end
   object PopupMenuSpeak: TPopupMenu
-    Left = 392
-    Top = 16
+    Alignment = paCenter
+    AutoPopup = False
+    MenuAnimation = [maRightToLeft]
+    OnChange = PopupMenuSpeakChange
+    Left = 376
+    Top = 24
   end
 end

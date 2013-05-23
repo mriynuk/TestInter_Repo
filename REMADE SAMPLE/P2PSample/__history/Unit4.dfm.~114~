@@ -269,6 +269,7 @@ object Form4: TForm4
     Top = 12
     Width = 150
     Height = 21
+    Style = csDropDownList
     TabOrder = 3
     OnChange = ComboBoxSpeakerChange
   end
@@ -277,6 +278,7 @@ object Form4: TForm4
     Top = 236
     Width = 150
     Height = 21
+    Style = csDropDownList
     TabOrder = 4
     OnChange = ComboBoxMicrophoneChange
   end
@@ -416,13 +418,17 @@ object Form4: TForm4
   end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
+    AutoPopup = False
     MenuAnimation = [maRightToLeft]
     OnChange = PopupMenuMicChange
     Left = 464
     Top = 24
   end
   object PopupMenuSpeak: TPopupMenu
-    Left = 392
-    Top = 16
+    Alignment = paCenter
+    AutoPopup = False
+    MenuAnimation = [maRightToLeft]
+    Left = 376
+    Top = 24
   end
 end
