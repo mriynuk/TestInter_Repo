@@ -167,16 +167,6 @@ object Form4: TForm4
     Caption = 'Line 8'
     OnClick = SpLine8Click
   end
-  object SpMute: TSpeedButton
-    Left = 464
-    Top = 55
-    Width = 76
-    Height = 22
-    AllowAllUp = True
-    GroupIndex = 4
-    Caption = 'Mute'
-    OnClick = SpMuteClick
-  end
   object ImageSpeaker: TImage
     Left = 702
     Top = 8
@@ -355,22 +345,13 @@ object Form4: TForm4
     TabOrder = 10
     OnClick = AnswBtnClick
   end
-  object ChecMicMuteBox: TCheckBox
-    Left = 254
-    Top = 77
-    Width = 55
-    Height = 17
-    Caption = 'Mute'
-    TabOrder = 11
-    OnClick = ChecMicMuteBoxClick
-  end
   object CheckDND: TCheckBox
     Left = 254
     Top = 294
     Width = 97
     Height = 17
     Caption = 'Do not disturbe'
-    TabOrder = 12
+    TabOrder = 11
   end
   object CheckAA: TCheckBox
     Left = 254
@@ -378,7 +359,7 @@ object Form4: TForm4
     Width = 97
     Height = 17
     Caption = 'Auto Answer'
-    TabOrder = 13
+    TabOrder = 12
   end
   object HungUpBtn: TButton
     Left = 315
@@ -386,7 +367,7 @@ object Form4: TForm4
     Width = 153
     Height = 25
     Caption = 'Hung up'
-    TabOrder = 14
+    TabOrder = 13
     OnClick = HungUpBtnClick
   end
   object ConferenceCheckbox: TCheckBox
@@ -395,7 +376,7 @@ object Form4: TForm4
     Width = 97
     Height = 17
     Caption = 'Conference'
-    TabOrder = 15
+    TabOrder = 14
   end
   object HoldBtn: TButton
     Left = 315
@@ -403,7 +384,7 @@ object Form4: TForm4
     Width = 72
     Height = 25
     Caption = 'Hold'
-    TabOrder = 16
+    TabOrder = 15
     OnClick = HoldBtnClick
   end
   object UnHoldBtn: TButton
@@ -412,7 +393,7 @@ object Form4: TForm4
     Width = 75
     Height = 25
     Caption = 'UnHold'
-    TabOrder = 17
+    TabOrder = 16
     OnClick = UnHoldBtnClick
   end
   object ListBox1: TListBox
@@ -428,7 +409,7 @@ object Form4: TForm4
     Font.Style = []
     ItemHeight = 30
     ParentFont = False
-    TabOrder = 18
+    TabOrder = 17
     OnClick = ListBox1Click
   end
 end

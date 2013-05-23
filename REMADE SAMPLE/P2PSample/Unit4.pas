@@ -99,7 +99,6 @@ type
     ClearBtn: TButton;
     CallBtn: TButton;
     AnswBtn: TButton;
-    ChecMicMuteBox: TCheckBox;
     CheckDND: TCheckBox;
     CheckAA: TCheckBox;
     HungUpBtn: TButton;
@@ -120,7 +119,6 @@ type
     SpLine6: TSpeedButton;
     SpLine7: TSpeedButton;
     SpLine8: TSpeedButton;
-    SpMute: TSpeedButton;
     ImageSpeaker: TImage;
     ImageMic: TImage;
     procedure IniBtnClick(Sender: TObject);
@@ -840,21 +838,6 @@ begin
   end;
 end;
 
-procedure TForm4.SpMuteClick(Sender: TObject);
-begin
-if (Initialized = False) then
-  begin
-    Exit;
-  end;
-  if (SpMute.Down = True) then
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, true);
-  end
-  else
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, false);
-  end;
-end;
 
 procedure TForm4.DNDSpBtnClick(Sender: TObject);
 begin
@@ -1113,21 +1096,6 @@ begin
   ListBoxLog.Lines.Add(Text);
 end;
 
-procedure TForm4.ChecMicMuteBoxClick(Sender: TObject);
-begin
-if (Initialized = False) then
-  begin
-    Exit;
-  end;
-  if (ChecMicMuteBox.Checked = True) then
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, true);
-  end
-  else
-  begin
-    PortSIP_muteMicrophone(PortSIPHandle, false);
-  end;
-end;
 
 procedure TForm4.ClearBtnClick(Sender: TObject);
 begin
