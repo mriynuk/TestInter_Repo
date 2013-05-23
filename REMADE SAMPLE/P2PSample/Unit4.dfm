@@ -198,7 +198,7 @@ object Form4: TForm4
       BB1629D3225358A150E0FEFE1EC562112A956A7908B18FEE133285496F9C9C9C
       20140ABDF12D7D33462211D86CB6B93EA209E9F659FB9977FC8F85FC066CB1AA
       C5DE5E62370000000049454E44AE426082}
-    OnClick = ImageSpeakerClick
+    OnMouseDown = ImageSpeakerMouseDown
   end
   object ImageMic: TImage
     Left = 702
@@ -234,13 +234,14 @@ object Form4: TForm4
       B753E39111C87D5585188D469E59344AC84D6459AA4B5521D49CF97C1E994C06
       5AAD162A958A81558590084216A654099120C8E7E727FF766930D60C52A9FE02
       274183C563D9C2250000000049454E44AE426082}
-    OnClick = ImageMicClick
+    PopupMenu = PopupMenuMic
+    OnMouseDown = ImageMicMouseDown
   end
   object ListBoxLog: TMemo
     Left = 474
-    Top = 206
+    Top = 263
     Width = 209
-    Height = 212
+    Height = 155
     ReadOnly = True
     TabOrder = 0
   end
@@ -263,19 +264,17 @@ object Form4: TForm4
     OnClick = UnIniBtnClick
   end
   object ComboBoxSpeaker: TComboBox
-    Left = 481
-    Top = 7
-    Width = 201
+    Left = 554
+    Top = 12
+    Width = 150
     Height = 21
-    Style = csDropDownList
     TabOrder = 3
   end
   object ComboBoxMicrophone: TComboBox
-    Left = 481
-    Top = 28
-    Width = 201
+    Left = 554
+    Top = 236
+    Width = 150
     Height = 21
-    Style = csDropDownList
     TabOrder = 4
   end
   object TrackBarSpeaker: TTrackBar
@@ -411,5 +410,15 @@ object Form4: TForm4
     ParentFont = False
     TabOrder = 17
     OnClick = ListBox1Click
+  end
+  object PopupMenuMic: TPopupMenu
+    Left = 464
+    Top = 24
+    object dss1: TMenuItem
+    end
+  end
+  object PopupMenuSpeak: TPopupMenu
+    Left = 392
+    Top = 16
   end
 end

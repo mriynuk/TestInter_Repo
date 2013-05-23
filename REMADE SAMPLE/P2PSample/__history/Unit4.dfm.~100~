@@ -30,13 +30,6 @@ object Form4: TForm4
     Width = 3
     Height = 13
   end
-  object Label5: TLabel
-    Left = 254
-    Top = 378
-    Width = 44
-    Height = 13
-    Caption = 'LocalPort'
-  end
   object Label6: TLabel
     Left = 0
     Top = 8
@@ -174,16 +167,6 @@ object Form4: TForm4
     Caption = 'Line 8'
     OnClick = SpLine8Click
   end
-  object SpMute: TSpeedButton
-    Left = 464
-    Top = 55
-    Width = 76
-    Height = 22
-    AllowAllUp = True
-    GroupIndex = 4
-    Caption = 'Mute'
-    OnClick = SpMuteClick
-  end
   object ImageSpeaker: TImage
     Left = 702
     Top = 8
@@ -215,6 +198,7 @@ object Form4: TForm4
       BB1629D3225358A150E0FEFE1EC562112A956A7908B18FEE133285496F9C9C9C
       20140ABDF12D7D33462211D86CB6B93EA209E9F659FB9977FC8F85FC066CB1AA
       C5DE5E62370000000049454E44AE426082}
+    OnMouseDown = ImageSpeakerMouseDown
   end
   object ImageMic: TImage
     Left = 702
@@ -250,18 +234,19 @@ object Form4: TForm4
       B753E39111C87D5585188D469E59344AC84D6459AA4B5521D49CF97C1E994C06
       5AAD162A958A81558590084216A654099120C8E7E727FF766930D60C52A9FE02
       274183C563D9C2250000000049454E44AE426082}
+    OnMouseDown = ImageMicMouseDown
   end
   object ListBoxLog: TMemo
     Left = 474
-    Top = 206
+    Top = 263
     Width = 209
-    Height = 212
+    Height = 155
     ReadOnly = True
     TabOrder = 0
   end
   object IniBtn: TButton
-    Left = 553
-    Top = 55
+    Left = 490
+    Top = 129
     Width = 105
     Height = 25
     Caption = 'Initialize'
@@ -278,19 +263,17 @@ object Form4: TForm4
     OnClick = UnIniBtnClick
   end
   object ComboBoxSpeaker: TComboBox
-    Left = 481
-    Top = 7
-    Width = 201
+    Left = 554
+    Top = 12
+    Width = 150
     Height = 21
-    Style = csDropDownList
     TabOrder = 3
   end
   object ComboBoxMicrophone: TComboBox
-    Left = 481
-    Top = 28
-    Width = 201
+    Left = 554
+    Top = 236
+    Width = 150
     Height = 21
-    Style = csDropDownList
     TabOrder = 4
   end
   object TrackBarSpeaker: TTrackBar
@@ -333,21 +316,13 @@ object Form4: TForm4
       'LINE-7'
       'LINE-8')
   end
-  object EditLocalPort: TEdit
-    Left = 254
-    Top = 397
-    Width = 214
-    Height = 21
-    TabOrder = 8
-    Text = '6012'
-  end
   object ClearBtn: TButton
     Left = 615
     Top = 160
     Width = 75
     Height = 25
     Caption = 'Clear Log'
-    TabOrder = 9
+    TabOrder = 8
     OnClick = ClearBtnClick
   end
   object CallBtn: TButton
@@ -356,7 +331,7 @@ object Form4: TForm4
     Width = 153
     Height = 110
     Caption = 'Call'
-    TabOrder = 10
+    TabOrder = 9
     OnClick = CallBtnClick
   end
   object AnswBtn: TButton
@@ -365,17 +340,8 @@ object Form4: TForm4
     Width = 153
     Height = 25
     Caption = 'Answer'
-    TabOrder = 11
+    TabOrder = 10
     OnClick = AnswBtnClick
-  end
-  object ChecMicMuteBox: TCheckBox
-    Left = 254
-    Top = 77
-    Width = 55
-    Height = 17
-    Caption = 'Mute'
-    TabOrder = 12
-    OnClick = ChecMicMuteBoxClick
   end
   object CheckDND: TCheckBox
     Left = 254
@@ -383,7 +349,7 @@ object Form4: TForm4
     Width = 97
     Height = 17
     Caption = 'Do not disturbe'
-    TabOrder = 13
+    TabOrder = 11
   end
   object CheckAA: TCheckBox
     Left = 254
@@ -391,7 +357,7 @@ object Form4: TForm4
     Width = 97
     Height = 17
     Caption = 'Auto Answer'
-    TabOrder = 14
+    TabOrder = 12
   end
   object HungUpBtn: TButton
     Left = 315
@@ -399,7 +365,7 @@ object Form4: TForm4
     Width = 153
     Height = 25
     Caption = 'Hung up'
-    TabOrder = 15
+    TabOrder = 13
     OnClick = HungUpBtnClick
   end
   object ConferenceCheckbox: TCheckBox
@@ -408,7 +374,7 @@ object Form4: TForm4
     Width = 97
     Height = 17
     Caption = 'Conference'
-    TabOrder = 16
+    TabOrder = 14
   end
   object HoldBtn: TButton
     Left = 315
@@ -416,7 +382,7 @@ object Form4: TForm4
     Width = 72
     Height = 25
     Caption = 'Hold'
-    TabOrder = 17
+    TabOrder = 15
     OnClick = HoldBtnClick
   end
   object UnHoldBtn: TButton
@@ -425,7 +391,7 @@ object Form4: TForm4
     Width = 75
     Height = 25
     Caption = 'UnHold'
-    TabOrder = 18
+    TabOrder = 16
     OnClick = UnHoldBtnClick
   end
   object ListBox1: TListBox
@@ -441,7 +407,7 @@ object Form4: TForm4
     Font.Style = []
     ItemHeight = 30
     ParentFont = False
-    TabOrder = 19
+    TabOrder = 17
     OnClick = ListBox1Click
   end
 end

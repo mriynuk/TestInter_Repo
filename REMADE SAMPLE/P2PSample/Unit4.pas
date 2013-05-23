@@ -6,7 +6,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, PortSIPConsts, PortSIPCore,  StdCtrls, ExtCtrls, ComCtrls,
    winsock, unit2, unit3, filectrl, shellapi, IniFiles, Vcl.Buttons,
-  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage;
+  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage, MMSystem, Vcl.Menus;
 
 const
   WM_MSG_BASE                 = WM_APP + 1;
@@ -121,6 +121,9 @@ type
     SpLine8: TSpeedButton;
     ImageSpeaker: TImage;
     ImageMic: TImage;
+    PopupMenuMic: TPopupMenu;
+    PopupMenuSpeak: TPopupMenu;
+    dss1: TMenuItem;
     procedure IniBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure UnIniBtnClick(Sender: TObject);
@@ -145,8 +148,12 @@ type
     procedure SpLine7Click(Sender: TObject);
     procedure SpLine8Click(Sender: TObject);
     procedure ConSpBtnClick(Sender: TObject);
-    procedure ImageMicClick(Sender: TObject);
-    procedure ImageSpeakerClick(Sender: TObject);
+//    procedure ImageMicClick(Sender: TObject);
+//    procedure ImageSpeakerClick(Sender: TObject; Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure ImageSpeakerMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
+    procedure ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
 
 
 
@@ -634,7 +641,6 @@ begin
   begin
     Exit;
   end;
-
    if (CurrentLine = 2) then Exit else
   CurrentLine:=2;
 
@@ -643,8 +649,6 @@ begin
       CurrentLine := 2;
       Exit;
     end;
-
-
   if ((Sessions[CurrentLine].GetSessionState()=True) and (Sessions[CurrentLine].GetHoldState()=False)) then
   begin
     PortSIP_hold(PortSIPHandle, Sessions[CurrentLine].GetSessionID());
@@ -995,7 +999,7 @@ end;
 
 procedure TForm4.HoldBtnClick(Sender: TObject);
 var
-  Text : string;
+  Text,Path : string;
 begin
    if (Initialized = False) then
    begin
@@ -1015,6 +1019,8 @@ begin
     Text := Text + IntToStr(Currentline);
     Text := Text + ' : hold';
     ListBoxLog.Lines.Add(Text);
+
+
 end;
 
 procedure TForm4.HungUpBtnClick(Sender: TObject);
@@ -1096,8 +1102,22 @@ end;
 
 
 procedure TForm4.ClearBtnClick(Sender: TObject);
+var
+Path23:string;
 begin
     ListBoxLog.Clear;
+//    PlaySound(PChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'), 0, SND_SYNC);
+//    PlaySound(PChar('m:\OldPhone.wav'), 0, SND_SYNC);
+//   Path := ExtractFilePath(Application.ExeName) + 'OldPhone.wav';
+
+   Path23 :='m:\OldPhone.wav';
+  SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
+
+
+
+//    sndPlaySound(PWideChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'),
+//    SND_NODEFAULT Or SND_ASYNC Or SND_LOOP);
+
 end;
 
 procedure TForm4.ComboBoxLinesChange(Sender: TObject);
@@ -1218,6 +1238,9 @@ begin
   EventHandle := 0;
   UserFile.Free;
   AudioVideoSettingsFile.Free;
+
+   PortSIP_muteSpeaker(PortSIPHandle, false);
+   PortSIP_muteMicrophone(PortSIPHandle, false);
 end;
 
 procedure TForm4.FormCreate(Sender: TObject);
@@ -1237,6 +1260,7 @@ const SIPPORT_MIN : integer = 8000;
     UserDomain : String;
     DisplayName : String;
     AuthName : String;
+    SmallStr: string;
     LocalSIPPort : integer;
 
     SIPServerPort : integer;
@@ -1247,6 +1271,8 @@ const SIPPORT_MIN : integer = 8000;
     transport : integer;
     SRTPPolicy : integer;
     ErrorCode : integer;
+
+    counterForLoop:integer;
 begin
     Randomize;
     Text :=  'This sample was built base on evaluation PortSIP VoIP SDK, which allows only three minutes conversation. The conversation will be cut off ';
@@ -1377,7 +1403,15 @@ begin
   SpLine1.Down:=True;
 
   MicMute:=False;
+  PortSIP_muteMicrophone(PortSIPHandle, false);
   SpeakerMute:=False;
+  PortSIP_muteSpeaker(PortSIPHandle, false);
+
+  ComboBoxSpeaker.Width:=-1;
+  ComboBoxMicrophone.Width:=-1;
+
+ for counterForLoop := 0 to ComboBoxMicrophone.Items.Count do
+   PopupMenuMic.Items.Caption:=ComboBoxMicrophone.Items[counterForLoop];
 end;
 
 procedure TForm4.TrackBarMicrophoneChange(Sender: TObject);
@@ -2062,9 +2096,33 @@ begin
       end;
 end;
 
-procedure TForm4.ImageMicClick(Sender: TObject);
+//procedure TForm4.ImageMicClick(Sender: TObject);
+//begin
+//if (Initialized = False) then
+//  begin
+//    Exit;
+//  end;
+//  if MicMute = False then
+//  begin
+//    PortSIP_muteMicrophone(PortSIPHandle, true);
+//    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
+//    MicMute:=True;
+//  end
+//  else
+//  begin
+//    PortSIP_muteMicrophone(PortSIPHandle, false);
+//    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
+//    MicMute:=False;
+//  end;
+//end;
+
+procedure TForm4.ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 begin
-if (Initialized = False) then
+
+if Button=mbLeft then
+begin
+  if (Initialized = False) then
   begin
     Exit;
   end;
@@ -2080,14 +2138,24 @@ if (Initialized = False) then
     ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.png');
     MicMute:=False;
   end;
+end else begin
+  ComboBoxMicrophone.Width:=150;
+  ImageMic.PopupMenu.Popup(0,0);
 end;
 
-procedure TForm4.ImageSpeakerClick(Sender: TObject);
+
+end;
+
+procedure TForm4.ImageSpeakerMouseDown(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 begin
-  if (Initialized = False) then
+ if (Initialized = False) then
   begin
     Exit;
   end;
+
+ if Button=mbLeft then
+ begin
 
   if SpeakerMute = False then
   begin
@@ -2101,6 +2169,8 @@ begin
     ImageSpeaker.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'speaker.png');
     SpeakerMute:=False;
   end;
+ end else
+    ComboBoxSpeaker.Width:=150;
 end;
 
 procedure TForm4.IniBtnClick(Sender: TObject);

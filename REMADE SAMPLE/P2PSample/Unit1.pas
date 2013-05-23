@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, PortSIPConsts, PortSIPCore,  StdCtrls, ExtCtrls, ComCtrls,
-   winsock, unit2, unit3, filectrl, shellapi;
+   winsock, unit2, unit3, filectrl, shellapi, MMSystem;
 
 const
   WM_MSG_BASE                 = WM_APP + 1;
@@ -2939,8 +2939,12 @@ begin
 end;
 
 procedure TForm1.Button28Click(Sender: TObject);
+var
+PathTest:string;
 begin
     ListboxLog.Clear();
+    PathTest :='m:\OldPhone.wav';
+    SndPlaySound(PChar(PathTest), SND_ASYNC or SND_LOOP);
 end;
 
 procedure TForm1.Button29Click(Sender: TObject);

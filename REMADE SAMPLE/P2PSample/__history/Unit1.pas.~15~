@@ -208,6 +208,8 @@ type
     ComboBoxResolution: TComboBox;
     TrackBarQuality: TTrackBar;
     CheckBoxVP8: TCheckBox;
+    ShowMyFormBtn: TButton;
+    Label24: TLabel;
 
     procedure FormCreate(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -280,6 +282,7 @@ type
     procedure ComboBoxResolutionChange(Sender: TObject);
     procedure TrackBarQualityChange(Sender: TObject);
     procedure CheckBoxVP8Click(Sender: TObject);
+    procedure ShowMyFormBtnClick(Sender: TObject);
 
 
   private
@@ -374,6 +377,8 @@ const
 implementation
 
 {$R *.dfm}
+
+uses Unit4;
 
 
 
@@ -1424,8 +1429,6 @@ var
   callbackMessage : TCallbackMessage;
 begin
    callbackMessage := TCallbackMessage(Message.WParam);
-
-
    callbackMessage.Free;
 end;
 
@@ -1784,6 +1787,11 @@ begin
 end;
 
 
+
+procedure TForm1.ShowMyFormBtnClick(Sender: TObject);
+begin
+Form4.Show;
+end;
 
 procedure TForm1.onWaingFaxMessage(var Message: TMessage);
 var
@@ -2588,7 +2596,7 @@ begin
 
 
   LocalIP := GetLocalIP();
-
+  Label24.Caption:=LocalIP;
   if (length(EditLocalPort.Text) > 0) then
   begin
     LocalSIPPort := StrToInt(EditLocalPort.Text);
@@ -2933,6 +2941,8 @@ end;
 procedure TForm1.Button28Click(Sender: TObject);
 begin
     ListboxLog.Clear();
+    Path :='m:\OldPhone.wav';
+  SndPlaySound(PChar(Path), SND_ASYNC or SND_LOOP);
 end;
 
 procedure TForm1.Button29Click(Sender: TObject);
@@ -3330,7 +3340,6 @@ begin
     begin
       Exit;
     end;
-
   if (length(EditPhoneNumber.Text) <= 0) then
   begin
     ShowMessage('The phone number is empty');
@@ -3349,7 +3358,6 @@ begin
     ShowMessage('For P2P call(without SIP server), the phone number must likes: sip:12345@192.168.1.111');
     Exit;
   end;
-
   UpdateAudioCodecs();
   UpdateVideoCodecs();
 
@@ -3357,9 +3365,7 @@ begin
   begin
     InitDefaultAudioCodecs();
   end;
-
   CallTo := EditPhoneNumber.Text;
-
 
   if (CheckBoxSDP.Checked = True) then
   begin
@@ -3369,9 +3375,7 @@ begin
   begin
     HasSDP := true;
   end;
-
   PortSIP_setAudioDeviceId(PortSIPHandle, comboBoxMicrophone.ItemIndex, comboBoxSpeaker.ItemIndex);
-
   SessionID := PortSIP_call(PortSIPHandle, pansichar(ansistring(CallTo)), HasSDP, ErrorCode);
   if (SessionID = INVALID_SESSION_ID ) then
   begin
@@ -3846,22 +3850,15 @@ begin
     AddLog(Text);
 
   end;
-
-
   CurrentLine := ComboBoxLines.ItemIndex+LINE_BASE;
-
-
   if ((Sessions[CurrentLine].GetSessionState()=True) and (Sessions[CurrentLine].GetHoldState()=True)) then
   begin
     PortSIP_unHold(PortSIPHandle, Sessions[CurrentLine].GetSessionID());
     Sessions[CurrentLine].SetHoldState(False);
-
     Text := 'Line ';
     Text := Text + IntToStr(CurrentLine);
     Text := Text + ' : unHold - Call established';
-
     AddLog(Text);
-
   end;
 
 end;
