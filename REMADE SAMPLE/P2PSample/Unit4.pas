@@ -149,6 +149,7 @@ type
     procedure SpLine7Click(Sender: TObject);
     procedure SpLine8Click(Sender: TObject);
     procedure ConSpBtnClick(Sender: TObject);
+    procedure ImageMicClick(Sender: TObject);
 
 
 
@@ -180,7 +181,7 @@ type
 
 var
   Form4: TForm4;
-  Initialized : Boolean;
+  Initialized, MicMute, SpeakerMute : Boolean;
   PortSIPHandle : THandle;
   EventHandle : THandle;
   CurrentLine : integer;
@@ -1408,6 +1409,8 @@ begin
   ListBoxLog.Lines.Add('Ready.');
   SpLine1.Down:=True;
 
+  MicMute:=False;
+  SpeakerMute:=False;
 end;
 
 procedure TForm4.TrackBarMicrophoneChange(Sender: TObject);
@@ -2090,6 +2093,27 @@ begin
         Text := Text + ' : Answer call failed!';
         ListBoxLog.Lines.Add(Text);
       end;
+end;
+
+procedure TForm4.ImageMicClick(Sender: TObject);
+begin
+if (Initialized = False) then
+  begin
+    Exit;
+  end;
+
+  if MicMute = False then
+  begin
+    PortSIP_muteMicrophone(PortSIPHandle, true);
+    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
+    MicMute:=True;
+  end
+  else
+  begin
+    PortSIP_muteMicrophone(PortSIPHandle, false);
+    ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2.jpg');
+    MicMute:=False;
+  end;
 end;
 
 procedure TForm4.IniBtnClick(Sender: TObject);

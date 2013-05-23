@@ -5,7 +5,8 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, PortSIPConsts, PortSIPCore,  StdCtrls, ExtCtrls, ComCtrls,
-   winsock, unit2, unit3, filectrl, shellapi, IniFiles, Vcl.Buttons;
+   winsock, unit2, unit3, filectrl, shellapi, IniFiles, Vcl.Buttons,
+  Vcl.Imaging.jpeg, Vcl.Imaging.pngimage;
 
 const
   WM_MSG_BASE                 = WM_APP + 1;
@@ -92,13 +93,9 @@ type
     ComboBoxMicrophone: TComboBox;
     TrackBarSpeaker: TTrackBar;
     TrackBarMicrophone: TTrackBar;
-    Label1: TLabel;
-    Label2: TLabel;
     ComboBoxLines: TComboBox;
     Label3: TLabel;
     Label4: TLabel;
-    EditLocalPort: TEdit;
-    Label5: TLabel;
     ClearBtn: TButton;
     CallBtn: TButton;
     AnswBtn: TButton;
@@ -124,6 +121,8 @@ type
     SpLine7: TSpeedButton;
     SpLine8: TSpeedButton;
     SpMute: TSpeedButton;
+    ImageSpeaker: TImage;
+    ImageMic: TImage;
     procedure IniBtnClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure UnIniBtnClick(Sender: TObject);
@@ -150,6 +149,7 @@ type
     procedure SpLine7Click(Sender: TObject);
     procedure SpLine8Click(Sender: TObject);
     procedure ConSpBtnClick(Sender: TObject);
+    procedure ImageMicClick(Sender: TObject);
 
 
 
@@ -1176,8 +1176,8 @@ begin
 
     if ConSpBtn.Down = True then
     begin
-      if (PortSIP_createConference(PortSIPHandle, nil, nil, false) = 0)  then
-        begin
+//      if (PortSIP_createConference(PortSIPHandle, RemoteVideo.Handle, resolution, false) = 0)  then
+//        begin
           ListBoxLog.Lines.Add('Make conference succeeded');
           for i := LINE_BASE to MAXLINE do
           begin
@@ -1186,12 +1186,12 @@ begin
               JoinConference(i);
             end;
           end;
-        end
-      else
-        begin
-          ListBoxLog.Lines.Add('Make conference failed.');
-          ConSpBtn.Down:= False;
-        end;
+//        end
+//      else
+//        begin
+//          ListBoxLog.Lines.Add('Make conference failed.');
+//          ConSpBtn.Down:= False;
+//        end;
 
       Exit;
     end
@@ -1258,7 +1258,7 @@ procedure TForm4.FormCreate(Sender: TObject);
 const SIPPORT_MIN : integer = 8000;
  var
     Text : string;
-    i,j : integer;
+    i,j,k : integer;
     FilePath, FileLine, PartLine: string;
     LocalIP : String;
     UserName : String;
@@ -1323,15 +1323,17 @@ begin
   LocalIP := GetLocalIP();
   Label4.Caption:='Your IP: '+GetLocalIP();
 
-  if (length(EditLocalPort.Text) > 0) then
-  begin
-    LocalSIPPort := StrToInt(EditLocalPort.Text);
-  end
-  else
-  begin
-     ShowMessage('Please enter local SIP port');
-    Exit;
-  end;
+  LocalSIPPort := 6012;
+
+//  if (length(EditLocalPort.Text) > 0) then
+//  begin
+//    LocalSIPPort := StrToInt(EditLocalPort.Text);
+//  end
+//  else
+//  begin
+//     ShowMessage('Please enter local SIP port');
+//    Exit;
+//  end;
 
   UserName := 'Michael';
   Password := 'aaa';
@@ -2091,6 +2093,24 @@ begin
       end;
 end;
 
+procedure TForm4.ImageMicClick(Sender: TObject);
+begin
+if (Initialized = False) then
+  begin
+    Exit;
+  end;
+  if (SpMute.Down = True) then
+  begin
+    PortSIP_muteMicrophone(PortSIPHandle, true);
+  end
+  else
+  begin
+    PortSIP_muteMicrophone(PortSIPHandle, false);
+  end;
+
+  ImageMic.Picture.LoadFromFile(ExtractFilePath(Application.ExeName) + 'microphone2mute.jpg');
+end;
+
 procedure TForm4.IniBtnClick(Sender: TObject);
 
 const SIPPORT_MIN : integer = 8000;
@@ -2129,15 +2149,15 @@ begin
   LocalIP := GetLocalIP();
   Label4.Caption:='Your IP: '+GetLocalIP();
 
-  if (length(EditLocalPort.Text) > 0) then
-  begin
-    LocalSIPPort := StrToInt(EditLocalPort.Text);
-  end
-  else
-  begin
-     ShowMessage('Please enter local SIP port');
-    Exit;
-  end;
+//  if (length(EditLocalPort.Text) > 0) then
+//  begin
+//    LocalSIPPort := StrToInt(EditLocalPort.Text);
+//  end
+//  else
+//  begin
+//     ShowMessage('Please enter local SIP port');
+//    Exit;
+//  end;
 
   UserName := 'Michael';
   Password := 'aaa';
