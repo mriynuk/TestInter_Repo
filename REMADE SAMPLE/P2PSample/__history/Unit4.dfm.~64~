@@ -1,0 +1,373 @@
+object Form4: TForm4
+  Left = 540
+  Top = 263
+  BorderStyle = bsSingle
+  Caption = 'SIP P2P Test Client'
+  ClientHeight = 432
+  ClientWidth = 694
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesigned
+  OnClose = FormClose
+  OnCreate = FormCreate
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Label1: TLabel
+    Left = 254
+    Top = 58
+    Width = 55
+    Height = 13
+    Caption = 'Microphone'
+  end
+  object Label2: TLabel
+    Left = 254
+    Top = 31
+    Width = 39
+    Height = 13
+    Caption = 'Speaker'
+  end
+  object Label3: TLabel
+    Left = 481
+    Top = 100
+    Width = 28
+    Height = 13
+    Caption = 'Lines:'
+  end
+  object Label4: TLabel
+    Left = 481
+    Top = 181
+    Width = 29
+    Height = 13
+  end
+  object Label5: TLabel
+    Left = 254
+    Top = 372
+    Width = 44
+    Height = 13
+    Caption = 'LocalPort'
+  end
+  object Label6: TLabel
+    Left = 0
+    Top = 8
+    Width = 41
+    Height = 16
+    Caption = 'Users :'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object CallLabel: TLabel
+    Left = 254
+    Top = 8
+    Width = 51
+    Height = 16
+    Caption = 'CallLabel'
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clRed
+    Font.Height = -13
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+  end
+  object DNDSpBtn: TSpeedButton
+    Left = 357
+    Top = 307
+    Width = 101
+    Height = 22
+    Cursor = crHandPoint
+    AllowAllUp = True
+    GroupIndex = 1
+    Caption = 'Do not disturbe'
+    Layout = blGlyphBottom
+    OnClick = DNDSpBtnClick
+  end
+  object AASpBtn: TSpeedButton
+    Left = 357
+    Top = 335
+    Width = 101
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 2
+    Caption = 'Auto Answer'
+  end
+  object ConSpBtn: TSpeedButton
+    Left = 357
+    Top = 363
+    Width = 101
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 3
+    Caption = 'Conference'
+  end
+  object SpLine1: TSpeedButton
+    Left = 0
+    Top = 409
+    Width = 81
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 9
+    Caption = 'L1'
+  end
+  object SpLine2: TSpeedButton
+    Left = 87
+    Top = 409
+    Width = 81
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 9
+    Caption = 'L2'
+  end
+  object SpLine3: TSpeedButton
+    Left = 174
+    Top = 409
+    Width = 81
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 9
+    Caption = 'L3'
+  end
+  object SpLine4: TSpeedButton
+    Left = 261
+    Top = 409
+    Width = 81
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 9
+    Caption = 'L4'
+  end
+  object SpLine5: TSpeedButton
+    Left = 348
+    Top = 409
+    Width = 81
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 9
+    Caption = 'L5'
+  end
+  object SpLine6: TSpeedButton
+    Left = 435
+    Top = 409
+    Width = 81
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 9
+    Caption = 'L6'
+  end
+  object SpLine7: TSpeedButton
+    Left = 522
+    Top = 409
+    Width = 81
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 9
+    Caption = 'L7'
+  end
+  object SpLine8: TSpeedButton
+    Left = 609
+    Top = 409
+    Width = 81
+    Height = 22
+    AllowAllUp = True
+    GroupIndex = 9
+    Caption = 'L8'
+  end
+  object ListBoxLog: TMemo
+    Left = 481
+    Top = 200
+    Width = 209
+    Height = 212
+    ReadOnly = True
+    TabOrder = 0
+  end
+  object IniBtn: TButton
+    Left = 481
+    Top = 146
+    Width = 105
+    Height = 25
+    Caption = 'Initialize'
+    TabOrder = 1
+    OnClick = IniBtnClick
+  end
+  object UnIniBtn: TButton
+    Left = 600
+    Top = 146
+    Width = 90
+    Height = 25
+    Caption = 'Uninitialize'
+    TabOrder = 2
+    OnClick = UnIniBtnClick
+  end
+  object ComboBoxSpeaker: TComboBox
+    Left = 481
+    Top = 7
+    Width = 201
+    Height = 21
+    Style = csDropDownList
+    TabOrder = 3
+  end
+  object ComboBoxMicrophone: TComboBox
+    Left = 481
+    Top = 28
+    Width = 201
+    Height = 21
+    Style = csDropDownList
+    TabOrder = 4
+  end
+  object TrackBarSpeaker: TTrackBar
+    Left = 304
+    Top = 31
+    Width = 154
+    Height = 18
+    Max = 255
+    Frequency = 10
+    TabOrder = 5
+    OnChange = TrackBarSpeakerChange
+  end
+  object TrackBarMicrophone: TTrackBar
+    Left = 304
+    Top = 61
+    Width = 154
+    Height = 18
+    Max = 255
+    Frequency = 100
+    TabOrder = 6
+    OnChange = TrackBarMicrophoneChange
+  end
+  object ComboBoxLines: TComboBox
+    Left = 481
+    Top = 119
+    Width = 201
+    Height = 21
+    Style = csDropDownList
+    TabOrder = 7
+    OnChange = ComboBoxLinesChange
+    Items.Strings = (
+      'LINE-1'
+      'LINE-2'
+      'LINE-3'
+      'LINE-4'
+      'LINE-5'
+      'LINE-6'
+      'LINE-7'
+      'LINE-8')
+  end
+  object EditLocalPort: TEdit
+    Left = 254
+    Top = 391
+    Width = 204
+    Height = 21
+    TabOrder = 8
+    Text = '5060'
+  end
+  object ClearBtn: TButton
+    Left = 615
+    Top = 177
+    Width = 75
+    Height = 25
+    Caption = 'Clear Log'
+    TabOrder = 9
+    OnClick = ClearBtnClick
+  end
+  object CallBtn: TButton
+    Left = 274
+    Top = 100
+    Width = 153
+    Height = 110
+    Caption = 'Call'
+    TabOrder = 10
+    OnClick = CallBtnClick
+  end
+  object AnswBtn: TButton
+    Left = 274
+    Top = 216
+    Width = 153
+    Height = 25
+    Caption = 'Answer'
+    TabOrder = 11
+    OnClick = AnswBtnClick
+  end
+  object ChecMicMuteBox: TCheckBox
+    Left = 254
+    Top = 77
+    Width = 55
+    Height = 17
+    Caption = 'Mute'
+    TabOrder = 12
+    OnClick = ChecMicMuteBoxClick
+  end
+  object CheckDND: TCheckBox
+    Left = 254
+    Top = 303
+    Width = 97
+    Height = 17
+    Caption = 'Do not disturbe'
+    TabOrder = 13
+  end
+  object CheckAA: TCheckBox
+    Left = 254
+    Top = 326
+    Width = 97
+    Height = 17
+    Caption = 'Auto Answer'
+    TabOrder = 14
+  end
+  object HungUpBtn: TButton
+    Left = 274
+    Top = 247
+    Width = 153
+    Height = 25
+    Caption = 'Hung up'
+    TabOrder = 15
+    OnClick = HungUpBtnClick
+  end
+  object ConferenceCheckbox: TCheckBox
+    Left = 254
+    Top = 349
+    Width = 97
+    Height = 17
+    Caption = 'Conference'
+    TabOrder = 16
+  end
+  object HoldBtn: TButton
+    Left = 274
+    Top = 272
+    Width = 75
+    Height = 25
+    Caption = 'Hold'
+    TabOrder = 17
+    OnClick = HoldBtnClick
+  end
+  object UnHoldBtn: TButton
+    Left = 352
+    Top = 272
+    Width = 75
+    Height = 25
+    Caption = 'UnHold'
+    TabOrder = 18
+    OnClick = UnHoldBtnClick
+  end
+  object ListBox1: TListBox
+    Left = 0
+    Top = 22
+    Width = 248
+    Height = 390
+    Style = lbOwnerDrawVariable
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clWindowText
+    Font.Height = -21
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ItemHeight = 30
+    ParentFont = False
+    TabOrder = 19
+    OnClick = ListBox1Click
+  end
+end
