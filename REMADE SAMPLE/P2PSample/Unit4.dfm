@@ -92,7 +92,6 @@ object Form4: TForm4
     Top = 424
     Width = 81
     Height = 22
-    AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 1'
     OnClick = SpLine1Click
@@ -102,7 +101,6 @@ object Form4: TForm4
     Top = 424
     Width = 81
     Height = 22
-    AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 2'
     OnClick = SpLine2Click
@@ -112,7 +110,6 @@ object Form4: TForm4
     Top = 424
     Width = 81
     Height = 22
-    AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 3'
     OnClick = SpLine3Click
@@ -122,7 +119,6 @@ object Form4: TForm4
     Top = 424
     Width = 81
     Height = 22
-    AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 4'
     OnClick = SpLine4Click
@@ -132,7 +128,6 @@ object Form4: TForm4
     Top = 424
     Width = 81
     Height = 22
-    AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 5'
     OnClick = SpLine5Click
@@ -142,7 +137,6 @@ object Form4: TForm4
     Top = 424
     Width = 81
     Height = 22
-    AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 6'
     OnClick = SpLine6Click
@@ -152,7 +146,6 @@ object Form4: TForm4
     Top = 424
     Width = 81
     Height = 22
-    AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 7'
     OnClick = SpLine7Click
@@ -162,7 +155,6 @@ object Form4: TForm4
     Top = 424
     Width = 81
     Height = 22
-    AllowAllUp = True
     GroupIndex = 9
     Caption = 'Line 8'
     OnClick = SpLine8Click
