@@ -117,6 +117,7 @@ type
     PopupMenuSpeak: TPopupMenu;
     PlayFileEdit: TEdit;
     PlayFileBtn: TButton;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -434,7 +435,6 @@ begin
   begin
     PortSIP_rejectCall(PortSIPHandle, callbackMessage.sessionId, 486, 'Busy here');
     Sessions[i].Reset;
-
     ListboxLog.Lines.Add(Format('Rejected the call by DND on line : %d', [i]));
     Exit;
   end;
@@ -452,14 +452,14 @@ begin
 
   if (needIgnoreAutoAnswer=false) and (AASpBtn.Down=true) then
   begin
-    Sessions[i].SetRecvCallState(false);
-    Sessions[i].SetSessionState(true);
-
+    for i := 1 to 8 do
+      begin
+      Sessions[i].SetRecvCallState(false);
+      Sessions[i].SetSessionState(true);
 //    PortSIP_setRemoteVideoWindow(PortSIPHandle, Sessions[CurrentLine].GetSessionID(), remoteVideo.Handle);
-
-    PortSIP_answerCall(PortSIPHandle, Sessions[i].GetSessionID);
-
-    ListboxLog.Lines.Add(Format('Answered the call automatically on line %d ', [i]));
+      PortSIP_answerCall(PortSIPHandle, Sessions[i].GetSessionID);
+      ListboxLog.Lines.Add(Format('Answered the call automatically on line %d ', [i]));
+    end;
     Exit;
 
   end;
@@ -1321,13 +1321,11 @@ begin
     ShowMessage('Please initialize the SDK first.');
     Exit;
   end;
-
   if (length(PlayFileEdit.Text) = 0) then
   begin
     ShowMessage('The play file is empty.');
     Exit;
   end;
-
   PlayFile := PlayFileEdit.Text;
   PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
                                   Sessions[CurrentLine].GetSessionID(),
@@ -1936,6 +1934,7 @@ begin
     SIPEV_setRecvBinaryMessageHandler(Eventhandle, RecvBinaryMessage, nil);
     SIPEV_setRecvBinaryPagerMessageHandler(Eventhandle, RecvBinaryPagerMessage, nil);
 end;
+
 
 procedure TForm4.AnswBtnClick(Sender: TObject);
 var

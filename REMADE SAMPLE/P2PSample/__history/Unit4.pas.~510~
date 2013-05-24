@@ -117,6 +117,7 @@ type
     PopupMenuSpeak: TPopupMenu;
     PlayFileEdit: TEdit;
     PlayFileBtn: TButton;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -1312,7 +1313,6 @@ begin
   result := 0;
 end;
 
-
 procedure TForm4.PlayFileBtnClick(Sender: TObject);
 var
   PlayFile : String;
@@ -1322,13 +1322,11 @@ begin
     ShowMessage('Please initialize the SDK first.');
     Exit;
   end;
-
   if (length(PlayFileEdit.Text) = 0) then
   begin
     ShowMessage('The play file is empty.');
     Exit;
   end;
-
   PlayFile := PlayFileEdit.Text;
   PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
                                   Sessions[CurrentLine].GetSessionID(),

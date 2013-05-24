@@ -32,7 +32,7 @@ object Form4: TForm4
   end
   object CallLabel: TLabel
     Left = 254
-    Top = 96
+    Top = 50
     Width = 51
     Height = 16
     Caption = 'CallLabel'
@@ -217,13 +217,6 @@ object Form4: TForm4
     PopupMenu = PopupMenuMic
     OnMouseDown = ImageMicMouseDown
   end
-  object Label111: TLabel
-    Left = 0
-    Top = 30
-    Width = 43
-    Height = 13
-    Caption = 'Label111'
-  end
   object ListBoxLog: TMemo
     Left = 431
     Top = 191
@@ -347,6 +340,30 @@ object Form4: TForm4
     ParentFont = False
     TabOrder = 11
     OnClick = ListBox1Click
+  end
+  object PlayFileEdit: TEdit
+    Left = 431
+    Top = 72
+    Width = 259
+    Height = 21
+    TabOrder = 12
+  end
+  object PlayFileBtn: TButton
+    Left = 431
+    Top = 99
+    Width = 259
+    Height = 25
+    Caption = 'Play file to remote'
+    TabOrder = 13
+    OnClick = PlayFileBtnClick
+  end
+  object Button1: TButton
+    Left = 431
+    Top = 129
+    Width = 259
+    Height = 25
+    Caption = 'Button1'
+    TabOrder = 14
   end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
