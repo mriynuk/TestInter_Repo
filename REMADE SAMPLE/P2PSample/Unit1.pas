@@ -1029,10 +1029,7 @@ begin
   callbackMessage := TCallbackMessage.Create;
   callbackMessage.sessionId := sessionId;
   callbackMessage.filePathName := string(filePathName);
-
-
   PostMessage(Form1.Handle, WM_PLAYWAVEFILE_FINISHED, NativeUInt(callbackMessage), 0);  // NativeUInt is for the new x64-compilers. All compilers before use integer
-
   result := 0;
 end;
 
@@ -3066,7 +3063,6 @@ begin
     Exit;
   end;
 
-
   if (length(EditPlayWaveFileName.Text) = 0) then
   begin
     ShowMessage('The play file is empty.');
@@ -3082,7 +3078,6 @@ begin
                                   16000,
                                   0,
                                   PlayWaveFileToRemoteFinished);
-
 
 end;
 

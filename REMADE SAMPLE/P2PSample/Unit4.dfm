@@ -341,6 +341,22 @@ object Form4: TForm4
     TabOrder = 11
     OnClick = ListBox1Click
   end
+  object PlayFileEdit: TEdit
+    Left = 431
+    Top = 72
+    Width = 259
+    Height = 21
+    TabOrder = 12
+  end
+  object PlayFileBtn: TButton
+    Left = 431
+    Top = 93
+    Width = 259
+    Height = 25
+    Caption = 'Play file to remote'
+    TabOrder = 13
+    OnClick = PlayFileBtnClick
+  end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
     AutoPopup = False

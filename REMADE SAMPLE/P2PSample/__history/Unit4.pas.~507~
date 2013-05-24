@@ -115,7 +115,8 @@ type
     ImageMic: TImage;
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
-    Label111: TLabel;
+    PlayFileEdit: TEdit;
+    PlayFileBtn: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -147,6 +148,7 @@ type
     procedure PopupSpeakerItemClick(Sender: TObject) ;
     procedure PopUpMenusInitialization();
     procedure InitialiseSDK();
+    procedure PlayFileBtnClick(Sender: TObject);
 
   private
   function GetLocalIP : string;
@@ -1025,16 +1027,6 @@ var
 Path23:string;
 begin
     ListBoxLog.Clear;
-//    PlaySound(PChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'), 0, SND_SYNC);
-//    PlaySound(PChar('m:\OldPhone.wav'), 0, SND_SYNC);
-//   Path := ExtractFilePath(Application.ExeName) + 'OldPhone.wav';
-
-   Path23 :=ExtractFilePath(Application.ExeName)+'OldPhone.wav';
-   SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
-
-//    sndPlaySound(PWideChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'),
-//    SND_NODEFAULT Or SND_ASYNC Or SND_LOOP);
-
 end;
 
 procedure TForm4.ComboBoxMicrophoneChange(Sender: TObject);
@@ -1230,7 +1222,7 @@ begin
     ListBox1.Items.Add(PartLine);
     Inc(j);
   Until PartLine = '';
-
+    ListBox1.Items[j-2]:='========';
    if (Initialized = True) then
   begin
     ShowMessage('alreay logged in');
@@ -1252,7 +1244,7 @@ begin
   STUNServerPort := 0;
   transport := TRANSPORT_UDP;
  createCallbackHandler();
-  Label111.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
+  Form4.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
   PortSIPHandle := PortSIP_initialize(EventHandle,
                         transport,
                         PORTSIP_LOG_NONE,
@@ -1309,6 +1301,45 @@ begin
   ListBoxLog.Lines.Add('Ready.');
   SpLine1.Down:=True;
 end;
+function PlayWaveFileToRemoteFinished(obj:Pointer; sessionID:integer; filePathName:PAnsiChar):integer; stdcall;
+var
+  callbackMessage: TCallbackMessage;
+begin
+  callbackMessage := TCallbackMessage.Create;
+  callbackMessage.sessionId := sessionId;
+  callbackMessage.filePathName := string(filePathName);
+  PostMessage(Form4.Handle, WM_PLAYWAVEFILE_FINISHED, NativeUInt(callbackMessage), 0);  // NativeUInt is for the new x64-compilers. All compilers before use integer
+  result := 0;
+end;
+
+
+procedure TForm4.PlayFileBtnClick(Sender: TObject);
+var
+  PlayFile : String;
+begin
+  if (Initialized = False)  then
+  begin
+    ShowMessage('Please initialize the SDK first.');
+    Exit;
+  end;
+
+  if (length(PlayFileEdit.Text) = 0) then
+  begin
+    ShowMessage('The play file is empty.');
+    Exit;
+  end;
+
+  PlayFile := PlayFileEdit.Text;
+  PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
+                                  Sessions[CurrentLine].GetSessionID(),
+                                  pansichar(ansistring(PlayFile)),
+                                  true,
+                                  0,
+                                  16000,
+                                  0,
+                                  PlayWaveFileToRemoteFinished);
+end;
+
 procedure TForm4.PopUpMenusInitialization();
 var
   CounterForLoop:integer;
@@ -1359,7 +1390,6 @@ begin
   begin
     Exit;
   end;
-
   PortSIP_setSpeakerVolume(PortSIPHandle, TrackBarSpeaker.Position);
 end;
 

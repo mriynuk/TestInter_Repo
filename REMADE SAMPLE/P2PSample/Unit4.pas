@@ -115,6 +115,8 @@ type
     ImageMic: TImage;
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
+    PlayFileEdit: TEdit;
+    PlayFileBtn: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -146,6 +148,7 @@ type
     procedure PopupSpeakerItemClick(Sender: TObject) ;
     procedure PopUpMenusInitialization();
     procedure InitialiseSDK();
+    procedure PlayFileBtnClick(Sender: TObject);
 
   private
   function GetLocalIP : string;
@@ -1298,6 +1301,44 @@ begin
   ListBoxLog.Lines.Add('Ready.');
   SpLine1.Down:=True;
 end;
+function PlayWaveFileToRemoteFinished(obj:Pointer; sessionID:integer; filePathName:PAnsiChar):integer; stdcall;
+var
+  callbackMessage: TCallbackMessage;
+begin
+  callbackMessage := TCallbackMessage.Create;
+  callbackMessage.sessionId := sessionId;
+  callbackMessage.filePathName := string(filePathName);
+  PostMessage(Form4.Handle, WM_PLAYWAVEFILE_FINISHED, NativeUInt(callbackMessage), 0);  // NativeUInt is for the new x64-compilers. All compilers before use integer
+  result := 0;
+end;
+
+procedure TForm4.PlayFileBtnClick(Sender: TObject);
+var
+  PlayFile : String;
+begin
+  if (Initialized = False)  then
+  begin
+    ShowMessage('Please initialize the SDK first.');
+    Exit;
+  end;
+
+  if (length(PlayFileEdit.Text) = 0) then
+  begin
+    ShowMessage('The play file is empty.');
+    Exit;
+  end;
+
+  PlayFile := PlayFileEdit.Text;
+  PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
+                                  Sessions[CurrentLine].GetSessionID(),
+                                  pansichar(ansistring(PlayFile)),
+                                  true,
+                                  0,
+                                  16000,
+                                  0,
+                                  PlayWaveFileToRemoteFinished);
+end;
+
 procedure TForm4.PopUpMenusInitialization();
 var
   CounterForLoop:integer;

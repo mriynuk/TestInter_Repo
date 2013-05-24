@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, OleCtrls, PortSIPConsts, PortSIPCore,  StdCtrls, ExtCtrls, ComCtrls,
-   winsock, unit2, unit3, filectrl, shellapi;
+   winsock, unit2, unit3, filectrl, shellapi, MMSystem;
 
 const
   WM_MSG_BASE                 = WM_APP + 1;
@@ -1429,8 +1429,6 @@ var
   callbackMessage : TCallbackMessage;
 begin
    callbackMessage := TCallbackMessage(Message.WParam);
-
-
    callbackMessage.Free;
 end;
 
@@ -2941,8 +2939,12 @@ begin
 end;
 
 procedure TForm1.Button28Click(Sender: TObject);
+var
+PathTest:string;
 begin
     ListboxLog.Clear();
+    PathTest :='m:\OldPhone.wav';
+    SndPlaySound(PChar(PathTest), SND_ASYNC or SND_LOOP);
 end;
 
 procedure TForm1.Button29Click(Sender: TObject);
@@ -3064,7 +3066,6 @@ begin
     Exit;
   end;
 
-
   if (length(EditPlayWaveFileName.Text) = 0) then
   begin
     ShowMessage('The play file is empty.');
@@ -3080,7 +3081,6 @@ begin
                                   16000,
                                   0,
                                   PlayWaveFileToRemoteFinished);
-
 
 end;
 
@@ -3340,7 +3340,6 @@ begin
     begin
       Exit;
     end;
-
   if (length(EditPhoneNumber.Text) <= 0) then
   begin
     ShowMessage('The phone number is empty');
@@ -3359,7 +3358,6 @@ begin
     ShowMessage('For P2P call(without SIP server), the phone number must likes: sip:12345@192.168.1.111');
     Exit;
   end;
-
   UpdateAudioCodecs();
   UpdateVideoCodecs();
 
@@ -3367,9 +3365,7 @@ begin
   begin
     InitDefaultAudioCodecs();
   end;
-
   CallTo := EditPhoneNumber.Text;
-
 
   if (CheckBoxSDP.Checked = True) then
   begin
@@ -3379,9 +3375,7 @@ begin
   begin
     HasSDP := true;
   end;
-
   PortSIP_setAudioDeviceId(PortSIPHandle, comboBoxMicrophone.ItemIndex, comboBoxSpeaker.ItemIndex);
-
   SessionID := PortSIP_call(PortSIPHandle, pansichar(ansistring(CallTo)), HasSDP, ErrorCode);
   if (SessionID = INVALID_SESSION_ID ) then
   begin
@@ -3856,22 +3850,15 @@ begin
     AddLog(Text);
 
   end;
-
-
   CurrentLine := ComboBoxLines.ItemIndex+LINE_BASE;
-
-
   if ((Sessions[CurrentLine].GetSessionState()=True) and (Sessions[CurrentLine].GetHoldState()=True)) then
   begin
     PortSIP_unHold(PortSIPHandle, Sessions[CurrentLine].GetSessionID());
     Sessions[CurrentLine].SetHoldState(False);
-
     Text := 'Line ';
     Text := Text + IntToStr(CurrentLine);
     Text := Text + ' : unHold - Call established';
-
     AddLog(Text);
-
   end;
 
 end;
