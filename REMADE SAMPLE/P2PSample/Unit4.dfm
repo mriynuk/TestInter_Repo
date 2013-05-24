@@ -217,13 +217,6 @@ object Form4: TForm4
     PopupMenu = PopupMenuMic
     OnMouseDown = ImageMicMouseDown
   end
-  object Label111: TLabel
-    Left = 0
-    Top = 30
-    Width = 43
-    Height = 13
-    Caption = 'Label111'
-  end
   object ListBoxLog: TMemo
     Left = 431
     Top = 191

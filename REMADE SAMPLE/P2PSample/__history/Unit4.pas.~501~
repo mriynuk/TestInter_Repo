@@ -115,7 +115,6 @@ type
     ImageMic: TImage;
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
-    Label111: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -1025,16 +1024,6 @@ var
 Path23:string;
 begin
     ListBoxLog.Clear;
-//    PlaySound(PChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'), 0, SND_SYNC);
-//    PlaySound(PChar('m:\OldPhone.wav'), 0, SND_SYNC);
-//   Path := ExtractFilePath(Application.ExeName) + 'OldPhone.wav';
-
-   Path23 :=ExtractFilePath(Application.ExeName)+'OldPhone.wav';
-   SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
-
-//    sndPlaySound(PWideChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'),
-//    SND_NODEFAULT Or SND_ASYNC Or SND_LOOP);
-
 end;
 
 procedure TForm4.ComboBoxMicrophoneChange(Sender: TObject);
@@ -1230,6 +1219,7 @@ begin
     ListBox1.Items.Add(PartLine);
     Inc(j);
   Until PartLine = '';
+  ListBox1.Items.Free;
 
    if (Initialized = True) then
   begin
@@ -1252,7 +1242,7 @@ begin
   STUNServerPort := 0;
   transport := TRANSPORT_UDP;
  createCallbackHandler();
-  Label111.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
+  Form4.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
   PortSIPHandle := PortSIP_initialize(EventHandle,
                         transport,
                         PORTSIP_LOG_NONE,
@@ -1359,7 +1349,6 @@ begin
   begin
     Exit;
   end;
-
   PortSIP_setSpeakerVolume(PortSIPHandle, TrackBarSpeaker.Position);
 end;
 

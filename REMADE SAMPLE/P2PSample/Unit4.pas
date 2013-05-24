@@ -115,7 +115,6 @@ type
     ImageMic: TImage;
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
-    Label111: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -1220,7 +1219,7 @@ begin
     ListBox1.Items.Add(PartLine);
     Inc(j);
   Until PartLine = '';
-
+    ListBox1.Items[j-2]:='========';
    if (Initialized = True) then
   begin
     ShowMessage('alreay logged in');
@@ -1242,7 +1241,7 @@ begin
   STUNServerPort := 0;
   transport := TRANSPORT_UDP;
  createCallbackHandler();
-  Label111.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
+  Form4.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
   PortSIPHandle := PortSIP_initialize(EventHandle,
                         transport,
                         PORTSIP_LOG_NONE,
@@ -1349,7 +1348,6 @@ begin
   begin
     Exit;
   end;
-
   PortSIP_setSpeakerVolume(PortSIPHandle, TrackBarSpeaker.Position);
 end;
 

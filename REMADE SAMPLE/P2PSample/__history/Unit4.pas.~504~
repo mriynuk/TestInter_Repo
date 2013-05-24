@@ -115,7 +115,6 @@ type
     ImageMic: TImage;
     PopupMenuMic: TPopupMenu;
     PopupMenuSpeak: TPopupMenu;
-    Label111: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -403,7 +402,7 @@ var
   state : boolean;
   DND : boolean;
   needIgnoreAutoAnswer: boolean;
-
+  Path23 : string;
   s1 : boolean;
   s2 : boolean;
 begin
@@ -465,7 +464,8 @@ begin
   ListboxLog.Lines.Add(Format('Line %d : call incoming from %s <%s>', [i, callbackMessage.callerDispalyName, callbackMessage.caller]));
 
   //  You should write your own code to play the wav file here for alert the incoming call(incoming tone);
-
+   Path23 :=ExtractFilePath(Application.ExeName)+'OldPhone.wav';
+   SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
   callbackMessage.Free;
 end;
 
@@ -949,6 +949,7 @@ begin
     begin
       Exit;
     end;
+    SndPlaySound(nil,0);
     Text := 'Busy Here';
     if (Sessions[CurrentLine].GetRecvCallState() = True) then
     begin
@@ -1023,16 +1024,6 @@ var
 Path23:string;
 begin
     ListBoxLog.Clear;
-//    PlaySound(PChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'), 0, SND_SYNC);
-//    PlaySound(PChar('m:\OldPhone.wav'), 0, SND_SYNC);
-//   Path := ExtractFilePath(Application.ExeName) + 'OldPhone.wav';
-
-   Path23 :=ExtractFilePath(Application.ExeName)+'OldPhone.wav';
-   SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
-
-//    sndPlaySound(PWideChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'),
-//    SND_NODEFAULT Or SND_ASYNC Or SND_LOOP);
-
 end;
 
 procedure TForm4.ComboBoxMicrophoneChange(Sender: TObject);
@@ -1228,7 +1219,7 @@ begin
     ListBox1.Items.Add(PartLine);
     Inc(j);
   Until PartLine = '';
-
+    ListBox1.Items[j-1]:='========';
    if (Initialized = True) then
   begin
     ShowMessage('alreay logged in');
@@ -1250,7 +1241,7 @@ begin
   STUNServerPort := 0;
   transport := TRANSPORT_UDP;
  createCallbackHandler();
-  Label111.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
+  Form4.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
   PortSIPHandle := PortSIP_initialize(EventHandle,
                         transport,
                         PORTSIP_LOG_NONE,
@@ -1357,7 +1348,6 @@ begin
   begin
     Exit;
   end;
-
   PortSIP_setSpeakerVolume(PortSIPHandle, TrackBarSpeaker.Position);
 end;
 
@@ -1914,7 +1904,7 @@ begin
  begin
    Exit;
  end;
-
+ SndPlaySound(nil,0);
  if (Sessions[CurrentLine].GetRecvCallState() = False) then
  begin
    ShowMessage('Current line have not the incoming call, please switch a line.');
@@ -1937,8 +1927,6 @@ begin
    Text := Text + ' : Answer call failed!';
    ListBoxLog.Lines.Add(Text);
    end;
-
-   PlaySound(nil, SND_ASYNC or SND_LOOP);
 end;
 
 procedure TForm4.ImageMicMouseDown(Sender: TObject; Button: TMouseButton;
