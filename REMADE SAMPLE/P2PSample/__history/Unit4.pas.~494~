@@ -91,16 +91,10 @@ type
     ComboBoxMicrophone: TComboBox;
     TrackBarSpeaker: TTrackBar;
     TrackBarMicrophone: TTrackBar;
-    ComboBoxLines: TComboBox;
-    Label3: TLabel;
-    Label4: TLabel;
     ClearBtn: TButton;
     CallBtn: TButton;
     AnswBtn: TButton;
-    CheckDND: TCheckBox;
-    CheckAA: TCheckBox;
     HungUpBtn: TButton;
-    ConferenceCheckbox: TCheckBox;
     HoldBtn: TButton;
     UnHoldBtn: TButton;
     ListBox1: TListBox;
@@ -129,7 +123,6 @@ type
     procedure TrackBarSpeakerChange(Sender: TObject);
     procedure TrackBarMicrophoneChange(Sender: TObject);
     procedure HungUpBtnClick(Sender: TObject);
-    procedure ComboBoxLinesChange(Sender: TObject);
     procedure HoldBtnClick(Sender: TObject);
     procedure UnHoldBtnClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
@@ -315,11 +308,8 @@ begin
   begin
     Exit;
   end;
-
   Sessions[i].Reset;
-
   ListBoxLog.Lines.Add(Format('Line %d : call failed.', [i]));
-
   callbackMessage.Free;
 end;
 
@@ -393,9 +383,7 @@ begin
   Result:= '';
   GetHostName(Buffer, SizeOf(Buffer));
   phe:=GetHostByName(buffer);
-
   if phe = nil then Exit;
-
   pptr:= PaPInAddr(Phe^.h_addr_list);
   I:= 0;
 
@@ -415,30 +403,18 @@ var
   state : boolean;
   DND : boolean;
   needIgnoreAutoAnswer: boolean;
-
+  Path23 : string;
   s1 : boolean;
   s2 : boolean;
 begin
-   callbackMessage := TCallbackMessage(Message.WParam);
-
-   if callbackMessage.hasVideo = True then
-   begin
-     // this is the incoming video call
-   end
-   else
-   begin
-    // this is the incoming audio call
-   end;
-
+  callbackMessage := TCallbackMessage(Message.WParam);
   state := false;
-
   for i := LINE_BASE to MAXLINE do
   begin
     s1 :=  Sessions[i].GetSessionState();
     s2 := Sessions[i].GetRecvCallState();
      if ((Sessions[i].GetSessionState()= False) and (Sessions[i].GetRecvCallState()= False)) then
      begin
-
        state := True;
        Sessions[i].SetRecvCallState(True);
        break;
@@ -460,9 +436,7 @@ begin
     ListboxLog.Lines.Add(Format('Rejected the call by DND on line : %d', [i]));
     Exit;
   end;
-
   Sessions[i].SetSessionID(callbackMessage.sessionId);
-
   needIgnoreAutoAnswer := false;
   j := 0;
   for j := LINE_BASE to MAXLINE do
@@ -491,7 +465,8 @@ begin
   ListboxLog.Lines.Add(Format('Line %d : call incoming from %s <%s>', [i, callbackMessage.callerDispalyName, callbackMessage.caller]));
 
   //  You should write your own code to play the wav file here for alert the incoming call(incoming tone);
-
+   Path23 :=ExtractFilePath(Application.ExeName)+'OldPhone.wav';
+   SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
   callbackMessage.Free;
 end;
 
@@ -601,6 +576,7 @@ begin
   if ((Sessions[CurrentLine].GetSessionState()=True) and (Sessions[CurrentLine].GetHoldState()=False)) then
   begin
     PortSIP_hold(PortSIPHandle, Sessions[CurrentLine].GetSessionID());
+    SndPlaySound(nil,0);
     Sessions[CurrentLine].SetHoldState(True);
     Text := 'Line ';
     Text := Text + IntToStr(CurrentLine);
@@ -831,7 +807,7 @@ begin
 //
 //
 ////SpeedButton1.GroupIndex:=1;
-  Label4.Caption:=BoolToStr(DNDSpBtn.Down);
+
 //  DNDSpBtn.Glyph.LoadFromFile(ExtractFilePath(Application.ExeName) + 'red50.bmp');
 end;
 
@@ -975,6 +951,7 @@ begin
     begin
       Exit;
     end;
+    SndPlaySound(nil,0);
     Text := 'Busy Here';
     if (Sessions[CurrentLine].GetRecvCallState() = True) then
     begin
@@ -1053,41 +1030,12 @@ begin
 //    PlaySound(PChar('m:\OldPhone.wav'), 0, SND_SYNC);
 //   Path := ExtractFilePath(Application.ExeName) + 'OldPhone.wav';
 
-   Path23 :='m:\OldPhone.wav';
+   Path23 :=ExtractFilePath(Application.ExeName)+'OldPhone.wav';
    SndPlaySound(PChar(Path23), SND_ASYNC or SND_LOOP);
 
 //    sndPlaySound(PWideChar(ExtractFilePath(Application.ExeName)+'OldPhone.wav'),
 //    SND_NODEFAULT Or SND_ASYNC Or SND_LOOP);
 
-end;
-
-procedure TForm4.ComboBoxLinesChange(Sender: TObject);
-var
-  Text : string;
-begin
-     if (Initialized=False) then
-  begin
-    ComboBoxLines.ItemIndex := 0;
-    Exit;
-  end;
-
-  if (CurrentLine =  (ComboBoxLines.ItemIndex+LINE_BASE)) then Exit;
-  if (CurrentLine <> (ComboBoxLines.ItemIndex+LINE_BASE)) then
-  CurrentLine :=(ComboBoxLines.ItemIndex+LINE_BASE);
-   if ConSpBtn.Down = True then
-    begin
-      CurrentLine := ComboBoxLines.ItemIndex+LINE_BASE;
-      Exit;
-    end;
-  if ((Sessions[CurrentLine].GetSessionState()=True) and (Sessions[CurrentLine].GetHoldState()=False)) then
-  begin
-    PortSIP_hold(PortSIPHandle, Sessions[CurrentLine].GetSessionID());
-    Sessions[CurrentLine].SetHoldState(True);
-    Text := 'Line ';
-    Text := Text + IntToStr(CurrentLine);
-    Text := Text + ' : Hold';
-    ListBoxLog.Lines.Add(Text);
-  end;
 end;
 
 procedure TForm4.ComboBoxMicrophoneChange(Sender: TObject);
@@ -1157,7 +1105,6 @@ begin
           Text := Text+'Hold';
         end;
       end;
-
 
       PortSIP_destroyConference(PortSIPHandle);
       ListBoxLog.Lines.Add('Taken off Conference');
@@ -1242,7 +1189,6 @@ begin
   end;
   Initialized := False;
   CurrentLine := LINE_BASE;
-  ComboBoxLines.ItemIndex := 0;
   PortSIPHandle := 0;
   EventHandle := 0;
   InitialiseSDK();
@@ -1292,9 +1238,8 @@ begin
     Exit;
   end;
   LocalIP := GetLocalIP();
-  Label4.Caption:='Your IP: '+GetLocalIP();
   LocalSIPPort := 6012;
-  UserName := 'Michael';
+  UserName := 'Michael2';
   Password := 'aaa';
   SIPServer := '';
   Agent := 'PortSIP VoIP SDK 7.0';
@@ -1308,7 +1253,7 @@ begin
   STUNServerPort := 0;
   transport := TRANSPORT_UDP;
  createCallbackHandler();
-
+  Label111.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
   PortSIPHandle := PortSIP_initialize(EventHandle,
                         transport,
                         PORTSIP_LOG_NONE,
@@ -1972,7 +1917,7 @@ begin
  begin
    Exit;
  end;
-
+ SndPlaySound(nil,0);
  if (Sessions[CurrentLine].GetRecvCallState() = False) then
  begin
    ShowMessage('Current line have not the incoming call, please switch a line.');

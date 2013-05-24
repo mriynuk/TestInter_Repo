@@ -17,22 +17,9 @@ object Form4: TForm4
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object Label3: TLabel
-    Left = 474
-    Top = 83
-    Width = 28
-    Height = 13
-    Caption = 'Lines:'
-  end
-  object Label4: TLabel
-    Left = 481
-    Top = 160
-    Width = 3
-    Height = 13
-  end
   object Label6: TLabel
     Left = 0
-    Top = 30
+    Top = 50
     Width = 41
     Height = 16
     Caption = 'Users :'
@@ -231,14 +218,14 @@ object Form4: TForm4
     OnMouseDown = ImageMicMouseDown
   end
   object Label111: TLabel
-    Left = 490
-    Top = 160
+    Left = 0
+    Top = 30
     Width = 43
     Height = 13
     Caption = 'Label111'
   end
   object ListBoxLog: TMemo
-    Left = 424
+    Left = 431
     Top = 191
     Width = 259
     Height = 227
@@ -246,7 +233,7 @@ object Form4: TForm4
     TabOrder = 0
   end
   object ComboBoxSpeaker: TComboBox
-    Left = 189
+    Left = 144
     Top = 30
     Width = 24
     Height = 21
@@ -256,7 +243,7 @@ object Form4: TForm4
     OnChange = ComboBoxSpeakerChange
   end
   object ComboBoxMicrophone: TComboBox
-    Left = 410
+    Left = 190
     Top = 30
     Width = 23
     Height = 21
@@ -271,15 +258,15 @@ object Form4: TForm4
     Width = 189
     Height = 25
     Ctl3D = True
-    Max = 0
+    Max = 255
     ParentCtl3D = False
-    Frequency = 10
+    Frequency = 100
     TabOrder = 4
     TickStyle = tsNone
     OnChange = TrackBarSpeakerChange
   end
   object TrackBarMicrophone: TTrackBar
-    Left = 250
+    Left = 246
     Top = -1
     Width = 183
     Height = 25
@@ -291,31 +278,13 @@ object Form4: TForm4
     TickStyle = tsNone
     OnChange = TrackBarMicrophoneChange
   end
-  object ComboBoxLines: TComboBox
-    Left = 474
-    Top = 102
-    Width = 209
-    Height = 21
-    Style = csDropDownList
-    TabOrder = 5
-    OnChange = ComboBoxLinesChange
-    Items.Strings = (
-      'LINE-1'
-      'LINE-2'
-      'LINE-3'
-      'LINE-4'
-      'LINE-5'
-      'LINE-6'
-      'LINE-7'
-      'LINE-8')
-  end
   object ClearBtn: TButton
-    Left = 608
+    Left = 615
     Top = 160
     Width = 75
     Height = 25
     Caption = 'Clear Log'
-    TabOrder = 6
+    TabOrder = 5
     OnClick = ClearBtnClick
   end
   object CallBtn: TButton
@@ -324,7 +293,7 @@ object Form4: TForm4
     Width = 153
     Height = 110
     Caption = 'Call'
-    TabOrder = 7
+    TabOrder = 6
     OnClick = CallBtnClick
   end
   object AnswBtn: TButton
@@ -333,7 +302,7 @@ object Form4: TForm4
     Width = 153
     Height = 25
     Caption = 'Answer'
-    TabOrder = 8
+    TabOrder = 7
     OnClick = AnswBtnClick
   end
   object HungUpBtn: TButton
@@ -342,7 +311,7 @@ object Form4: TForm4
     Width = 153
     Height = 25
     Caption = 'Hung up'
-    TabOrder = 9
+    TabOrder = 8
     OnClick = HungUpBtnClick
   end
   object HoldBtn: TButton
@@ -351,7 +320,7 @@ object Form4: TForm4
     Width = 72
     Height = 25
     Caption = 'Hold'
-    TabOrder = 10
+    TabOrder = 9
     OnClick = HoldBtnClick
   end
   object UnHoldBtn: TButton
@@ -360,14 +329,14 @@ object Form4: TForm4
     Width = 75
     Height = 25
     Caption = 'UnHold'
-    TabOrder = 11
+    TabOrder = 10
     OnClick = UnHoldBtnClick
   end
   object ListBox1: TListBox
     Left = 0
-    Top = 52
+    Top = 72
     Width = 248
-    Height = 366
+    Height = 346
     Style = lbOwnerDrawVariable
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -376,7 +345,7 @@ object Form4: TForm4
     Font.Style = []
     ItemHeight = 30
     ParentFont = False
-    TabOrder = 12
+    TabOrder = 11
     OnClick = ListBox1Click
   end
   object PopupMenuMic: TPopupMenu
@@ -391,5 +360,6 @@ object Form4: TForm4
     AutoPopup = False
     MenuAnimation = [maRightToLeft]
     Left = 560
+    Top = 16
   end
 end
