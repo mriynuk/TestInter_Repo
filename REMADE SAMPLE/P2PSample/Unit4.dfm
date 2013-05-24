@@ -4,7 +4,7 @@ object Form4: TForm4
   BorderStyle = bsSingle
   Caption = 'SIP P2P Test Client'
   ClientHeight = 447
-  ClientWidth = 731
+  ClientWidth = 693
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,7 +18,7 @@ object Form4: TForm4
   PixelsPerInch = 96
   TextHeight = 13
   object Label3: TLabel
-    Left = 481
+    Left = 474
     Top = 83
     Width = 28
     Height = 13
@@ -32,7 +32,7 @@ object Form4: TForm4
   end
   object Label6: TLabel
     Left = 0
-    Top = 8
+    Top = 30
     Width = 41
     Height = 16
     Caption = 'Users :'
@@ -45,7 +45,7 @@ object Form4: TForm4
   end
   object CallLabel: TLabel
     Left = 254
-    Top = 8
+    Top = 96
     Width = 51
     Height = 16
     Caption = 'CallLabel'
@@ -58,7 +58,7 @@ object Form4: TForm4
   end
   object DNDSpBtn: TSpeedButton
     Left = 254
-    Top = 239
+    Top = 334
     Width = 94
     Height = 22
     Cursor = crHandPoint
@@ -70,16 +70,16 @@ object Form4: TForm4
   end
   object AASpBtn: TSpeedButton
     Left = 254
-    Top = 266
+    Top = 362
     Width = 94
     Height = 22
     AllowAllUp = True
-    GroupIndex = 2
+    GroupIndex = 1
     Caption = 'Auto Answer'
   end
   object ConSpBtn: TSpeedButton
     Left = 254
-    Top = 294
+    Top = 390
     Width = 94
     Height = 22
     AllowAllUp = True
@@ -160,8 +160,8 @@ object Form4: TForm4
     OnClick = SpLine8Click
   end
   object ImageSpeaker: TImage
-    Left = 702
-    Top = 8
+    Left = 0
+    Top = -1
     Width = 25
     Height = 25
     AutoSize = True
@@ -194,8 +194,8 @@ object Form4: TForm4
     OnMouseDown = ImageSpeakerMouseDown
   end
   object ImageMic: TImage
-    Left = 702
-    Top = 232
+    Left = 219
+    Top = -1
     Width = 25
     Height = 25
     AutoSize = True
@@ -246,49 +246,53 @@ object Form4: TForm4
     TabOrder = 0
   end
   object ComboBoxSpeaker: TComboBox
-    Left = 689
-    Top = 8
-    Width = 15
-    Height = 21
-    Style = csDropDownList
-    TabOrder = 1
-    Visible = False
-    OnChange = ComboBoxSpeakerChange
-  end
-  object ComboBoxMicrophone: TComboBox
-    Left = 689
-    Top = 236
-    Width = 7
+    Left = 189
+    Top = 30
+    Width = 24
     Height = 21
     Style = csDropDownList
     TabOrder = 2
     Visible = False
+    OnChange = ComboBoxSpeakerChange
+  end
+  object ComboBoxMicrophone: TComboBox
+    Left = 410
+    Top = 30
+    Width = 23
+    Height = 21
+    Style = csDropDownList
+    TabOrder = 3
+    Visible = False
     OnChange = ComboBoxMicrophoneChange
   end
   object TrackBarSpeaker: TTrackBar
-    Left = 702
-    Top = 28
-    Width = 25
-    Height = 189
-    Max = 255
-    Orientation = trVertical
+    Left = 24
+    Top = -1
+    Width = 189
+    Height = 25
+    Ctl3D = True
+    Max = 0
+    ParentCtl3D = False
     Frequency = 10
-    TabOrder = 3
+    TabOrder = 4
+    TickStyle = tsNone
     OnChange = TrackBarSpeakerChange
   end
   object TrackBarMicrophone: TTrackBar
-    Left = 702
-    Top = 263
-    Width = 25
-    Height = 183
+    Left = 250
+    Top = -1
+    Width = 183
+    Height = 25
+    Ctl3D = True
     Max = 255
-    Orientation = trVertical
+    ParentCtl3D = False
     Frequency = 100
-    TabOrder = 4
+    TabOrder = 1
+    TickStyle = tsNone
     OnChange = TrackBarMicrophoneChange
   end
   object ComboBoxLines: TComboBox
-    Left = 481
+    Left = 474
     Top = 102
     Width = 209
     Height = 21
@@ -306,7 +310,7 @@ object Form4: TForm4
       'LINE-8')
   end
   object ClearBtn: TButton
-    Left = 615
+    Left = 608
     Top = 160
     Width = 75
     Height = 25
@@ -316,7 +320,7 @@ object Form4: TForm4
   end
   object CallBtn: TButton
     Left = 254
-    Top = 30
+    Top = 126
     Width = 153
     Height = 110
     Caption = 'Call'
@@ -325,69 +329,45 @@ object Form4: TForm4
   end
   object AnswBtn: TButton
     Left = 254
-    Top = 146
+    Top = 242
     Width = 153
     Height = 25
     Caption = 'Answer'
     TabOrder = 8
     OnClick = AnswBtnClick
   end
-  object CheckDND: TCheckBox
-    Left = 254
-    Top = 322
-    Width = 97
-    Height = 17
-    Caption = 'Do not disturbe'
-    TabOrder = 9
-  end
-  object CheckAA: TCheckBox
-    Left = 254
-    Top = 345
-    Width = 97
-    Height = 17
-    Caption = 'Auto Answer'
-    TabOrder = 10
-  end
   object HungUpBtn: TButton
     Left = 254
-    Top = 177
+    Top = 273
     Width = 153
     Height = 25
     Caption = 'Hung up'
-    TabOrder = 11
+    TabOrder = 9
     OnClick = HungUpBtnClick
-  end
-  object ConferenceCheckbox: TCheckBox
-    Left = 254
-    Top = 368
-    Width = 97
-    Height = 17
-    Caption = 'Conference'
-    TabOrder = 12
   end
   object HoldBtn: TButton
     Left = 254
-    Top = 208
+    Top = 304
     Width = 72
     Height = 25
     Caption = 'Hold'
-    TabOrder = 13
+    TabOrder = 10
     OnClick = HoldBtnClick
   end
   object UnHoldBtn: TButton
     Left = 332
-    Top = 208
+    Top = 304
     Width = 75
     Height = 25
     Caption = 'UnHold'
-    TabOrder = 14
+    TabOrder = 11
     OnClick = UnHoldBtnClick
   end
   object ListBox1: TListBox
     Left = 0
-    Top = 28
+    Top = 52
     Width = 248
-    Height = 390
+    Height = 366
     Style = lbOwnerDrawVariable
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
@@ -396,21 +376,20 @@ object Form4: TForm4
     Font.Style = []
     ItemHeight = 30
     ParentFont = False
-    TabOrder = 15
+    TabOrder = 12
     OnClick = ListBox1Click
   end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
     AutoPopup = False
     MenuAnimation = [maRightToLeft]
-    Left = 600
+    Left = 496
     Top = 8
   end
   object PopupMenuSpeak: TPopupMenu
     Alignment = paCenter
     AutoPopup = False
     MenuAnimation = [maRightToLeft]
-    Left = 640
-    Top = 8
+    Left = 560
   end
 end

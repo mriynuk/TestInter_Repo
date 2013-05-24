@@ -97,10 +97,7 @@ type
     ClearBtn: TButton;
     CallBtn: TButton;
     AnswBtn: TButton;
-    CheckDND: TCheckBox;
-    CheckAA: TCheckBox;
     HungUpBtn: TButton;
-    ConferenceCheckbox: TCheckBox;
     HoldBtn: TButton;
     UnHoldBtn: TButton;
     ListBox1: TListBox;
@@ -1275,7 +1272,7 @@ begin
   LocalIP := GetLocalIP();
   Label4.Caption:='Your IP: '+GetLocalIP();
   LocalSIPPort := 6012;
-  UserName := 'Michael';
+  UserName := 'Michael2';
   Password := 'aaa';
   SIPServer := '';
   Agent := 'PortSIP VoIP SDK 7.0';
