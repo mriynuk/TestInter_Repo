@@ -1014,8 +1014,8 @@ begin
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
     'BITSPERSAMPLE 16 ' +                // 16 Bit
     'CHANNELS 1 ' +                     // MONO
-    'SAMPLESPERSEC 22050 ' +             // 8 KHz
-    'BYTESPERSEC 44100',                // 8000 Bytes/s
+    'SAMPLESPERSEC 16000 ' +             // 8 KHz
+    'BYTESPERSEC 32000',                // 8000 Bytes/s
     nil, 0, Handle);
   mciSendString('RECORD mysound', nil, 0, Handle);
 
