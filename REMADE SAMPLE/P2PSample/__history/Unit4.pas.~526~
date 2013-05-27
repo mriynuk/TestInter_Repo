@@ -998,18 +998,16 @@ begin
 
   FilePath := PlayFileEdit.Text;
 
-  if (length(PlayFileEdit.Text) = 0) then
-  begin
-    FileName := 'RecordFile';
-  end
-  else
-  begin
-    FileName :=  PlayFileEdit.Text;
-  end;
-
-  FileFormat := FILEFORMAT_WAVE;
-
-  if PortSIP_startAudioRecording(PortSIPHandle, pansichar(ansistring(FilePath)), pansichar(ansistring(FileName)), true, FileFormat, RECORD_BOTH) = 0 then
+//  if (length(PlayFileEdit.Text) = 0) then
+//  begin
+    FileName := 'RecordFile.wav';
+//  end
+//  else
+//  begin
+//    FileName :=  PlayFileEdit.Text;
+//  end;
+  FileFormat := FILEFORMAT_MP3;
+  if PortSIP_startAudioRecording(PortSIPHandle, pansichar(ansistring(FilePath)), pansichar(ansistring(FileName)), true, FileFormat, RECORD_RECV) = 0 then
   begin
      ShowMessage('Start recording audio conversation.');
   end

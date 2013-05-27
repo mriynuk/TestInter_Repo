@@ -350,7 +350,7 @@ object Form4: TForm4
   end
   object PlayFileBtn: TButton
     Left = 431
-    Top = 99
+    Top = 98
     Width = 259
     Height = 25
     Caption = 'Play file to remote'
@@ -373,6 +373,7 @@ object Form4: TForm4
     Height = 25
     Caption = 'Stop Recording'
     TabOrder = 15
+    OnClick = StopRecordBtnClick
   end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter

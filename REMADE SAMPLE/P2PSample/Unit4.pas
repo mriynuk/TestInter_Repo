@@ -152,6 +152,7 @@ type
     procedure InitialiseSDK();
     procedure PlayFileBtnClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure StopRecordBtnClick(Sender: TObject);
 
   private
   function GetLocalIP : string;
@@ -460,6 +461,7 @@ begin
       Sessions[i].SetSessionState(true);
 //    PortSIP_setRemoteVideoWindow(PortSIPHandle, Sessions[CurrentLine].GetSessionID(), remoteVideo.Handle);
       PortSIP_answerCall(PortSIPHandle, Sessions[i].GetSessionID);
+      if Sessions[i].GetSessionState() = True then
       ListboxLog.Lines.Add(Format('Answered the call automatically on line %d ', [i]));
     end;
     Exit;
@@ -793,6 +795,17 @@ begin
     Text := Text + ' : Hold';
     ListBoxLog.Lines.Add(Text);
   end;
+end;
+
+procedure TForm4.StopRecordBtnClick(Sender: TObject);
+begin
+if (Initialized = False)  then
+  begin
+    ShowMessage('Please initialize the SDK first.');
+    Exit;
+  end;
+
+  PortSIP_stopAudioRecording(PortSIPHandle);
 end;
 
 procedure TForm4.DNDSpBtnClick(Sender: TObject);
@@ -1271,7 +1284,7 @@ begin
   end;
   LocalIP := GetLocalIP();
   LocalSIPPort := 6012;
-  UserName := 'Michael2';
+  UserName := 'Michael';
   Password := 'aaa';
   SIPServer := '';
   Agent := 'PortSIP VoIP SDK 7.0';
@@ -1285,7 +1298,7 @@ begin
   STUNServerPort := 0;
   transport := TRANSPORT_UDP;
  createCallbackHandler();
-  Form4.Caption:='Your User Name: '+UserName+' || '+' Your IP'+LocalIP+':'+IntToStr(LocalSIPPort);
+  Form4.Caption:='Your User Name: '+UserName+' || '+' Your IP: '+LocalIP+':'+IntToStr(LocalSIPPort);
   PortSIPHandle := PortSIP_initialize(EventHandle,
                         transport,
                         PORTSIP_LOG_NONE,
@@ -1367,12 +1380,12 @@ begin
     ShowMessage('The play file is empty.');
     Exit;
   end;
-  PlayFile := PlayFileEdit.Text;
+  PlayFile := 'm:\OldPhone.wav';
   PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
                                   Sessions[CurrentLine].GetSessionID(),
                                   pansichar(ansistring(PlayFile)),
                                   true,
-                                  0,
+                                  1,
                                   16000,
                                   0,
                                   PlayWaveFileToRemoteFinished);
