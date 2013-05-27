@@ -376,8 +376,8 @@ object Form4: TForm4
     OnClick = StopRecordBtnClick
   end
   object RecBtn: TButton
-    Left = 315
-    Top = 18
+    Left = 261
+    Top = 30
     Width = 114
     Height = 25
     Caption = 'Record Message'
@@ -385,22 +385,13 @@ object Form4: TForm4
     OnClick = RecBtnClick
   end
   object StopSaveBtn: TButton
-    Left = 315
-    Top = 49
+    Left = 261
+    Top = 61
     Width = 114
     Height = 25
     Caption = 'Stop and Save'
     TabOrder = 17
     OnClick = StopSaveBtnClick
-  end
-  object Button1: TButton
-    Left = 354
-    Top = 387
-    Width = 75
-    Height = 25
-    Caption = 'TEst'
-    TabOrder = 18
-    OnClick = Button1Click
   end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter

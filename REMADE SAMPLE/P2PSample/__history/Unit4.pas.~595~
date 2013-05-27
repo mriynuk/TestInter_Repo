@@ -1053,8 +1053,8 @@ procedure TForm4.Button1Click(Sender: TObject);
 var
  errorcode:integer;
 begin
-  errorcode:=PortSIP_playLocalWaveFile(PortSIPHandle, pansichar(ansistring('m:\message.wav')), True);
-  ListBoxLog.Lines.Add('ERRORCODE: '+IntToStr(errorcode));
+//  errorcode:=PortSIP_playLocalWaveFile(PortSIPHandle, pansichar(ansistring('m:\message.wav')), True);
+//  ListBoxLog.Lines.Add('ERRORCODE: '+IntToStr(errorcode));
 
   SndPlaySound(PChar('m:\message.wav'), SND_ASYNC or SND_LOOP);
 end;

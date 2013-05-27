@@ -1015,9 +1015,9 @@ begin
  mciSendString('OPEN NEW TYPE WAVEAUDIO ALIAS mysound', nil, 0, Handle);
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
     'BITSPERSAMPLE 16 ' +                // 16 Bit
-    'CHANNELS 1 ' +                     // MONO
-    'SAMPLESPERSEC 8192 ' +             // 8 KHz
-    'BYTESPERSEC 8192',                // 8000 Bytes/s
+    'CHANNELS 2 ' +                     // MONO
+    'SAMPLESPERSEC 11050 ' +             // 8 KHz
+    'BYTESPERSEC 8000',                // 8000 Bytes/s
     nil, 0, Handle);
   mciSendString('RECORD mysound', nil, 0, Handle);
 
@@ -1053,10 +1053,10 @@ procedure TForm4.Button1Click(Sender: TObject);
 var
  errorcode:integer;
 begin
-  errorcode:=PortSIP_playLocalWaveFile(PortSIPHandle, pansichar('m:\message.wav'), True);
-  ListBoxLog.Lines.Add('ERRORCODE: '+IntToStr(errorcode));
+//  errorcode:=PortSIP_playLocalWaveFile(PortSIPHandle, pansichar(ansistring('m:\message.wav')), True);
+//  ListBoxLog.Lines.Add('ERRORCODE: '+IntToStr(errorcode));
 
-//  SndPlaySound(PChar('m:\message.wav'), SND_ASYNC or SND_LOOP);
+  SndPlaySound(PChar('m:\message.wav'), SND_ASYNC or SND_LOOP);
 end;
 
 procedure TForm4.CallBtnClick(Sender: TObject);
@@ -1407,13 +1407,13 @@ begin
     ShowMessage('The play file is empty.');
     Exit;
   end;
-  PlayFile := PlayFileEdit.Text;
+  PlayFile := ExtractFilePath(Application.ExeName)+'message.wav';;
   PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
                                   Sessions[CurrentLine].GetSessionID(),
                                   pansichar(ansistring(PlayFile)),
                                   true,
                                   0,
-                                  8000,
+                                  16000,
                                   0,
                                   PlayWaveFileToRemoteFinished);
 end;
