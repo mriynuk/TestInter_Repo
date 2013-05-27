@@ -813,8 +813,14 @@ begin
 end;
 
 procedure TForm4.stopBtnClick(Sender: TObject);
+var
+  FilePath:string;
 begin
-  mciSendString('STOP mysound', nil, 0, Handle)
+  mciSendString('STOP mysound', nil, 0, Handle);
+  FilePath:=ExtractFilePath(Application.ExeName)+'message.wav';
+  mciSendString(PChar('SAVE mysound "' + FilePath+'"' ), nil, 0, Handle);
+  mciSendString('CLOSE mysound', nil, 0, Handle)
+
 end;
 
 procedure TForm4.StopRecordBtnClick(Sender: TObject);
@@ -1400,7 +1406,7 @@ begin
     ShowMessage('The play file is empty.');
     Exit;
   end;
-  PlayFile := ExtractFilePath(Application.ExeName)+'message.wav';
+  PlayFile := 'm:\message23.wav';
   PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
                                   Sessions[CurrentLine].GetSessionID(),
                                   pansichar(ansistring(PlayFile)),

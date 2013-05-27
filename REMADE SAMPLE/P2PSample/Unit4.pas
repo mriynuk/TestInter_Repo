@@ -120,8 +120,7 @@ type
     RecConversationBtn: TButton;
     StopRecordBtn: TButton;
     RecBtn: TButton;
-    stopBtn: TButton;
-    saveBtn: TButton;
+    StopSaveBtn: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -157,7 +156,7 @@ type
     procedure RecConversationBtnClick(Sender: TObject);
     procedure StopRecordBtnClick(Sender: TObject);
     procedure RecBtnClick(Sender: TObject);
-    procedure stopBtnClick(Sender: TObject);
+    procedure StopSaveBtnClick(Sender: TObject);
     procedure saveBtnClick(Sender: TObject);
 
   private
@@ -567,14 +566,6 @@ begin
    callbackMessage.Free;
 end;
 
-procedure TForm4.saveBtnClick(Sender: TObject);
-var
-  FilePath:string;
-begin
-  FilePath:=ExtractFilePath(Application.ExeName)+'message.wav';
-  mciSendString(PChar('SAVE mysound "' + FilePath+'"' ), nil, 0, Handle);
-  mciSendString('CLOSE mysound', nil, 0, Handle)
-end;
 
 procedure TForm4.SpLine1Click(Sender: TObject);
 var
@@ -812,9 +803,15 @@ begin
   end;
 end;
 
-procedure TForm4.stopBtnClick(Sender: TObject);
+procedure TForm4.StopSaveBtnClick(Sender: TObject);
+var
+  FilePath:string;
 begin
-  mciSendString('STOP mysound', nil, 0, Handle)
+  mciSendString('STOP mysound', nil, 0, Handle);
+  FilePath:=ExtractFilePath(Application.ExeName)+'message.wav';
+  mciSendString(PChar('SAVE mysound "' + FilePath+'"' ), nil, 0, Handle);
+  mciSendString('CLOSE mysound', nil, 0, Handle)
+
 end;
 
 procedure TForm4.StopRecordBtnClick(Sender: TObject);
@@ -1097,8 +1094,6 @@ end;
 
 
 procedure TForm4.ClearBtnClick(Sender: TObject);
-var
-Path23:string;
 begin
     ListBoxLog.Clear;
 end;
@@ -1400,7 +1395,7 @@ begin
     ShowMessage('The play file is empty.');
     Exit;
   end;
-  PlayFile := 'm:\message23.wav';
+  PlayFile := PlayFileEdit.Text;
   PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
                                   Sessions[CurrentLine].GetSessionID(),
                                   pansichar(ansistring(PlayFile)),
