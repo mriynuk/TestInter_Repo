@@ -272,9 +272,9 @@ object Form4: TForm4
     OnChange = TrackBarMicrophoneChange
   end
   object ClearBtn: TButton
-    Left = 615
+    Left = 605
     Top = 160
-    Width = 75
+    Width = 85
     Height = 25
     Caption = 'Clear Log'
     TabOrder = 5
@@ -350,7 +350,7 @@ object Form4: TForm4
   end
   object PlayFileBtn: TButton
     Left = 431
-    Top = 72
+    Top = 76
     Width = 259
     Height = 25
     Caption = 'Play file to remote'
@@ -375,12 +375,39 @@ object Form4: TForm4
     TabOrder = 15
     OnClick = StopRecordBtnClick
   end
+  object RecBtn: TButton
+    Left = 271
+    Top = 30
+    Width = 114
+    Height = 25
+    Caption = 'Record Message'
+    TabOrder = 16
+    OnClick = RecBtnClick
+  end
+  object StopSaveBtn: TButton
+    Left = 271
+    Top = 61
+    Width = 114
+    Height = 25
+    Caption = 'Stop and Save'
+    TabOrder = 17
+    OnClick = StopSaveBtnClick
+  end
+  object Button1: TButton
+    Left = 354
+    Top = 387
+    Width = 75
+    Height = 25
+    Caption = 'TEst'
+    TabOrder = 18
+    OnClick = Button1Click
+  end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
     AutoPopup = False
     MenuAnimation = [maRightToLeft]
-    Left = 496
-    Top = 65520
+    Left = 480
+    Top = 65528
   end
   object PopupMenuSpeak: TPopupMenu
     Alignment = paCenter

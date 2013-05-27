@@ -121,6 +121,7 @@ type
     StopRecordBtn: TButton;
     RecBtn: TButton;
     StopSaveBtn: TButton;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -157,7 +158,8 @@ type
     procedure StopRecordBtnClick(Sender: TObject);
     procedure RecBtnClick(Sender: TObject);
     procedure StopSaveBtnClick(Sender: TObject);
-    procedure saveBtnClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+
 
   private
   function GetLocalIP : string;
@@ -1045,6 +1047,16 @@ begin
   begin
      ShowMessage('Failed to start recording audio conversation.');
   end;
+end;
+
+procedure TForm4.Button1Click(Sender: TObject);
+var
+ errorcode:integer;
+begin
+//  errorcode:=PortSIP_playLocalWaveFile(PortSIPHandle, pansichar(ansistring('m:\message.wav')), True);
+//  ListBoxLog.Lines.Add('ERRORCODE: '+IntToStr(errorcode));
+
+  SndPlaySound(PChar('m:\message.wav'), SND_ASYNC or SND_LOOP);
 end;
 
 procedure TForm4.CallBtnClick(Sender: TObject);

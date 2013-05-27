@@ -226,9 +226,9 @@ object Form4: TForm4
     TabOrder = 0
   end
   object ComboBoxSpeaker: TComboBox
-    Left = 144
-    Top = 30
-    Width = 24
+    Left = 2
+    Top = 23
+    Width = 23
     Height = 21
     Style = csDropDownList
     TabOrder = 2
@@ -236,8 +236,8 @@ object Form4: TForm4
     OnChange = ComboBoxSpeakerChange
   end
   object ComboBoxMicrophone: TComboBox
-    Left = 190
-    Top = 30
+    Left = 47
+    Top = 23
     Width = 23
     Height = 21
     Style = csDropDownList
@@ -350,7 +350,7 @@ object Form4: TForm4
   end
   object PlayFileBtn: TButton
     Left = 431
-    Top = 72
+    Top = 76
     Width = 259
     Height = 25
     Caption = 'Play file to remote'
@@ -376,8 +376,8 @@ object Form4: TForm4
     OnClick = StopRecordBtnClick
   end
   object RecBtn: TButton
-    Left = 271
-    Top = 30
+    Left = 315
+    Top = 18
     Width = 114
     Height = 25
     Caption = 'Record Message'
@@ -385,20 +385,29 @@ object Form4: TForm4
     OnClick = RecBtnClick
   end
   object StopSaveBtn: TButton
-    Left = 271
-    Top = 61
+    Left = 315
+    Top = 49
     Width = 114
     Height = 25
     Caption = 'Stop and Save'
     TabOrder = 17
     OnClick = StopSaveBtnClick
   end
+  object Button1: TButton
+    Left = 354
+    Top = 387
+    Width = 75
+    Height = 25
+    Caption = 'TEst'
+    TabOrder = 18
+    OnClick = Button1Click
+  end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
     AutoPopup = False
     MenuAnimation = [maRightToLeft]
-    Left = 496
-    Top = 65520
+    Left = 480
+    Top = 65528
   end
   object PopupMenuSpeak: TPopupMenu
     Alignment = paCenter

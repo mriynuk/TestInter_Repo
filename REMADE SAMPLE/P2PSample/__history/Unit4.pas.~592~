@@ -120,8 +120,8 @@ type
     RecConversationBtn: TButton;
     StopRecordBtn: TButton;
     RecBtn: TButton;
-    stopBtn: TButton;
-    saveBtn: TButton;
+    StopSaveBtn: TButton;
+    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -157,8 +157,9 @@ type
     procedure RecConversationBtnClick(Sender: TObject);
     procedure StopRecordBtnClick(Sender: TObject);
     procedure RecBtnClick(Sender: TObject);
-    procedure stopBtnClick(Sender: TObject);
-    procedure saveBtnClick(Sender: TObject);
+    procedure StopSaveBtnClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+
 
   private
   function GetLocalIP : string;
@@ -567,14 +568,6 @@ begin
    callbackMessage.Free;
 end;
 
-procedure TForm4.saveBtnClick(Sender: TObject);
-var
-  FilePath:string;
-begin
-  FilePath:=ExtractFilePath(Application.ExeName)+'message.wav';
-  mciSendString(PChar('SAVE mysound "' + 'm:\message23.wav'+'"' ), nil, 0, Handle);
-  mciSendString('CLOSE mysound', nil, 0, Handle)
-end;
 
 procedure TForm4.SpLine1Click(Sender: TObject);
 var
@@ -812,9 +805,15 @@ begin
   end;
 end;
 
-procedure TForm4.stopBtnClick(Sender: TObject);
+procedure TForm4.StopSaveBtnClick(Sender: TObject);
+var
+  FilePath:string;
 begin
-  mciSendString('STOP mysound', nil, 0, Handle)
+  mciSendString('STOP mysound', nil, 0, Handle);
+  FilePath:=ExtractFilePath(Application.ExeName)+'message.wav';
+  mciSendString(PChar('SAVE mysound "' + FilePath+'"' ), nil, 0, Handle);
+  mciSendString('CLOSE mysound', nil, 0, Handle)
+
 end;
 
 procedure TForm4.StopRecordBtnClick(Sender: TObject);
@@ -1016,7 +1015,7 @@ begin
  mciSendString('OPEN NEW TYPE WAVEAUDIO ALIAS mysound', nil, 0, Handle);
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
     'BITSPERSAMPLE 16 ' +                // 16 Bit
-    'CHANNELS 2 ' +                     // MONO
+    'CHANNELS 1 ' +                     // MONO
     'SAMPLESPERSEC 8192 ' +             // 8 KHz
     'BYTESPERSEC 8192',                // 8000 Bytes/s
     nil, 0, Handle);
@@ -1048,6 +1047,16 @@ begin
   begin
      ShowMessage('Failed to start recording audio conversation.');
   end;
+end;
+
+procedure TForm4.Button1Click(Sender: TObject);
+var
+ errorcode:integer;
+begin
+  errorcode:=PortSIP_playLocalWaveFile(PortSIPHandle, PChar('m:\message.wav'), True);
+  ListBoxLog.Lines.Add('ERRORCODE: '+IntToStr(errorcode));
+
+//  SndPlaySound(PChar('m:\message.wav'), SND_ASYNC or SND_LOOP);
 end;
 
 procedure TForm4.CallBtnClick(Sender: TObject);
@@ -1097,8 +1106,6 @@ end;
 
 
 procedure TForm4.ClearBtnClick(Sender: TObject);
-var
-Path23:string;
 begin
     ListBoxLog.Clear;
 end;
@@ -1400,13 +1407,13 @@ begin
     ShowMessage('The play file is empty.');
     Exit;
   end;
-  PlayFile := 'm:\message23.wav';
+  PlayFile := PlayFileEdit.Text;
   PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
                                   Sessions[CurrentLine].GetSessionID(),
                                   pansichar(ansistring(PlayFile)),
                                   true,
                                   0,
-                                  8192,
+                                  8000,
                                   0,
                                   PlayWaveFileToRemoteFinished);
 end;
