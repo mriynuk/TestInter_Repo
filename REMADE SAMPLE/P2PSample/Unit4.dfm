@@ -272,9 +272,9 @@ object Form4: TForm4
     OnChange = TrackBarMicrophoneChange
   end
   object ClearBtn: TButton
-    Left = 615
+    Left = 605
     Top = 160
-    Width = 75
+    Width = 85
     Height = 25
     Caption = 'Clear Log'
     TabOrder = 5
@@ -343,28 +343,28 @@ object Form4: TForm4
   end
   object PlayFileEdit: TEdit
     Left = 431
-    Top = 72
+    Top = 49
     Width = 259
     Height = 21
     TabOrder = 12
   end
   object PlayFileBtn: TButton
     Left = 431
-    Top = 98
+    Top = 72
     Width = 259
     Height = 25
     Caption = 'Play file to remote'
     TabOrder = 13
     OnClick = PlayFileBtnClick
   end
-  object Button1: TButton
+  object RecConversationBtn: TButton
     Left = 431
     Top = 129
     Width = 259
     Height = 25
-    Caption = 'Record Message'
+    Caption = 'Record Conversation'
     TabOrder = 14
-    OnClick = Button1Click
+    OnClick = RecConversationBtnClick
   end
   object StopRecordBtn: TButton
     Left = 431
@@ -375,18 +375,45 @@ object Form4: TForm4
     TabOrder = 15
     OnClick = StopRecordBtnClick
   end
+  object RecBtn: TButton
+    Left = 246
+    Top = 30
+    Width = 55
+    Height = 25
+    Caption = 'RecBtn'
+    TabOrder = 16
+    OnClick = RecBtnClick
+  end
+  object stopBtn: TButton
+    Left = 307
+    Top = 30
+    Width = 55
+    Height = 25
+    Caption = 'stopBtn'
+    TabOrder = 17
+    OnClick = stopBtnClick
+  end
+  object saveBtn: TButton
+    Left = 368
+    Top = 30
+    Width = 55
+    Height = 25
+    Caption = 'saveBtn'
+    TabOrder = 18
+    OnClick = saveBtnClick
+  end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
     AutoPopup = False
     MenuAnimation = [maRightToLeft]
     Left = 496
-    Top = 8
+    Top = 65520
   end
   object PopupMenuSpeak: TPopupMenu
     Alignment = paCenter
     AutoPopup = False
     MenuAnimation = [maRightToLeft]
     Left = 560
-    Top = 16
+    Top = 65528
   end
 end

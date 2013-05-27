@@ -32,7 +32,7 @@ object Form4: TForm4
   end
   object CallLabel: TLabel
     Left = 254
-    Top = 50
+    Top = 108
     Width = 51
     Height = 16
     Caption = 'CallLabel'
@@ -343,14 +343,14 @@ object Form4: TForm4
   end
   object PlayFileEdit: TEdit
     Left = 431
-    Top = 72
+    Top = 71
     Width = 259
     Height = 21
     TabOrder = 12
   end
   object PlayFileBtn: TButton
     Left = 431
-    Top = 99
+    Top = 98
     Width = 259
     Height = 25
     Caption = 'Play file to remote'
@@ -362,8 +362,18 @@ object Form4: TForm4
     Top = 129
     Width = 259
     Height = 25
-    Caption = 'Button1'
+    Caption = 'Record Message'
     TabOrder = 14
+    OnClick = Button1Click
+  end
+  object StopRecordBtn: TButton
+    Left = 431
+    Top = 160
+    Width = 85
+    Height = 25
+    Caption = 'Stop Recording'
+    TabOrder = 15
+    OnClick = StopRecordBtnClick
   end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
