@@ -572,7 +572,7 @@ var
   FilePath:string;
 begin
   FilePath:=ExtractFilePath(Application.ExeName)+'message.wav';
-  mciSendString(PChar('SAVE mysound "' + 'm:\message23.wav'+'"' ), nil, 0, Handle);
+  mciSendString(PChar('SAVE mysound "' + FilePath+'"' ), nil, 0, Handle);
   mciSendString('CLOSE mysound', nil, 0, Handle)
 end;
 

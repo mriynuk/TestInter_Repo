@@ -572,7 +572,7 @@ var
   FilePath:string;
 begin
   FilePath:=ExtractFilePath(Application.ExeName)+'message.wav';
-  mciSendString(PChar('SAVE mysound "' + FilePath+'"' ), nil, 0, Handle);
+  mciSendString(PChar('SAVE mysound "' + 'm:\message23.wav'+'"' ), nil, 0, Handle);
   mciSendString('CLOSE mysound', nil, 0, Handle)
 end;
 
@@ -1015,7 +1015,7 @@ procedure TForm4.RecBtnClick(Sender: TObject);
 begin
  mciSendString('OPEN NEW TYPE WAVEAUDIO ALIAS mysound', nil, 0, Handle);
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
-    'BITSPERSAMPLE 8 ' +                // 8 Bit
+    'BITSPERSAMPLE 16 ' +                // 16 Bit
     'CHANNELS 1 ' +                     // MONO
     'SAMPLESPERSEC 8192 ' +             // 8 KHz
     'BYTESPERSEC 8192',                // 8000 Bytes/s
@@ -1400,13 +1400,13 @@ begin
     ShowMessage('The play file is empty.');
     Exit;
   end;
-  PlayFile := ExtractFilePath(Application.ExeName)+'message.wav';
+  PlayFile := 'm:\message23.wav';
   PortSIP_setPlayWaveFileToRemote(PortSIPHandle,
                                   Sessions[CurrentLine].GetSessionID(),
                                   pansichar(ansistring(PlayFile)),
                                   true,
-                                  1,
-                                  16000,
+                                  0,
+                                  8000,
                                   0,
                                   PlayWaveFileToRemoteFinished);
 end;
