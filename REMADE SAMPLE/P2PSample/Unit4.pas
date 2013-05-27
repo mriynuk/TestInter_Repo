@@ -118,6 +118,7 @@ type
     PlayFileEdit: TEdit;
     PlayFileBtn: TButton;
     Button1: TButton;
+    StopRecordBtn: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -150,6 +151,7 @@ type
     procedure PopUpMenusInitialization();
     procedure InitialiseSDK();
     procedure PlayFileBtnClick(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
 
   private
   function GetLocalIP : string;
@@ -974,6 +976,45 @@ begin
       ListBoxLog.Lines.Add(Logs);
       Exit;
     end;
+end;
+
+procedure TForm4.Button1Click(Sender: TObject);
+var
+  FilePath : String;
+  FileName : String;
+  FileFormat : Integer;
+begin
+   if (Initialized = False)  then
+  begin
+    ShowMessage('Please initialize the SDK first.');
+    Exit;
+  end;
+
+  if (length(PlayFileEdit.Text) = 0) then
+  begin
+    ShowMessage('Please select a directory');
+    Exit;
+  end;
+
+  FilePath := PlayFileEdit.Text;
+
+//  if (length(PlayFileEdit.Text) = 0) then
+//  begin
+    FileName := 'RecordFile.wav';
+//  end
+//  else
+//  begin
+//    FileName :=  PlayFileEdit.Text;
+//  end;
+  FileFormat := FILEFORMAT_MP3;
+  if PortSIP_startAudioRecording(PortSIPHandle, pansichar(ansistring(FilePath)), pansichar(ansistring(FileName)), true, FileFormat, RECORD_RECV) = 0 then
+  begin
+     ShowMessage('Start recording audio conversation.');
+  end
+  else
+  begin
+     ShowMessage('Failed to start recording audio conversation.');
+  end;
 end;
 
 procedure TForm4.CallBtnClick(Sender: TObject);
