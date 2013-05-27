@@ -157,7 +157,6 @@ type
     procedure StopRecordBtnClick(Sender: TObject);
     procedure RecBtnClick(Sender: TObject);
     procedure StopSaveBtnClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
 
 
   private
@@ -1015,8 +1014,8 @@ begin
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
     'BITSPERSAMPLE 16 ' +                // 16 Bit
     'CHANNELS 1 ' +                     // MONO
-    'SAMPLESPERSEC 8000 ' +             // 8 KHz
-    'BYTESPERSEC 11025',                // 8000 Bytes/s
+    'SAMPLESPERSEC 22050 ' +             // 8 KHz
+    'BYTESPERSEC 44100',                // 8000 Bytes/s
     nil, 0, Handle);
   mciSendString('RECORD mysound', nil, 0, Handle);
 
