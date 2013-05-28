@@ -1,0 +1,85 @@
+unit Unit6;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, IniFiles;
+
+type
+  TForm6 = class(TForm)
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Edit3: TEdit;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Button1: TButton;
+    Button2: TButton;
+    procedure Button2Click(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form6: TForm6;
+  UserFile: TiniFile;
+
+implementation
+
+{$R *.dfm}
+
+uses Unit4;
+
+procedure TForm6.Button1Click(Sender: TObject);
+var
+  appINI: TiniFile;
+  FilePath: string;
+  PartLine: string;
+  j, i: integer;
+begin
+  FilePath := ExtractFilePath(Application.ExeName) + 'Users.ini';
+  UserFile := TiniFile.Create(FilePath);
+  // FilePath := ExtractFilePath(Application.ExeName) + 'Users.ini';
+  // UserFile := TiniFile.Create(FilePath);
+  //
+  // //////////////////////////////////////////
+  j := 1;
+  Repeat
+    PartLine := UserFile.ReadString('User' + IntToStr(j), 'UserName', '');
+    Inc(j);
+  Until PartLine = '';
+
+  /// ////////////////////////////////////////////
+
+  // appINI := TIniFile.Create(ChangeFileExt(Application.ExeName,'Users.ini')) ;
+  try
+    UserFile.WriteString('User' + IntToStr(j - 1), 'UserName', Edit1.text);
+    UserFile.WriteString('User' + IntToStr(j - 1), 'UserIP', Edit2.text);
+    UserFile.WriteString('User' + IntToStr(j - 1), 'UserPort', Edit3.text);
+
+  finally
+    appINI.Free;
+  end;
+
+  // update users
+  i := 1;
+  Form4.ListBox1.Clear;
+  Repeat
+    PartLine := UserFile.ReadString('User' + IntToStr(i), 'UserName', '');
+    Form4.ListBox1.Items.Add(PartLine);
+    Inc(i);
+  Until PartLine = '';
+
+end;
+
+procedure TForm6.Button2Click(Sender: TObject);
+begin
+   Form6.Close;
+end;
+
+end.

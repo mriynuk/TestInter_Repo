@@ -121,6 +121,8 @@ type
     StopRecordBtn: TButton;
     RecBtn: TButton;
     StopSaveBtn: TButton;
+    AddUserBtn: TButton;
+    RemoveUserBtn: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -157,7 +159,8 @@ type
     procedure StopRecordBtnClick(Sender: TObject);
     procedure RecBtnClick(Sender: TObject);
     procedure StopSaveBtnClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure AddUserBtnClick(Sender: TObject);
+    procedure RemoveUserBtnClick(Sender: TObject);
 
 
   private
@@ -195,6 +198,8 @@ const
   LINE_BASE = 1;
   MAXLINE = 8;
 implementation
+
+uses Unit6;
 
 var
   AudioVideoSettingsFile:TIniFile;
@@ -1015,8 +1020,8 @@ begin
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
     'BITSPERSAMPLE 16 ' +                // 16 Bit
     'CHANNELS 1 ' +                     // MONO
-    'SAMPLESPERSEC 22050 ' +             // 8 KHz
-    'BYTESPERSEC 44100',                // 8000 Bytes/s
+    'SAMPLESPERSEC 16000 ' +             // 8 KHz
+    'BYTESPERSEC 32000',                // 8000 Bytes/s
     nil, 0, Handle);
   mciSendString('RECORD mysound', nil, 0, Handle);
 
@@ -1046,6 +1051,49 @@ begin
   begin
      ShowMessage('Failed to start recording audio conversation.');
   end;
+end;
+
+procedure TForm4.RemoveUserBtnClick(Sender: TObject);
+var
+  appINI: TiniFile;
+  FilePath: string;
+  PartLineName, PartLinePort, PartLineIp: string;
+  i, index: integer;
+begin
+  FilePath := ExtractFilePath(Application.ExeName) + 'Users.ini';
+  UserFile := TiniFile.Create(FilePath);
+
+  index := ListBox1.ItemIndex + 1;
+  UserFile.EraseSection('User' + IntToStr(index));
+
+  for i := index to ListBox1.Items.Count - 1 do
+  begin
+    try
+
+      PartLineName := UserFile.ReadString('User' + IntToStr(i + 1),
+        'UserName', '');
+      PartLineIp := UserFile.ReadString('User' + IntToStr(i + 1), 'UserIp', '');
+      PartLinePort := UserFile.ReadString('User' + IntToStr(i + 1),
+        'UserPort', '');
+
+      UserFile.WriteString('User' + IntToStr(i), 'UserName', PartLineName);
+      UserFile.WriteString('User' + IntToStr(i), 'UserIP', PartLineIp);
+      UserFile.WriteString('User' + IntToStr(i), 'UserPort', PartLinePort);
+
+    finally
+      appINI.Free;
+    end;
+  end;
+  UserFile.EraseSection('User' + IntToStr(ListBox1.Items.Count - 1));
+
+  // update users
+  i := 1;
+  ListBox1.Clear;
+  Repeat
+    PartLineName := UserFile.ReadString('User' + IntToStr(i), 'UserName', '');
+    ListBox1.Items.Add(PartLineName);
+    Inc(i);
+  Until PartLineName = '';
 end;
 
 procedure TForm4.CallBtnClick(Sender: TObject);
@@ -2005,6 +2053,11 @@ begin
     SIPEV_setRecvBinaryPagerMessageHandler(Eventhandle, RecvBinaryPagerMessage, nil);
 end;
 
+
+procedure TForm4.AddUserBtnClick(Sender: TObject);
+begin
+Form6.ShowModal();
+end;
 
 procedure TForm4.AnswBtnClick(Sender: TObject);
 var

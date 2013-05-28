@@ -121,6 +121,8 @@ type
     StopRecordBtn: TButton;
     RecBtn: TButton;
     StopSaveBtn: TButton;
+    AddUserBtn: TButton;
+    RemoveUserBtn: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -157,7 +159,7 @@ type
     procedure StopRecordBtnClick(Sender: TObject);
     procedure RecBtnClick(Sender: TObject);
     procedure StopSaveBtnClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
+    procedure AddUserBtnClick(Sender: TObject);
 
 
   private
@@ -1015,8 +1017,8 @@ begin
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
     'BITSPERSAMPLE 16 ' +                // 16 Bit
     'CHANNELS 1 ' +                     // MONO
-    'SAMPLESPERSEC 8000 ' +             // 8 KHz
-    'BYTESPERSEC 11025',                // 8000 Bytes/s
+    'SAMPLESPERSEC 16000 ' +             // 8 KHz
+    'BYTESPERSEC 32000',                // 8000 Bytes/s
     nil, 0, Handle);
   mciSendString('RECORD mysound', nil, 0, Handle);
 
@@ -2005,6 +2007,11 @@ begin
     SIPEV_setRecvBinaryPagerMessageHandler(Eventhandle, RecvBinaryPagerMessage, nil);
 end;
 
+
+procedure TForm4.AddUserBtnClick(Sender: TObject);
+begin
+Form6.ShowModal();
+end;
 
 procedure TForm4.AnswBtnClick(Sender: TObject);
 var

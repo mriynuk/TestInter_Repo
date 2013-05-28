@@ -159,6 +159,8 @@ type
     procedure StopRecordBtnClick(Sender: TObject);
     procedure RecBtnClick(Sender: TObject);
     procedure StopSaveBtnClick(Sender: TObject);
+    procedure AddUserBtnClick(Sender: TObject);
+    procedure RemoveUserBtnClick(Sender: TObject);
 
 
   private
@@ -196,6 +198,8 @@ const
   LINE_BASE = 1;
   MAXLINE = 8;
 implementation
+
+uses Unit6;
 
 var
   AudioVideoSettingsFile:TIniFile;
@@ -1047,6 +1051,50 @@ begin
   begin
      ShowMessage('Failed to start recording audio conversation.');
   end;
+end;
+
+procedure TForm4.RemoveUserBtnClick(Sender: TObject);
+var
+  appINI: TiniFile;
+  FilePath: string;
+  PartLineName, PartLinePort, PartLineIp: string;
+  i, index: integer;
+begin
+  FilePath := ExtractFilePath(Application.ExeName) + 'Users.ini';
+  UserFile := TiniFile.Create(FilePath);
+
+  index := ListBox1.ItemIndex + 1;
+  UserFile.EraseSection('User' + IntToStr(index));
+
+  for i := index to ListBox1.Items.Count - 1 do
+  begin
+    try
+
+      PartLineName := UserFile.ReadString('User' + IntToStr(i + 1),
+        'UserName', '');
+      PartLineIp := UserFile.ReadString('User' + IntToStr(i + 1), 'UserIp', '');
+      PartLinePort := UserFile.ReadString('User' + IntToStr(i + 1),
+        'UserPort', '');
+
+      UserFile.WriteString('User' + IntToStr(i), 'UserName', PartLineName);
+      UserFile.WriteString('User' + IntToStr(i), 'UserIP', PartLineIp);
+      UserFile.WriteString('User' + IntToStr(i), 'UserPort', PartLinePort);
+
+    finally
+      appINI.Free;
+    end;
+  end;
+  UserFile.EraseSection('User' + IntToStr(ListBox1.Items.Count - 1));
+
+  // update users
+  i := 1;
+  ListBox1.Clear;
+  Repeat
+    PartLineName := UserFile.ReadString('User' + IntToStr(i), 'UserName', '');
+    ListBox1.Items.Add(PartLineName);
+    Inc(i);
+  Until PartLineName = '';
+  ListBox1.Items[i-2]:='=========='
 end;
 
 procedure TForm4.CallBtnClick(Sender: TObject);
@@ -2006,6 +2054,11 @@ begin
     SIPEV_setRecvBinaryPagerMessageHandler(Eventhandle, RecvBinaryPagerMessage, nil);
 end;
 
+
+procedure TForm4.AddUserBtnClick(Sender: TObject);
+begin
+AddUserForm.ShowModal();
+end;
 
 procedure TForm4.AnswBtnClick(Sender: TObject);
 var
