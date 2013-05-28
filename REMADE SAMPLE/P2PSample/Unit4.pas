@@ -121,6 +121,8 @@ type
     StopRecordBtn: TButton;
     RecBtn: TButton;
     StopSaveBtn: TButton;
+    AddUserBtn: TButton;
+    RemoveUserBtn: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);

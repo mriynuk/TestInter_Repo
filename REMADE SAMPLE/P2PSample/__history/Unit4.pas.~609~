@@ -121,7 +121,6 @@ type
     StopRecordBtn: TButton;
     RecBtn: TButton;
     StopSaveBtn: TButton;
-    Button1: TButton;
     procedure FormCreate(Sender: TObject);
     procedure ClearBtnClick(Sender: TObject);
     procedure CallBtnClick(Sender: TObject);
@@ -158,7 +157,6 @@ type
     procedure StopRecordBtnClick(Sender: TObject);
     procedure RecBtnClick(Sender: TObject);
     procedure StopSaveBtnClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
 
 
   private
@@ -1015,9 +1013,9 @@ begin
  mciSendString('OPEN NEW TYPE WAVEAUDIO ALIAS mysound', nil, 0, Handle);
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
     'BITSPERSAMPLE 16 ' +                // 16 Bit
-    'CHANNELS 2 ' +                     // MONO
-    'SAMPLESPERSEC 22050 ' +             // 8 KHz
-    'BYTESPERSEC 16000',                // 8000 Bytes/s
+    'CHANNELS 1 ' +                     // MONO
+    'SAMPLESPERSEC 16000 ' +             // 8 KHz
+    'BYTESPERSEC 32000',                // 8000 Bytes/s
     nil, 0, Handle);
   mciSendString('RECORD mysound', nil, 0, Handle);
 
@@ -1047,16 +1045,6 @@ begin
   begin
      ShowMessage('Failed to start recording audio conversation.');
   end;
-end;
-
-procedure TForm4.Button1Click(Sender: TObject);
-var
- errorcode:integer;
-begin
-//  errorcode:=PortSIP_playLocalWaveFile(PortSIPHandle, pansichar(ansistring('m:\message.wav')), True);
-//  ListBoxLog.Lines.Add('ERRORCODE: '+IntToStr(errorcode));
-
-  SndPlaySound(PChar('m:\message.wav'), SND_ASYNC or SND_LOOP);
 end;
 
 procedure TForm4.CallBtnClick(Sender: TObject);

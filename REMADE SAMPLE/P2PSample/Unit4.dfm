@@ -19,7 +19,7 @@ object Form4: TForm4
   TextHeight = 13
   object Label6: TLabel
     Left = 0
-    Top = 50
+    Top = 30
     Width = 41
     Height = 16
     Caption = 'Users :'
@@ -31,8 +31,8 @@ object Form4: TForm4
     ParentFont = False
   end
   object CallLabel: TLabel
-    Left = 254
-    Top = 108
+    Left = 261
+    Top = 100
     Width = 51
     Height = 16
     Caption = 'CallLabel'
@@ -44,8 +44,8 @@ object Form4: TForm4
     ParentFont = False
   end
   object DNDSpBtn: TSpeedButton
-    Left = 254
-    Top = 334
+    Left = 261
+    Top = 326
     Width = 94
     Height = 22
     Cursor = crHandPoint
@@ -56,8 +56,8 @@ object Form4: TForm4
     OnClick = DNDSpBtnClick
   end
   object AASpBtn: TSpeedButton
-    Left = 254
-    Top = 362
+    Left = 261
+    Top = 354
     Width = 94
     Height = 22
     AllowAllUp = True
@@ -65,8 +65,8 @@ object Form4: TForm4
     Caption = 'Auto Answer'
   end
   object ConSpBtn: TSpeedButton
-    Left = 254
-    Top = 390
+    Left = 261
+    Top = 382
     Width = 94
     Height = 22
     AllowAllUp = True
@@ -226,7 +226,7 @@ object Form4: TForm4
     TabOrder = 0
   end
   object ComboBoxSpeaker: TComboBox
-    Left = 2
+    Left = 161
     Top = 23
     Width = 23
     Height = 21
@@ -236,7 +236,7 @@ object Form4: TForm4
     OnChange = ComboBoxSpeakerChange
   end
   object ComboBoxMicrophone: TComboBox
-    Left = 47
+    Left = 190
     Top = 23
     Width = 23
     Height = 21
@@ -281,8 +281,8 @@ object Form4: TForm4
     OnClick = ClearBtnClick
   end
   object CallBtn: TButton
-    Left = 254
-    Top = 126
+    Left = 261
+    Top = 118
     Width = 153
     Height = 110
     Caption = 'Call'
@@ -290,8 +290,8 @@ object Form4: TForm4
     OnClick = CallBtnClick
   end
   object AnswBtn: TButton
-    Left = 254
-    Top = 242
+    Left = 261
+    Top = 234
     Width = 153
     Height = 25
     Caption = 'Answer'
@@ -299,8 +299,8 @@ object Form4: TForm4
     OnClick = AnswBtnClick
   end
   object HungUpBtn: TButton
-    Left = 254
-    Top = 273
+    Left = 261
+    Top = 265
     Width = 153
     Height = 25
     Caption = 'Hung up'
@@ -308,8 +308,8 @@ object Form4: TForm4
     OnClick = HungUpBtnClick
   end
   object HoldBtn: TButton
-    Left = 254
-    Top = 304
+    Left = 261
+    Top = 296
     Width = 72
     Height = 25
     Caption = 'Hold'
@@ -317,8 +317,8 @@ object Form4: TForm4
     OnClick = HoldBtnClick
   end
   object UnHoldBtn: TButton
-    Left = 332
-    Top = 304
+    Left = 339
+    Top = 296
     Width = 75
     Height = 25
     Caption = 'UnHold'
@@ -327,8 +327,8 @@ object Form4: TForm4
   end
   object ListBox1: TListBox
     Left = 0
-    Top = 72
-    Width = 248
+    Top = 50
+    Width = 255
     Height = 346
     Style = lbOwnerDrawVariable
     Font.Charset = DEFAULT_CHARSET
@@ -343,14 +343,14 @@ object Form4: TForm4
   end
   object PlayFileEdit: TEdit
     Left = 431
-    Top = 49
+    Top = 30
     Width = 259
     Height = 21
     TabOrder = 12
   end
   object PlayFileBtn: TButton
     Left = 431
-    Top = 76
+    Top = 57
     Width = 259
     Height = 25
     Caption = 'Play file to remote'
@@ -393,6 +393,22 @@ object Form4: TForm4
     TabOrder = 17
     OnClick = StopSaveBtnClick
   end
+  object AddUserBtn: TButton
+    Left = 0
+    Top = 402
+    Width = 81
+    Height = 16
+    Caption = 'Add'
+    TabOrder = 18
+  end
+  object RemoveUserBtn: TButton
+    Left = 174
+    Top = 402
+    Width = 81
+    Height = 16
+    Caption = 'Remove'
+    TabOrder = 19
+  end
   object PopupMenuMic: TPopupMenu
     Alignment = paCenter
     AutoPopup = False
@@ -405,6 +421,6 @@ object Form4: TForm4
     AutoPopup = False
     MenuAnimation = [maRightToLeft]
     Left = 560
-    Top = 65528
+    Top = 29
   end
 end
