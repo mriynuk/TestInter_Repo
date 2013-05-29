@@ -1331,6 +1331,7 @@ begin
   ComboBoxSpeaker.Width:=-1;
   ComboBoxMicrophone.Width:=-1;
   PopUpMenusInitialization()
+  // This is a test coment for the commit action
 end;
 procedure TForm4.InitialiseSDK();
 const SIPPORT_MIN : integer = 8000;
