@@ -1355,8 +1355,6 @@ var LocalIP : String;
     SRTPPolicy : integer;
     ErrorCode : integer;
 begin
-
-//new commit
   FilePath := ExtractFilePath(Application.ExeName) + 'Users.ini';
   UserFile := TiniFile.Create(FilePath);
   j := 1;
@@ -2171,6 +2169,5 @@ begin
     ImageSpeaker.PopupMenu.Popup(Mouse.CursorPos.X,Mouse.CursorPos.Y);
   end;
 end;
-
 
 end.
