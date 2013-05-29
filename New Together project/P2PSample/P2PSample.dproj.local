@@ -6,7 +6,7 @@
     <Transaction>2013-05-28 13:55:38.000.583,=C:\Users\mim\Documents\GitHub\TestInter_Repo\REMADE SAMPLE\P2PSample\Unit6.pas</Transaction>
   </Transactions>
 	<ProjectSortOrder AutoSort="0" SortType="0">
-    <File Path="..\..\REMADE SAMPLE"/>
+    <File Path="..\..\New Together project"/>
     <File Path="..\PortSIP"/>
     <File Path="..\PortSIP\PortSipConsts.pas"/>
     <File Path="..\PortSIP\PortSipCore.pas"/>

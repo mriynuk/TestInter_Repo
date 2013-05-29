@@ -356,6 +356,7 @@ begin
   Sessions[i].Reset;
   ListBoxLog.Lines.Add(Format('Line %d : call is closed.', [i]));
   callbackMessage.Free;
+  SndPlaySound(nil,0);
 end;
 
 procedure TForm4.onInviteUpdated(var Message: TMessage);

@@ -464,19 +464,32 @@ begin
      end;
   end;
 
-  if (needIgnoreAutoAnswer=false) and (AASpBtn.Down=true) then
+//  if (needIgnoreAutoAnswer=false) and (AASpBtn.Down=true) then
+//  begin
+//    for i := LINE_BASE to MAXLINE do
+//      begin
+//      Sessions[i].SetRecvCallState(false);
+//      Sessions[i].SetSessionState(true);
+////    PortSIP_setRemoteVideoWindow(PortSIPHandle, Sessions[CurrentLine].GetSessionID(), remoteVideo.Handle);
+//      PortSIP_answerCall(PortSIPHandle, Sessions[i].GetSessionID);
+////      if Sessions[i].GetSessionState() = True then
+////        ListboxLog.Lines.Add(Format('Answered the call automatically on line %d ', [i]));
+//    end;
+//    Exit;
+//  end;
+
+  if AASpBtn.Down=true then
   begin
-    for i := 1 to 8 do
+    for i := LINE_BASE to MAXLINE do
       begin
       Sessions[i].SetRecvCallState(false);
       Sessions[i].SetSessionState(true);
 //    PortSIP_setRemoteVideoWindow(PortSIPHandle, Sessions[CurrentLine].GetSessionID(), remoteVideo.Handle);
       PortSIP_answerCall(PortSIPHandle, Sessions[i].GetSessionID);
-      if Sessions[i].GetSessionState() = True then
-      ListboxLog.Lines.Add(Format('Answered the call automatically on line %d ', [i]));
+//      if Sessions[i].GetSessionState() = True then
+//        ListboxLog.Lines.Add(Format('Answered the call automatically on line %d ', [i]));
     end;
     Exit;
-
   end;
 
   ListboxLog.Lines.Add(Format('Line %d : call incoming from %s <%s>', [i, callbackMessage.callerDispalyName, callbackMessage.caller]));
@@ -1017,10 +1030,10 @@ procedure TForm4.RecBtnClick(Sender: TObject);
 begin
  mciSendString('OPEN NEW TYPE WAVEAUDIO ALIAS mysound', nil, 0, Handle);
   mciSendString('SET mysound TIME FORMAT MS ' +     // set time
-    'BITSPERSAMPLE 16 ' +                // 16 Bit
+    'BITSPERSAMPLE 8 ' +                // 16 Bit
     'CHANNELS 1 ' +                     // MONO
-    'SAMPLESPERSEC 16000 ' +             // 8 KHz
-    'BYTESPERSEC 32000',                // 8000 Bytes/s
+    'SAMPLESPERSEC 8000 ' +             // 8 KHz
+    'BYTESPERSEC 8000',                // 8000 Bytes/s
     nil, 0, Handle);
   mciSendString('RECORD mysound', nil, 0, Handle);
 
@@ -1120,6 +1133,12 @@ begin
   end;
 
   CallTo := CallString;
+  if CallTo = 'sip:@:' then
+    begin
+      ShowMessage(' Please choose a user. ');
+      Exit;
+    end;
+
   PortSIP_setAudioDeviceId(PortSIPHandle, comboBoxMicrophone.ItemIndex, comboBoxSpeaker.ItemIndex);   // SetAudioDevice
   HasSDP := false;
   SessionID := PortSIP_call(PortSIPHandle, pansichar(ansistring(CallTo)), HasSDP, ErrorCode);
@@ -1455,7 +1474,7 @@ begin
                                   pansichar(ansistring(PlayFile)),
                                   true,
                                   0,
-                                  16000,
+                                  8000,
                                   0,
                                   PlayWaveFileToRemoteFinished);
 end;
