@@ -37,6 +37,12 @@ namespace EasyNotesApp1
         {
             TextBoxNoteName.Text = "";
             TextBoxNoteText.Text = "";
+            string selectedItemIndex = "";
+            if (NavigationContext.QueryString.TryGetValue("itemselected", out selectedItemIndex))
+            {
+                TextBoxNoteName.Text = DataProvider.NotesListMain[Int32.Parse(selectedItemIndex)].NoteName;
+                TextBoxNoteText.Text = DataProvider.NotesListMain[Int32.Parse(selectedItemIndex)].NoteText;
+            };
             base.OnNavigatedTo(e);
         }
     }

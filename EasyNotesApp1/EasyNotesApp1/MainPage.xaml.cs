@@ -53,12 +53,17 @@ namespace EasyNotesApp1
 
         private void BtnDeleteNote_Click(object sender, RoutedEventArgs e)
         {
-            //MainListBox.Items.Remove(MainListBox.SelectedItem);
+            DataProvider.NotesListMain.Remove(DataProvider.NotesListMain[MainListBox.SelectedIndex]);
+            MainListBox.Items.Remove(MainListBox.SelectedItem);
         }
 
         private void MainListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/NotePage.xaml?msg=shownote", UriKind.Relative));
+            if (MainListBox.SelectedIndex == -1)
+                return;
+            NavigationService.Navigate(new Uri("/NotePage.xaml?itemselected=" + MainListBox.SelectedIndex, UriKind.Relative));
+            
+            MainListBox.SelectedIndex = -1;
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
