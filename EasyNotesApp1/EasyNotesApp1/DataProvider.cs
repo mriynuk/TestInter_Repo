@@ -7,9 +7,9 @@ namespace EasyNotesApp1
 {
     public class DataProvider
     {
-        //public List<NoteData> NotesListMain = new List<NoteData> { };
+        public static List<NoteData> NotesListMain = new List<NoteData> ();
     }
-    class NoteData
+    public class NoteData
     {
         public string NoteName { get; set; }
         public string NoteText { get; set; }

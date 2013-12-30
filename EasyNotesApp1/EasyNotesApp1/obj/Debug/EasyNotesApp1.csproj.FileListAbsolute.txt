@@ -12,3 +12,17 @@ c:\users\mim\documents\visual studio 2012\Projects\EasyNotesApp1\EasyNotesApp1\o
 c:\users\mim\documents\visual studio 2012\Projects\EasyNotesApp1\EasyNotesApp1\obj\Debug\EasyNotesApp1.dll
 c:\users\mim\documents\visual studio 2012\Projects\EasyNotesApp1\EasyNotesApp1\obj\Debug\EasyNotesApp1.pdb
 c:\users\mim\documents\visual studio 2012\Projects\EasyNotesApp1\EasyNotesApp1\obj\Debug\XapCacheFile.xml
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\obj\Debug\EasyNotesApp1.csprojResolveAssemblyReference.cache
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\obj\Debug\App.g.cs
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\obj\Debug\MainPage.g.cs
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\obj\Debug\NotePage.g.cs
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\obj\Debug\EasyNotesApp1.g.resources
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\obj\Debug\EasyNotesApp1.dll
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\obj\Debug\EasyNotesApp1.pdb
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\Bin\Debug\ApplicationIcon.png
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\Bin\Debug\Background.png
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\Bin\Debug\EasyNotesApp1.dll
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\Bin\Debug\EasyNotesApp1.pdb
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\Bin\Debug\AppManifest.xaml
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\Bin\Debug\EasyNotesApp1.xap
+C:\Users\mim\Documents\GitHub\TestInter_Repo\EasyNotesApp1\EasyNotesApp1\obj\Debug\XapCacheFile.xml

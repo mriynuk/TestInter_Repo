@@ -42,7 +42,8 @@
                      HorizontalAlignment="Left" 
                      Height="521" 
                      VerticalAlignment="Top" 
-                     Width="456" SelectionChanged="MainListBox_SelectionChanged"/>
+                     Width="456"
+                     SelectionChanged="MainListBox_SelectionChanged"/>
             <Button Name="BtnAddNote" 
                     Content="Add Note" 
                     HorizontalAlignment="Left" 
